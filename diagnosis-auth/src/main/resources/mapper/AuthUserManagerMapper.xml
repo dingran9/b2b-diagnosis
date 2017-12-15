@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eedu.auth.dao.AuthUserManagerDao">
+
+    <resultMap id="AuthUserManagerMapper" type="com.eedu.auth.beans.AuthUserManagerBean">
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_account" property="userAccount" jdbcType="VARCHAR" />
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+        <result column="user_type" property="userType" jdbcType="INTEGER" />
+        <result column="user_secretkey" property="userSecretkey" jdbcType="VARCHAR" />
+        <result column="user_accesskey" property="userAccesskey" jdbcType="VARCHAR" />
+        <result column="user_openId" property="userOpenId" jdbcType="VARCHAR" />
+        <result column="user_subject" property="userSubject" jdbcType="INTEGER" />
+        <result column="user_product_id" property="userProductId" jdbcType="INTEGER" />
+        <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+        <result column="user_phone" property="userPhone" jdbcType="INTEGER" />
+        <result column="user_card" property="userCard" jdbcType="VARCHAR" />
+        <result column="user_image" property="userImage" jdbcType="VARCHAR" />
+        <result column="user_school_id" property="userSchoolId" jdbcType="INTEGER" />
+        <result column="user_grade_id" property="userGradeId" jdbcType="INTEGER" />
+        <result column="user_join_class_date" property="userJoinClassDate" jdbcType="TIMESTAMP" />
+        <result column="user_class_id" property="userClassId" jdbcType="INTEGER" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="AuthUserManagerConditionMapper" type="com.eedu.auth.beans.AuthUserManagerConditionBean">
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_account" property="userAccount" jdbcType="VARCHAR" />
+        <result column="user_type" property="userType" jdbcType="INTEGER" />
+        <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="data_id" property="userSubjectId" jdbcType="INTEGER" />
+        <result column="data_name" property="userSubjectName" jdbcType="VARCHAR" />
+        <result column="data_iden" property="userSubjectIden" jdbcType="VARCHAR" />
+        <result column="school_id" property="userSchoolId" jdbcType="INTEGER" />
+        <result column="school_name" property="userSchoolName" jdbcType="VARCHAR" />
+        <result column="grade_id" property="userGradeId" jdbcType="INTEGER" />
+        <result column="grade_iden" property="userGradeIden" jdbcType="VARCHAR" />
+        <result column="grade_name" property="userGradeName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="EnumBeanMapper" type="com.eedu.auth.beans.enums.EnumBean">
+        <result column="resource_id" property="resource_id" jdbcType="INTEGER" />
+        <result column="icon" property="icon" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="hasChild" property="hasChild" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="parent_id" property="parent_id" jdbcType="INTEGER" />
+    </resultMap>
+
+    <resultMap id="AuthUserRoleBeanMapper" type="com.eedu.auth.beans.AuthUserRoleBean">
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_account" property="userAccount" jdbcType="VARCHAR" />
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="user_column_list">
+        user_id,user_name,user_account,user_type,user_subject,user_product_id,user_sex,user_phone,
+        user_card,user_image,user_school_id,user_grade_id,user_join_class_date,user_class_id,create_date,update_date,status
+    </sql>
+    <!-- 添加用户 -->
+    <insert id="addUserManager" useGeneratedKeys="true" keyProperty="userId" parameterType="com.eedu.auth.beans.AuthUserManagerBean" >
+        insert into auth_user_manager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userAccount != null">
+                user_account,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userSubject != null">
+                user_subject,
+            </if>
+            <if test="userProductId != null">
+                user_product_id,
+            </if>
+            <if test="userSex != null">
+                user_sex,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userCard != null">
+                user_card,
+            </if>
+            <if test="userImage != null">
+                user_image,
+            </if>
+            <if test="userSchoolId != null">
+                user_school_id,
+            </if>
+            <if test="userGradeId != null">
+                user_grade_id,
+            </if>
+            <if test="userJoinClassDate != null">
+                user_join_class_date,
+            </if>
+            <if test="userClassId != null">
+                user_class_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+                create_date,
+                update_date
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userAccount != null">
+                #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userSubject != null">
+                #{userSubject,jdbcType=INTEGER},
+            </if>
+            <if test="userProductId != null">
+                #{userProductId,jdbcType=INTEGER},
+            </if>
+            <if test="userSex != null">
+                #{userSex,jdbcType=INTEGER},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userCard != null">
+                #{userCard,jdbcType=VARCHAR},
+            </if>
+            <if test="userImage != null">
+                #{userImage,jdbcType=VARCHAR},
+            </if>
+            <if test="userSchoolId != null">
+                #{userSchoolId,jdbcType=INTEGER},
+            </if>
+            <if test="userGradeId != null">
+                #{userGradeId,jdbcType=INTEGER},
+            </if>
+            <if test="userJoinClassDate != null">
+                #{userJoinClassDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userClassId != null">
+                #{userClassId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            now(),now()
+        </trim>
+    </insert>
+    <!-- 删除管理者信息 -->
+    <delete id="delUserManager" parameterType="java.lang.Integer" >
+        delete from auth_user_manager where user_id=#{userId,jdbcType=INTEGER}
+    </delete>
+    <!-- 修改管理者信息 -->
+    <update id="updateUserManager" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        update auth_user_manager
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userAccount != null">
+                user_account = #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userSubject != null">
+                user_subject = #{userSubject,jdbcType=INTEGER},
+            </if>
+            <if test="userProductId != null">
+                user_product_id = #{userProductId,jdbcType=INTEGER},
+            </if>
+            <if test="userSex != null">
+                user_sex = #{userSex,jdbcType=INTEGER},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userCard != null">
+                user_card = #{userCard,jdbcType=VARCHAR},
+            </if>
+            <if test="userImage != null">
+                user_image = #{userImage,jdbcType=VARCHAR},
+            </if>
+            <if test="userSchoolId != null">
+                user_school_id = #{userSchoolId,jdbcType=VARCHAR},
+            </if>
+            <if test="userGradeId != null">
+                user_grade_id = #{userGradeId,jdbcType=VARCHAR},
+            </if>
+            <if test="userClassId != null">
+                user_class_id = #{userClassId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            update_date=now()
+        </set>
+        where user_id=#{userId,jdbcType=INTEGER}
+    </update>
+
+    <!-- 查询所有用户 -->
+    <select id="getUserManagerList" resultMap="AuthUserManagerMapper" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_manager
+        WHERE 1=1
+        <if test="userId != null">
+            and user_Id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="userName != null">
+            <!--and user_name = #{userName,jdbcType=VARCHAR}-->
+            and user_name like concat(concat('%',#{userName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="userAccount != null">
+            and user_account = #{userAccount,jdbcType=VARCHAR}
+        </if>
+        <if test="userType != null">
+            and user_type = #{userType,jdbcType=INTEGER}
+        </if>
+        <if test="userSubject != null">
+            and user_subject = #{userSubject,jdbcType=INTEGER}
+        </if>
+        <if test="userProductId != null">
+            and user_product_id = #{userProductId,jdbcType=INTEGER}
+        </if>
+        <if test="userSex != null">
+            and user_sex = #{userSex,jdbcType=INTEGER}
+        </if>
+        <if test="userPhone != null">
+            and user_phone = #{userPhone,jdbcType=INTEGER}
+        </if>
+        <if test="userCard != null">
+            and user_card = #{userCard,jdbcType=VARCHAR}
+        </if>
+        <if test="userImage != null">
+            and user_image = #{userImage,jdbcType=VARCHAR}
+        </if>
+        <if test="userSchoolId != null">
+            and user_school_id = #{userSchoolId,jdbcType=VARCHAR}
+        </if>
+        <if test="userGradeId != null">
+            and user_grade_id = #{userGradeId,jdbcType=VARCHAR}
+        </if>
+        <if test="userClassId != null">
+            and user_class_id = #{userClassId,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!-- 根据帐号和密码查找用户 -->
+    <select id="getUserByAccountAndPwd" resultMap="AuthUserManagerMapper" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_manager
+        WHERE (user_account = #{userAccount,jdbcType=VARCHAR} or user_phone = #{userAccount,jdbcType=VARCHAR})
+        and user_password = #{userPassword,jdbcType=VARCHAR}
+    </select>
+    <!-- 根据手机号查找用户 -->
+    <select id="getUserByUserPhone" resultMap="AuthUserManagerMapper" parameterType="java.lang.String">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_manager
+        WHERE user_phone = #{userPhone,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据用户名查找用户 -->
+    <select id="getUserByAccount" resultMap="AuthUserManagerMapper" parameterType="java.lang.String">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_manager
+        WHERE user_account = #{userAccount,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据userId集合查询 -->
+    <select id="getUserByListId" resultMap="AuthUserManagerMapper" parameterType="java.util.ArrayList">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_manager
+        WHERE user_id in
+        <foreach collection="userIdList" open="(" close=")" separator="," item="item" index="index">
+            #{item.userId}
+        </foreach>
+    </select>
+
+    <select id="getUserByUserId" resultMap="AuthUserManagerMapper" parameterType="java.lang.Integer">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_manager
+        WHERE user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getUserIsExist" resultMap="AuthUserManagerMapper" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_manager
+        WHERE user_phone = #{userPhone,jdbcType=VARCHAR}
+    </select>
+    <!-- 后端管理   查询教师列表 -->
+    <select id="getUserManagerListByCondition" resultMap="AuthUserManagerConditionMapper"
+            parameterType="com.eedu.auth.beans.AuthUserManagerConditionBean">
+        <!--
+        select
+        aum.user_id as user_id,
+        aum.user_name as user_name,
+        aum.user_account as user_account,
+        aum.user_sex as user_sex,
+        aum.user_phone as user_phone,
+        aum.status as status,
+        ag.group_id as school_id,
+        ag.group_name as school_name,
+        agg.group_id as grade_id,
+        agg.group_iden as grade_iden,
+        agg.group_name as grade_name,
+        addy.data_id as data_id,
+        addy.data_iden as data_iden,
+        addy.data_name as data_name
+        from auth_user_manager aum
+        inner join auth_user_group_bind augb on aum.user_id = augb.user_id and augb.user_type=2
+        inner join auth_group ag on ag.group_id=augb.group_id and ag.group_type=1 and ag.group_type=augb.group_type and augb.group_id=ag.group_id
+        inner join auth_group agg on agg.group_parent_id=ag.group_id and agg.group_type=2
+        inner join auth_user_dictionary_bind audb on audb.user_id=aum.user_id
+        inner join auth_data_dictionary addy on addy.data_id=audb.data_id
+        where 1=1
+        <if test="userSchoolId != null">
+           and ag.group_id = #{userSchoolId,jdbcType=INTEGER}
+        </if>
+        <if test="userName != null and '' != userName">
+            and aum.user_name like concat(concat('%',#{userName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="userPhone != null">
+            and aum.user_phone = #{userPhone,jdbcType=VARCHAR}
+        </if>
+        <if test="userSchoolName != null and '' != userSchoolName">
+            and ag.group_name like concat(concat('%',#{userSchoolName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="userSubjectIden != null and '' != userSubjectIden" >
+            and addy.data_iden = #{userSubjectIden,jdbcType=INTEGER}
+            and addy.data_type = 1
+        </if>
+        <if test="userGradeIden != null and '' != userSubjectIden">
+            and agg.group_iden = #{userGradeIden,jdbcType=INTEGER}
+        </if>
+-->
+        SELECT
+        aum.user_id AS user_id,
+        aum.user_name AS user_name,
+        aum.user_account AS user_account,
+        aum.user_sex AS user_sex,
+        aum.user_phone AS user_phone,
+        aum. STATUS AS STATUS,
+        aum.group_id AS school_id,
+        aum.group_name AS school_name,
+        agg.group_id AS grade_id,
+        agg.group_iden AS grade_iden,
+        agg.group_name AS grade_name,
+        addy.data_id AS data_id,
+        addy.data_iden AS data_iden,
+        addy.data_name AS data_name
+        FROM
+        (
+        SELECT
+        au.user_id AS user_id,
+        au.user_name AS user_name,
+        au.user_account AS user_account,
+        au.user_sex AS user_sex,
+        au.user_phone AS user_phone,
+        au.user_type AS user_type,
+        au. STATUS AS STATUS,
+        aug.group_id AS group_id,
+        aug.group_name AS group_name
+        FROM
+        auth_user_manager au
+        LEFT JOIN auth_user_group_bind augr ON au.user_id = augr.user_id
+        AND augr.group_type = 1
+        LEFT JOIN auth_group aug ON aug.group_id = augr.group_id
+        WHERE
+        augr.user_type = 2 AND augr.group_type = 1 and au.user_type = 2
+        ) aum
+        LEFT JOIN auth_user_group_bind augb ON aum.user_id = augb.user_id
+        AND augb.group_type = 2 AND augb.user_type = 2
+        LEFT JOIN auth_group agg ON agg.group_id = augb.group_id
+        AND agg.group_type = 2
+        LEFT JOIN auth_user_dictionary_bind audb ON audb.user_id = aum.user_id
+        LEFT JOIN auth_data_dictionary addy ON addy.data_id = audb.data_id
+        WHERE
+        aum.group_id IS NOT NULL
+        <if test="userSchoolId != null">
+            and aum.group_id = #{userSchoolId,jdbcType=INTEGER}
+        </if>
+        <if test="userName != null and '' != userName">
+            and aum.user_name like concat(concat('%',#{userName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="userPhone != null">
+            and aum.user_phone = #{userPhone,jdbcType=VARCHAR}
+        </if>
+        <if test="userSchoolName != null and '' != userSchoolName">
+            and aum.group_name like concat(concat('%',#{userSchoolName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="userSubjectIden != null and '' != userSubjectIden">
+            and addy.data_iden = #{userSubjectIden,jdbcType=INTEGER}
+            and addy.data_type = 1
+        </if>
+        <if test="userGradeIden != null and '' != userSubjectIden">
+            and agg.group_iden = #{userGradeIden,jdbcType=INTEGER}
+        </if>
+        ORDER BY aum.user_id desc
+    </select>
+
+
+    <insert id="batchSaveUserManager" useGeneratedKeys="true" keyProperty="userId" parameterType="java.util.List">
+        insert into auth_user_manager (
+        user_name,
+        user_account,
+        user_password,
+        user_type,
+        user_product_id,
+        user_sex,
+        create_date
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.userName,jdbcType=VARCHAR},
+            #{item.userAccount,jdbcType=VARCHAR},
+            #{item.userPassword,jdbcType=VARCHAR},
+            #{item.userType,jdbcType=INTEGER},
+            #{item.userProductId,jdbcType=INTEGER},
+            #{item.userSex,jdbcType=INTEGER},
+            now()
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="updateUserManagerStatus" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        update auth_user_manager set  status=#{status,jdbcType=VARCHAR}
+        where  user_id=#{userId,jdbcType=INTEGER}
+    </update>
+
+
+
+    <select id="getUserManagerResourceList" resultType="Map" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        SELECT
+        aum.user_id as user_id,
+        aum.user_name as user_name,
+        ar.role_id as role_id,
+        ar.role_name as role_name,
+        ars.resource_id as resource_id,
+        ars.resource_name as resource_name,
+        ars.resource_url as resource_url,
+        ars.resource_type as resource_type,
+        ars.resource_parent_id as resource_parent_id
+        FROM
+        auth_user_manager aum,
+        auth_user_role aur,
+        auth_role ar,
+        auth_role_resource arr,
+        auth_resource ars
+        WHERE
+        aum.user_id = aur.user_id
+        AND aur.role_id = ar.role_id
+        AND ar.role_id = arr.role_id
+        AND arr.resource_id = ars.resource_id
+        <if test="userId != null">
+            AND aum.user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        AND ars.resource_type = 1
+        ORDER BY
+        ars.resource_id DESC
+    </select>
+
+    <select id="getUserManagerResourceListByAdmin" resultType="Map" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        SELECT
+        ars.resource_id as resource_id,
+        ars.resource_name as resource_name,
+        ars.resource_url as resource_url,
+        ars.resource_type as resource_type,
+        ars.resource_parent_id as resource_parent_id
+        FROM
+        auth_resource ars
+        WHERE
+        ars.resource_type = 1
+        ORDER BY
+        ars.resource_id DESC
+    </select>
+
+
+    <select id="getUserManagerResourceByUserManager" resultMap="EnumBeanMapper" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        SELECT
+        aum.user_id as user_id,
+        aum.user_name as user_name,
+        ar.role_id as role_id,
+        ar.role_name as role_name,
+        ars.resource_id as resource_id,
+        ars.resource_name as name,
+        ars.resource_url as url,
+        ars.resource_type as type,
+        ars.resource_parent_id as parent_id,
+        ars.resource_icon as icon
+        FROM
+        auth_user_manager aum,
+        auth_user_role aur,
+        auth_role ar,
+        auth_role_resource arr,
+        auth_resource ars
+        WHERE
+        aum.user_id = aur.user_id
+        AND aur.role_id = ar.role_id
+        AND ar.role_id = arr.role_id
+        AND arr.resource_id = ars.resource_id
+        <if test="userId != null">
+            AND aum.user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        ORDER BY
+        ars.resource_id ASC
+    </select>
+
+
+    <select id="getUserManagerResourceByAdmin" resultMap="EnumBeanMapper" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        SELECT
+        ars.resource_id as resource_id,
+        ars.resource_name as name,
+        ars.resource_url as url,
+        ars.resource_type as type,
+        ars.resource_parent_id as parent_id,
+        ars.resource_icon as icon
+        FROM
+        auth_resource ars
+        ORDER BY
+        ars.resource_id ASC
+    </select>
+<!--
+    <select id="getUserManagerResourceByAdmin" resultMap="EnumBeanMapper" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        SELECT
+        ars.resource_id as resource_id,
+        ars.resource_name as name,
+        ars.resource_url as url,
+        ars.resource_type as type,
+        ars.resource_parent_id as parent_id
+        FROM
+        auth_resource ars
+        ORDER BY
+        ars.resource_id ASC
+    </select>
+-->
+    <select id="getUserManagerByRole" resultMap="AuthUserManagerMapper" parameterType="com.eedu.auth.beans.AuthRoleConditionBean">
+    SELECT
+        aum.user_id,
+        aum.user_name,
+        aum.user_account,
+        aum.user_password,
+        aum.user_phone,
+        aum.status
+    FROM
+    auth_role ar
+    LEFT JOIN auth_user_role aur ON ar.role_id = aur.role_id
+    LEFT JOIN auth_user_manager aum ON aur.user_id = aum.user_id
+    WHERE 1=1
+        <if test="roleId != null">
+         AND  ar.role_id  = #{roleId,jdbcType=INTEGER} AND aum.user_id IS NOT NULL
+        </if>
+    </select>
+
+    <update id="batchUpdateManagerAccount" useGeneratedKeys="true" keyProperty="userId" parameterType="java.util.List">
+        UPDATE auth_user_manager
+        SET user_account = CASE user_id
+        <foreach collection="list" index="index" item="item">
+        WHEN  #{item.userId,jdbcType=INTEGER} THEN #{item.userAccount,jdbcType=VARCHAR}
+        </foreach>
+        END
+        WHERE user_id IN
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item.userId}
+        </foreach>
+
+    </update>
+
+    <!-- 删除教师信息 -->
+    <delete id="delTeacherManager" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        delete from auth_user_manager where user_id= #{userId,jdbcType=INTEGER} and user_type =  #{userType,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateUserManagerGroupNull" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        update auth_user_manager
+        set
+        user_grade_id = NULL,
+        user_class_id = NULL,
+        <if test="userPhone != null and '' != userPhone">
+            user_phone = NULL,
+        </if>
+        update_date=now()
+        where user_id=#{userId,jdbcType=INTEGER} and user_type = #{userType,jdbcType=INTEGER}
+    </update>
+
+
+</mapper>

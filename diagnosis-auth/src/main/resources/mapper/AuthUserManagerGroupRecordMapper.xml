@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eedu.auth.dao.AuthUserManagerGroupRecordDao">
+
+
+    <resultMap id="AuthUserManagerGroupRecordMapper" type="com.eedu.auth.beans.AuthUserManagerGroupRecordBean">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_type" property="userType" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="group_type" property="groupType" jdbcType="INTEGER"/>
+        <result column="group_id" property="groupId" jdbcType="INTEGER"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="user_operating" property="userOperating" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="userManager_group_record_column_list">
+        id,user_type,user_id,group_type,group_id,create_date,update_date,user_operating
+    </sql>
+
+
+    <!-- 根据条件查询教师组织记录信息 -->
+    <select id="getUserManagerGroupRecordByCondition" resultMap="AuthUserManagerGroupRecordMapper"
+            parameterType="com.eedu.auth.beans.AuthUserManagerGroupRecordBean">
+        SELECT
+        <include refid="userManager_group_record_column_list"/>
+        FROM auth_usermanager_group_record
+        WHERE 1=1
+        <if test="id != null">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="userType != null">
+            and user_type = #{userType,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="groupType != null">
+            and group_type = #{groupType,jdbcType=INTEGER}
+        </if>
+        <if test="groupId != null">
+            and group_id = #{groupId,jdbcType=INTEGER}
+        </if>
+        <if test="userOperating != null">
+            and user_operating = #{userOperating,jdbcType=INTEGER}
+        </if>
+    </select>
+
+
+    <!-- 添加教师组织绑定信息 -->
+    <insert id="addUserManagerGroupRecord" parameterType="com.eedu.auth.beans.AuthUserManagerGroupRecordBean">
+        insert into auth_usermanager_group_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="groupType != null">
+                group_type,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="userOperating != null">
+                user_operating,
+            </if>
+            create_date,update_date
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userType != null">
+                #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="groupType != null">
+                #{groupType,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=INTEGER},
+            </if>
+            <if test="userOperating != null">
+                #{userOperating,jdbcType=INTEGER},
+            </if>
+            now(),now()
+        </trim>
+    </insert>
+
+    <!-- 根据Id删除教师组织记录信息 -->
+    <delete id="delUserManagerGroupRecord" parameterType="java.lang.Integer">
+        delete from auth_usermanager_group_record where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+
+    <!-- 根据学生ID，类型查询教师组织记录信息 -->
+    <select id="getUserManagerGroupRecordInfoById" parameterType="com.eedu.auth.beans.AuthUserManagerBean" resultMap="AuthUserManagerGroupRecordMapper">
+        select
+        <include refid="userManager_group_record_column_list"/>
+        from auth_usermanager_group_record
+        where user_id=#{userId,jdbcType=INTEGER}
+        and user_type=#{userType,jdbcType=INTEGER}
+    </select>
+
+    <!-- 添加教师组织记录信息 -->
+    <insert id="addUserManagerGroupRecordByUserGroup" parameterType="com.eedu.auth.beans.AuthUserManagerGroupRecordBean">
+
+        INSERT INTO auth_usermanager_group_record (
+        user_type,
+        user_id,
+        group_type,
+        group_id,
+        create_date,
+        update_date,
+        user_operating
+        ) SELECT
+        user_type,
+        user_id,
+        group_type,
+        group_id,
+        NOW() as create_date,
+        NOW() as update_date,
+        <if test="userOperating != null">
+            ${userOperating} as user_operating
+        </if>
+        FROM
+        auth_user_group_bind a
+        WHERE
+        a.user_id =  #{userId,jdbcType=INTEGER}
+        AND a.user_type = #{userType,jdbcType=INTEGER}
+    </insert>
+
+    <insert id="batchSaveUserMangerGroupRecord" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="groupId">
+        insert into auth_usermanager_group_record
+        (
+        user_type,
+        user_id,
+        group_type,
+        group_id,
+        create_date,
+        update_date,
+        user_operating
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.userType,jdbcType=INTEGER},
+            #{item.userId,jdbcType=INTEGER},
+            #{item.groupType,jdbcType=INTEGER},
+            #{item.groupId,jdbcType=INTEGER},
+            now(),now(),
+            #{item.userOperating,jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

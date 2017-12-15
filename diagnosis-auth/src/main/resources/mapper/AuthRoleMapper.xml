@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eedu.auth.dao.AuthRoleDao">
+
+    <resultMap id="AuthRoleBeanMapper" type="com.eedu.auth.beans.AuthRoleBean">
+        <result column="role_id" property="roleId" jdbcType="INTEGER" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+        <result column="role_product_id" property="roleProductId" jdbcType="INTEGER" />
+        <result column="role_sort" property="roleSort" jdbcType="INTEGER" />
+        <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="AuthUserRoleMapper" type="com.eedu.auth.beans.AuthUserRoleBean">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_Id" property="userId" jdbcType="INTEGER" />
+        <result column="role_id" property="roleId" jdbcType="INTEGER" />
+        <result column="status" property="status" jdbcType="CHAR" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="role_column_list">
+        role_id,role_name,role_product_id,role_sort,role_desc
+    </sql>
+    <sql id="role_column_list_join">
+        ar.role_id,ar.role_name,ar.role_product_id,ar.role_sort,ar.role_desc
+    </sql>
+    <!-- 查询所有用户 -->
+    <select id="getRoleListByCondition" resultMap="AuthRoleBeanMapper" parameterType="java.lang.Integer">
+        SELECT <include refid="role_column_list"/>
+        FROM auth_role
+        WHERE 1=1
+        <if test="roleId != null">
+            and role_id = #{roleId,jdbcType=VARCHAR}
+        </if>
+        <if test="roleName != null">
+            and role_name = #{roleName,jdbcType=VARCHAR}
+        </if>
+        <if test="roleProductId != null">
+            and role_product_id = #{roleProductId,jdbcType=INTEGER}
+        </if>
+        order by role_id
+    </select>
+    <!-- 修改角色信息 -->
+    <update id="updateRole" parameterType="com.eedu.auth.beans.AuthRoleBean">
+        update auth_role
+        <set>
+            <if test="roleName != null">
+                role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleProductId != null">
+                role_product_id = #{roleProductId,jdbcType=INTEGER},
+            </if>
+            <if test="role_desc != null">
+                role_desc = #{role_desc,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where role_id=#{roleId,jdbcType="INTEGER"}
+    </update>
+    <!-- 添加角色信息 -->
+    <insert id="addRole" useGeneratedKeys="true" keyProperty="roleId" parameterType="com.eedu.auth.beans.AuthRoleBean">
+        insert into auth_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleName != null">
+                role_name,
+            </if>
+            <if test="roleProductId != null">
+                role_product_id,
+            </if>
+            <if test="roleDesc != null">
+                role_desc,
+            </if>
+            create_date,update_date
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="roleName != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleProductId != null">
+                #{roleProductId,jdbcType=INTEGER},
+            </if>
+            <if test="roleDesc != null">
+                #{roleDesc,jdbcType=VARCHAR},
+            </if>
+            now(),now()
+        </trim>
+    </insert>
+    <!-- 根据ID删除角色-->
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete from auth_role where role_id = #{roleId,jdbcType=INTEGER}
+    </delete>
+    <!-- 根据用户ID查询用户拥有的角色信息 -->
+    <select id="getRoleByUserId" parameterType="java.lang.Integer" resultMap="AuthRoleBeanMapper">
+        select <include refid="role_column_list_join"/>
+        from auth_user_role ur,auth_role ar
+        where ur.role_id = ar.role_id
+        and ur.user_id=#{userId,jdbcType=INTEGER}
+        order by ar.role_sort
+    </select>
+    <!-- 添加用户和角色的绑定关系 -->
+    <insert id="addUserRoleInfo" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="id">
+        insert into auth_user_role(user_id,role_id,status) values(#{userId,jdbcType=INTEGER},#{roleId,jdbcType=INTEGER},#{status,jdbcType=VARCHAR})
+    </insert>
+    <!-- 删除用户角色关系 -->
+    <delete id="delUserRoleInfo" parameterType="java.lang.Integer" >
+        delete from auth_user_role where id=#{id,jdbcType=INTEGER}
+    </delete>
+    <!-- 根据Id修改绑定信息 -->
+    <update id="updateUserRoleInfo" parameterType="com.eedu.auth.beans.AuthUserRoleBean">
+        update auth_user_role
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id=#{userId,jdbcType=INTEGER},
+            </if>
+            <if test="roleId != null and roleId != ''">
+                role_id=#{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null and status != ''">
+                status=#{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+    <!-- 查询用户角色绑定信息 -->
+    <select id="getUserRoleBindInfo" parameterType="com.eedu.auth.beans.AuthUserRoleBean" resultMap="AuthUserRoleMapper">
+        select id,user_id,role_id,status from auth_user_role
+        WHERE 1=1
+        <if test="id != null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="roleId != null">
+            and role_Id = #{roleId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+
+    <!-- 根据用户ID删除用户角色关系 -->
+    <delete id="delUserRoleInfoByUserId" parameterType="java.lang.Integer" >
+        delete from auth_user_role where user_id=#{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 删除用户角色关系 -->
+    <delete id="delUserRoleInfoByUserIdAndRoleId" parameterType="com.eedu.auth.beans.AuthUserRoleBean" >
+        delete from auth_user_role where user_id=#{userId,jdbcType=INTEGER} and role_id = #{roleId,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 查询多个用户对应的角色信息 -->
+    <select id="getUserRoleBindInfoList" parameterType="com.eedu.auth.beans.AuthUserManagerBean" resultMap="AuthUserRoleMapper">
+        SELECT
+        aur.user_id,
+        ar.role_id,
+        ar.role_name
+        FROM
+        auth_user_role aur
+        LEFT JOIN auth_role ar ON aur.role_id = ar.role_id
+        WHERE
+        aur.user_id IN
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item.userId}
+        </foreach>
+
+    </select>
+</mapper>

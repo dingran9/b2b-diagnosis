@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eedu.auth.dao.AuthUserAuthorityManagerDao">
+
+    <resultMap id="AuthUserAuthorityManagerMapper" type="com.eedu.auth.beans.AuthUserAuthorityManagerBean">
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_account" property="userAccount" jdbcType="VARCHAR" />
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+        <result column="user_type" property="userType" jdbcType="INTEGER" />
+        <result column="user_subject" property="userSubject" jdbcType="INTEGER" />
+        <result column="user_stage" property="userStage" jdbcType="VARCHAR" />
+        <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+        <result column="user_phone" property="userPhone" jdbcType="INTEGER" />
+        <result column="user_group_area_province_id" property="userGroupAreaProvinceId" jdbcType="INTEGER" />
+        <result column="user_group_area_province_name" property="userGroupAreaProvinceName" jdbcType="VARCHAR" />
+        <result column="user_group_area_city_id" property="userGroupAreaCityId" jdbcType="INTEGER" />
+        <result column="user_group_area_city_name" property="userGroupAreaCityName" jdbcType="VARCHAR" />
+        <result column="user_group_area_district_id" property="userGroupAreaDistrictId" jdbcType="INTEGER" />
+        <result column="user_group_area_district_name" property="userGroupAreaDistrictName" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <sql id="user_column_list">
+        user_id,user_name,user_account,user_type,user_subject,user_sex,user_phone,
+        user_group_area_province_id,user_group_area_province_name,user_group_area_city_id,user_group_area_city_name,
+        user_group_area_district_id,user_group_area_district_name,create_date,update_date,status,user_stage
+    </sql>
+    <!-- 添加用户 -->
+    <insert id="addUserAuthorityManager" useGeneratedKeys="true" keyProperty="userId" parameterType="com.eedu.auth.beans.AuthUserAuthorityManagerBean" >
+        insert into auth_user_authority_manager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userAccount != null">
+                user_account,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userStage != null">
+                user_stage,
+            </if>
+            <if test="userSubject != null">
+                user_subject,
+            </if>
+            <if test="userSex != null">
+                user_sex,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userGroupAreaProvinceId != null">
+                user_group_area_province_id,
+            </if>
+            <if test="userGroupAreaProvinceName != null">
+                user_group_area_province_name,
+            </if>
+            <if test="userGroupAreaCityId != null">
+                user_group_area_city_id,
+            </if>
+            <if test="userGroupAreaCityName != null">
+                user_group_area_city_name,
+            </if>
+            <if test="userGroupAreaDistrictId != null">
+                user_group_area_district_id,
+            </if>
+            <if test="userGroupAreaDistrictName != null">
+                user_group_area_district_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            create_date,
+            update_date
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userAccount != null">
+                #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userStage != null">
+                #{userStage,jdbcType=VARCHAR},
+            </if>
+            <if test="userSubject != null">
+                #{userSubject,jdbcType=INTEGER},
+            </if>
+            <if test="userSex != null">
+                #{userSex,jdbcType=INTEGER},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userGroupAreaProvinceId != null">
+                #{userGroupAreaProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="userGroupAreaProvinceName != null">
+                #{userGroupAreaProvinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="userGroupAreaCityId != null">
+                #{userGroupAreaCityId,jdbcType=INTEGER},
+            </if>
+            <if test="userGroupAreaCityName != null">
+                #{userGroupAreaCityName,jdbcType=VARCHAR},
+            </if>
+            <if test="userGroupAreaDistrictId != null">
+                #{userGroupAreaDistrictId,jdbcType=INTEGER},
+            </if>
+            <if test="userGroupAreaDistrictName != null">
+                #{userGroupAreaDistrictName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            now(),now()
+        </trim>
+    </insert>
+    <!-- 删除管理者信息 -->
+    <delete id="delUserAuthorityManager" parameterType="java.lang.Integer" >
+        delete from auth_user_authority_manager where user_id=#{userId,jdbcType=INTEGER}
+    </delete>
+    <!-- 修改管理者信息 -->
+    <update id="updateUserAuthorityManager" parameterType="com.eedu.auth.beans.AuthUserAuthorityManagerBean">
+        update auth_user_authority_manager
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userAccount != null">
+                user_account = #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userStage != null">
+                user_stage = #{userStage,jdbcType=VARCHAR},
+            </if>
+            <if test="userSubject != null">
+                user_subject = #{userSubject,jdbcType=INTEGER},
+            </if>
+            <if test="userSex != null">
+                user_sex = #{userSex,jdbcType=INTEGER},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userGroupAreaProvinceId != null">
+                user_group_area_province_id = #{userGroupAreaProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="userGroupAreaProvinceName != null">
+                user_group_area_province_name = #{userGroupAreaProvinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="userGroupAreaCityId != null">
+                user_group_area_city_id = #{userGroupAreaCityId,jdbcType=INTEGER},
+            </if>
+            <if test="userGroupAreaCityName != null">
+                user_group_area_city_name = #{userGroupAreaCityName,jdbcType=VARCHAR},
+            </if>
+            <if test="userGroupAreaDistrictId != null">
+                user_group_area_district_id = #{userGroupAreaDistrictId,jdbcType=INTEGER},
+            </if>
+            <if test="userGroupAreaDistrictName != null">
+                user_group_area_district_name = #{userGroupAreaDistrictName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            update_date=now()
+        </set>
+        where user_id=#{userId,jdbcType=INTEGER}
+    </update>
+
+    <!-- 查询所有用户 -->
+    <select id="getUserAuthorityManagerList" resultMap="AuthUserAuthorityManagerMapper" parameterType="com.eedu.auth.beans.AuthUserAuthorityManagerBean">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_authority_manager
+        WHERE 1=1
+        <if test="userId != null">
+            and user_Id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="userName != null">
+            <!--and user_name = #{userName,jdbcType=VARCHAR}-->
+            and user_name like concat(concat('%',#{userName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="userAccount != null">
+            and user_account = #{userAccount,jdbcType=VARCHAR}
+        </if>
+        <if test="userType != null">
+            and user_type = #{userType,jdbcType=INTEGER}
+        </if>
+        <if test="userStage != null">
+            and user_stage = #{userStage,jdbcType=VARCHAR}
+        </if>
+        <if test="userSubject != null">
+            and user_subject = #{userSubject,jdbcType=INTEGER}
+        </if>
+        <if test="userSex != null">
+            and user_sex = #{userSex,jdbcType=INTEGER}
+        </if>
+        <if test="userGroupAreaProvinceId != null">
+            user_group_area_province_id = #{userGroupAreaProvinceId,jdbcType=INTEGER},
+        </if>
+        <if test="userGroupAreaProvinceName != null">
+            user_group_area_province_name = #{userGroupAreaProvinceName,jdbcType=VARCHAR},
+        </if>
+        <if test="userGroupAreaCityId != null">
+            user_group_area_city_id = #{userGroupAreaCityId,jdbcType=INTEGER},
+        </if>
+        <if test="userGroupAreaCityName != null">
+            user_group_area_city_name = #{userGroupAreaCityName,jdbcType=VARCHAR},
+        </if>
+        <if test="userGroupAreaDistrictId != null">
+            user_group_area_district_id = #{userGroupAreaDistrictId,jdbcType=INTEGER},
+        </if>
+        <if test="userGroupAreaDistrictName != null">
+            user_group_area_district_name = #{userGroupAreaDistrictName,jdbcType=VARCHAR},
+        </if>
+        <if test="status != null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!-- 根据帐号和密码查找用户 -->
+    <select id="getUserByAccountAndPwd" resultMap="AuthUserAuthorityManagerMapper" parameterType="com.eedu.auth.beans.AuthUserAuthorityManagerBean">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_authority_manager
+        WHERE user_account = #{userAccount,jdbcType=VARCHAR}
+        and user_password = #{userPassword,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="getUserByUserId" resultMap="AuthUserAuthorityManagerMapper" parameterType="java.lang.Integer">
+        SELECT <include refid="user_column_list"/>
+        FROM auth_user_authority_manager
+        WHERE user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

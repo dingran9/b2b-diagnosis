@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eedu.auth.dao.AuthUserGroupBindDao">
+
+    <resultMap id="AuthUserGroupBindMapper" type="com.eedu.auth.beans.AuthUserGroupBindBean">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_type" property="userType" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="group_type" property="groupType" jdbcType="INTEGER"/>
+        <result column="group_id" property="groupId" jdbcType="INTEGER"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="user_group_column_list">
+        id,user_type,user_id,group_type,group_id,create_date,update_date
+    </sql>
+
+    <!-- 根据条件查询组织信息 -->
+    <select id="getUserGroupBindByCondition" resultMap="AuthUserGroupBindMapper"
+            parameterType="com.eedu.auth.beans.AuthGroupBean">
+        SELECT
+        <include refid="user_group_column_list"/>
+        FROM auth_user_group_bind
+        WHERE 1=1
+        <if test="id != null">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="userType != null">
+            and user_type = #{userType,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="groupType != null">
+            and group_type = #{groupType,jdbcType=INTEGER}
+        </if>
+        <if test="groupId != null">
+            and group_id = #{groupId,jdbcType=INTEGER}
+        </if>
+    </select>
+    <!-- 添加用户组织绑定信息 -->
+    <insert id="addUserGroupBind" parameterType="com.eedu.auth.beans.AuthUserGroupBindBean">
+        insert into auth_user_group_bind
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="groupType != null">
+                group_type,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            create_date,update_date
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userType != null">
+                #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="groupType != null">
+                #{groupType,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=INTEGER},
+            </if>
+            now(),now()
+        </trim>
+    </insert>
+    <!-- 根据Id删除组织信息 -->
+    <delete id="delUserGroupBind" parameterType="java.lang.Integer">
+        delete from auth_user_group_bind where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 修改组织信息 -->
+    <update id="updateUserGroupBind" parameterType="com.eedu.auth.beans.AuthUserGroupBindBean">
+        update auth_user_group_bind
+        <set>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="groupType != null">
+                group_type = #{groupType,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=INTEGER},
+            </if>
+            update_date=now()
+        </set>
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+    <!-- 根据ID查询组织信息 -->
+    <select id="getGroupInfoById" parameterType="java.lang.Integer" resultMap="AuthUserGroupBindMapper">
+        select
+        <include refid="user_group_column_list"/>
+        from auth_user_group_bind
+        where id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据ID集合查询绑定的数据 -->
+    <select id="getStudentByGroupIdLists" parameterType="java.util.HashMap" resultMap="AuthUserGroupBindMapper">
+        select
+        <include refid="user_group_column_list"/>
+        from auth_user_group_bind
+        where user_type=#{userType,jdbcType=INTEGER}
+        and group_type=#{groupType,jdbcType=INTEGER}
+        <if test="userIdList != null">
+            and user_id in
+            <foreach collection="userIdList" index="index" open="(" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="groupIdList != null">
+            and group_id in
+            <foreach collection="groupIdList" index="index" open="(" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="batchSaveUserGroupBind" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="groupId">
+        insert into auth_user_group_bind (
+        user_type,
+        user_id,
+        group_type,
+        group_id,
+        create_date)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.userType,jdbcType=INTEGER},
+            #{item.userId,jdbcType=INTEGER},
+            #{item.groupType,jdbcType=INTEGER},
+            #{item.groupId,jdbcType=INTEGER},
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <!-- 根据老师用户Id删除组织信息 -->
+    <delete id="delUserGroupBindByUserID" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        delete from auth_user_group_bind where user_id = #{userId,jdbcType=INTEGER} and user_type = #{userType,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 根据老师用户Id删除组织信息 -->
+    <delete id="delUserGroupBindByUserIDBatch" parameterType="java.util.List">
+        delete from auth_user_group_bind where user_id in
+        <foreach collection="userIdList" open="(" close=")" separator="," item="item" index="index">
+            #{item.userId}
+        </foreach>
+        and user_type = #{userType,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 根据用户Id,用户类型，组织类型删除组织信息 -->
+    <delete id="delUserGroupBindByUserIDAndGroupType" parameterType="com.eedu.auth.beans.AuthUserGroupBindBean">
+        delete from auth_user_group_bind where user_id = #{userId,jdbcType=INTEGER} and user_type = #{userType,jdbcType=INTEGER} and group_type = #{groupType,jdbcType=INTEGER}
+    </delete>
+
+
+    <!-- 根据条件查询组织信息用于存放记录 -->
+    <select id="getUserGroupBindForRecord" resultMap="AuthUserGroupBindMapper"
+            parameterType="com.eedu.auth.beans.AuthGroupBean">
+        SELECT
+        user_type,
+        user_id,
+        group_type,
+        group_id
+        FROM auth_user_group_bind
+        WHERE 1=1
+        <if test="id != null">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="userType != null">
+            and user_type = #{userType,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="groupType != null">
+            and group_type = #{groupType,jdbcType=INTEGER}
+        </if>
+        <if test="groupId != null">
+            and group_id = #{groupId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!-- 根据id组查询组织信息用于存放记录 -->
+    <select id="getUserGroupBindBystudentIds" resultMap="AuthUserGroupBindMapper"
+            parameterType="java.util.List">
+        SELECT
+        user_type,
+        user_id,
+        group_type,
+        group_id
+        FROM auth_user_group_bind
+        WHERE 1=1
+        and user_id in
+        <foreach collection="userIdList" open="(" close=")" separator="," item="item" index="index">
+            #{item.userId}
+        </foreach>
+        and user_type = #{userType,jdbcType=INTEGER}
+    </select>
+</mapper>

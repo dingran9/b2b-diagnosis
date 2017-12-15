@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://code.alibabatech.com/schema/dubbo  
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd  
+        ">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+   <dubbo:application name="diagnosis-auth-server" />
+
+	<!-- 使用zookeeper注册中心暴露服务地址 即zookeeper的所在服务器ip地址和端口号 -->
+	<dubbo:registry address="${dubbo-registry-address}"
+		file="${dubbo-registry-file}" />
+
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="${dubbo-registry-port}"
+		host="${dubbo-registry-host}" />
+
+
+	<dubbo:service ref="areaServiceImpl" interface="com.eedu.auth.service.AuthAreaService" protocol="dubbo" version="${duboo.interface.version}"/>
+	<dubbo:service ref="groupServiceImpl" interface="com.eedu.auth.service.AuthGroupService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="resourceServiceImpl" interface="com.eedu.auth.service.AuthResourceService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="roleServiceImpl" interface="com.eedu.auth.service.AuthRoleService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="userGroupBindServiceImpl" interface="com.eedu.auth.service.AuthUserGroupBindService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="userManagerServiceImpl" interface="com.eedu.auth.service.AuthUserManagerService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="userServiceImpl" interface="com.eedu.auth.service.AuthUserService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="dataDictionaryServiceImpl" interface="com.eedu.auth.service.AuthDataDictionaryService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="userWeChatBindServiceImpl" interface="com.eedu.auth.service.AuthUserWeChatBindService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="authUserAuthorityManagerServiceImpl" interface="com.eedu.auth.service.AuthUserAuthorityManagerService" protocol="dubbo" version="${duboo.interface.version}" />
+
+</beans>

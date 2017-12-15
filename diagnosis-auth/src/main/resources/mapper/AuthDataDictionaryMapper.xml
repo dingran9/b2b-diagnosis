@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eedu.auth.dao.AuthDataDictionaryDao">
+
+    <resultMap id="AuthDataDictionaryMapper" type="com.eedu.auth.beans.AuthDataDictionaryBean">
+        <result column="data_id" property="dataId" jdbcType="INTEGER" />
+        <result column="data_iden" property="dataIden" jdbcType="VARCHAR" />
+        <result column="data_name" property="dataName" jdbcType="VARCHAR" />
+        <result column="data_type" property="dataType" jdbcType="INTEGER" />
+        <result column="data_parent" property="dataParent" javaType="INTEGER"/>
+        <result column="data_desc" property="dataDesc" jdbcType="INTEGER" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="AuthGroupDictionaryBindMapper" type="com.eedu.auth.beans.AuthGroupDictionaryBindBean">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="group_id" property="groupId" jdbcType="INTEGER" />
+        <result column="group_type" property="groupType" jdbcType="INTEGER" />
+        <result column="data_id" property="dataId" jdbcType="INTEGER" />
+        <result column="data_type" property="dataType" jdbcType="INTEGER" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="AuthUserDictionaryBindMapper" type="com.eedu.auth.beans.AuthUserDictionaryBindBean">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_type" property="userType" jdbcType="INTEGER" />
+        <result column="data_id" property="dataId" jdbcType="INTEGER" />
+        <result column="data_type" property="dataType" jdbcType="INTEGER" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="dataDictionary_column_list">
+        data_id,data_iden,data_name,data_type,data_parent,data_desc,create_date,update_date
+    </sql>
+    <sql id="groupDictionary_bind_column_list">
+        id,group_id,group_type,data_id,data_type,create_date,update_date
+    </sql>
+    <sql id="userDictionary_bind_column_list">
+        id,user_id,user_type,data_id,data_type,create_date,update_date
+    </sql>
+
+    <!-- 根据条件基础数据信息 -->
+    <select id="getDataDictionaryByCondition" resultMap="AuthDataDictionaryMapper" parameterType="com.eedu.auth.beans.AuthDataDictionaryBean">
+        SELECT <include refid="dataDictionary_column_list"/>
+        FROM auth_data_dictionary
+        WHERE 1=1
+        <if test="dataId != null">
+            and data_id = #{dataId,jdbcType=INTEGER}
+        </if>
+        <if test="dataIden != null">
+            and data_iden = #{dataIden,jdbcType=INTEGER}
+        </if>
+        <if test="dataName != null">
+            and data_name = #{dataName,jdbcType=INTEGER}
+        </if>
+        <if test="dataType != null">
+            and data_type = #{dataType,jdbcType=INTEGER}
+        </if>
+        <if test="dataDesc != null">
+            and data_desc = #{dataDesc,jdbcType=INTEGER}
+        </if>
+        <if test="createDate != null">
+            and create_date = #{createDate,jdbcType=INTEGER}
+        </if>
+        <if test="updateDate != null">
+            and update_date = #{updateDate,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!-- 根据条件查询组织和基础数据绑定信息 -->
+    <select id="getGroupDictionaryBindByCondition" resultMap="AuthGroupDictionaryBindMapper" parameterType="com.eedu.auth.beans.AuthGroupDictionaryBindBean">
+        SELECT <include refid="groupDictionary_bind_column_list"/>
+        FROM auth_group_dictionary_bind
+        WHERE 1=1
+        <if test="id != null">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="groupId != null">
+            and group_id = #{groupId,jdbcType=INTEGER}
+        </if>
+        <if test="groupType != null">
+            and group_type = #{groupType,jdbcType=INTEGER}
+        </if>
+        <if test="dataId != null">
+            and data_id = #{dataId,jdbcType=INTEGER}
+        </if>
+        <if test="dataType != null">
+            and data_type = #{dataType,jdbcType=INTEGER}
+        </if>
+        <if test="createDate != null">
+            and create_date = #{createDate,jdbcType=INTEGER}
+        </if>
+        <if test="updateDate != null">
+            and update_date = #{updateDate,jdbcType=INTEGER}
+        </if>
+        <if test="authGroupBeans != null">
+            and group_id IN
+        <foreach collection="authGroupBeans" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item.groupId}
+        </foreach>
+        </if>
+    </select>
+    <!-- 添加组织和基础数据的绑定关系 -->
+    <insert id="addGroupDictionaryBind" parameterType="com.eedu.auth.beans.AuthGroupDictionaryBindBean" keyProperty="id" useGeneratedKeys="true">
+        insert into auth_group_dictionary_bind(group_id,group_type,data_id,data_type,create_date,update_date)
+        values(#{groupId,jdbcType=INTEGER},#{groupType,jdbcType=INTEGER},#{dataId,jdbcType=INTEGER},#{dataType,jdbcType=INTEGER},now(),now())
+    </insert>
+    <!-- 修改组织和基础数据的绑定关系 -->
+    <update id="updateGroupDictionaryBind" parameterType="com.eedu.auth.beans.AuthGroupDictionaryBindBean">
+        update auth_group_dictionary_bind
+        <set>
+            <if test="groupId != null">
+                group_id=#{groupId,jdbcType=INTEGER},
+            </if>
+            <if test="groupType != null">
+                group_type=#{groupType,jdbcType=INTEGER},
+            </if>
+            <if test="dataId != null">
+                data_id=#{dataId,jdbcType=INTEGER},
+            </if>
+            <if test="dataType != null">
+                data_type=#{dataType,jdbcType=INTEGER},
+            </if>
+            update_date=now()
+        </set>
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+    <!-- 根据ID删除组织和基础数据的绑定关系 -->
+    <delete id="deleteGroupDictionaryBind" parameterType="java.lang.Integer">
+        delete from auth_group_dictionary_bind where id=#{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 根据条件查询用户和基础数据绑定信息 -->
+    <select id="getUserDictionaryBindByCondition" resultMap="AuthUserDictionaryBindMapper" parameterType="com.eedu.auth.beans.AuthUserDictionaryBindBean">
+        SELECT <include refid="userDictionary_bind_column_list"/>
+        FROM auth_user_dictionary_bind
+        WHERE 1=1
+        <if test="id != null">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="userType != null">
+            and user_type = #{userType,jdbcType=INTEGER}
+        </if>
+        <if test="dataId != null">
+            and data_id = #{dataId,jdbcType=INTEGER}
+        </if>
+        <if test="dataType != null">
+            and data_type = #{dataType,jdbcType=INTEGER}
+        </if>
+        <if test="createDate != null">
+            and create_date = #{createDate,jdbcType=INTEGER}
+        </if>
+        <if test="updateDate != null">
+            and update_date = #{updateDate,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!-- 添加组织和基础数据的绑定关系 -->
+    <insert id="addUserDictionaryBindByCondition" parameterType="com.eedu.auth.beans.AuthUserDictionaryBindBean" keyProperty="id" useGeneratedKeys="true">
+        insert into auth_user_dictionary_bind(user_id,user_type,data_id,data_type,create_date,update_date)
+        values(#{userId,jdbcType=INTEGER},#{userType,jdbcType=INTEGER},#{dataId,jdbcType=INTEGER},#{dataType,jdbcType=INTEGER},now(),now())
+    </insert>
+
+    <!-- 修改用户和基础数据的绑定关系 -->
+    <update id="updateUserDictionaryBind" parameterType="com.eedu.auth.beans.AuthGroupDictionaryBindBean">
+        update auth_user_dictionary_bind
+        <set>
+            <if test="userId != null">
+                user_id=#{userId,jdbcType=INTEGER},
+            </if>
+            <if test="userType != null">
+                user_type=#{userType,jdbcType=INTEGER},
+            </if>
+            <if test="dataId != null">
+                data_id=#{dataId,jdbcType=INTEGER},
+            </if>
+            <if test="dataType != null">
+                data_type=#{dataType,jdbcType=INTEGER},
+            </if>
+            update_date=now()
+        </set>
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+    <!-- 根据ID删除用户和基础数据的绑定关系 -->
+    <delete id="deleteUserDictionaryBind" parameterType="java.lang.Integer">
+        delete from auth_user_dictionary_bind where id=#{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 根据ID删除用户和基础数据的绑定关系 -->
+    <delete id="deleteUserDictionaryBindByUserId" parameterType="com.eedu.auth.beans.AuthUserManagerBean">
+        delete from auth_user_dictionary_bind where user_id = #{userId,jdbcType=INTEGER} and user_type = #{userType,jdbcType=INTEGER}
+    </delete>
+</mapper>

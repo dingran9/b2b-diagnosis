@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eedu.auth.dao.AuthAreaDao">
+
+    <resultMap id="AuthProvinceMapper" type="com.eedu.auth.beans.AuthProvinceBean">
+        <result column="province_id" property="provinceId" jdbcType="INTEGER" />
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="AuthCityMapper" type="com.eedu.auth.beans.AuthCityBean">
+        <result column="city_id" property="cityId" jdbcType="INTEGER" />
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+        <result column="zip_code" property="zipCode" jdbcType="INTEGER" />
+        <result column="province_id" property="provinceId" jdbcType="INTEGER" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="AuthDistrictMapper" type="com.eedu.auth.beans.AuthDistrictBean">
+        <result column="district_id" property="districtId" jdbcType="INTEGER" />
+        <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+        <result column="city_id" property="cityId" jdbcType="INTEGER" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="province_column_list">
+        province_id,province_name,create_date,update_date
+    </sql>
+    <sql id="city_column_list">
+        city_id,city_name,zip_code,province_id,create_date,update_date
+    </sql>
+    <sql id="district_column_list">
+        district_id,district_name,city_id,create_date,update_date
+    </sql>
+    <!-- 查询所有省 -->
+    <select id="getAllProvince" resultMap="AuthProvinceMapper" >
+        select <include refid="province_column_list"/> from auth_province
+    </select>
+    <!-- 根据省编号获取隶属市列表 -->
+    <select id="getCityByProvinceId" resultMap="AuthCityMapper" parameterType="java.lang.Integer">
+        select <include refid="city_column_list"/> from auth_city where province_id = #{provinceId,jdbcType=INTEGER};
+    </select>
+    <!-- 根据市编号获取隶属区县列表 -->
+    <select id="getDistrictByCityId" resultMap="AuthDistrictMapper" parameterType="java.lang.Integer">
+        select <include refid="district_column_list"/> from auth_district where city_id = #{cityId,jdbcType=INTEGER}
+    </select>
+</mapper>

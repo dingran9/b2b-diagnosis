@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eedu.auth.dao.AuthGroupDao">
+
+    <resultMap id="AuthGroupMapper" type="com.eedu.auth.beans.AuthGroupBean">
+        <result column="group_id" property="groupId" jdbcType="INTEGER" />
+        <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+        <result column="group_iden" property="groupIden" jdbcType="INTEGER" />
+        <result column="group_material" property="groupMaterial" jdbcType="VARCHAR" />
+        <result column="group_type" property="groupType" jdbcType="INTEGER" />
+        <result column="group_address" property="groupAddress" jdbcType="VARCHAR" />
+        <result column="group_parent_id" property="groupParentId" jdbcType="INTEGER" />
+        <result column="group_product_id" property="groupProductId" jdbcType="INTEGER" />
+        <result column="group_area_province_id" property="groupAreaProvinceId" jdbcType="INTEGER" />
+        <result column="group_area_province_name" property="groupAreaProvinceName" jdbcType="VARCHAR" />
+        <result column="group_area_city_id" property="groupAreaCityId" jdbcType="INTEGER" />
+        <result column="group_area_city_name" property="groupAreaCityName" jdbcType="VARCHAR" />
+        <result column="group_area_district_id" property="groupAreaDistrictId" jdbcType="TIMESTAMP" />
+        <result column="group_area_district_name" property="groupAreaDistrictName" jdbcType="VARCHAR" />
+        <result column="group_create_date" property="groupCreateDate" jdbcType="TIMESTAMP" />
+        <result column="group_update_date" property="groupUpdateDate" jdbcType="TIMESTAMP" />
+        <result column="group_art" property="groupArt" jdbcType="INTEGER" />
+        <result column="group_external_school_id" property="groupExternalSchoolId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="group_column_list">
+        group_id,group_name,group_iden,group_material,group_type,group_address,group_parent_id,group_product_id,group_area_province_id,group_area_province_name,
+        group_area_city_id,group_area_city_name,group_area_district_id,group_area_district_name,group_create_date,group_update_date,group_art,group_external_school_id
+    </sql>
+
+    <!-- 根据条件查询组织信息 -->
+    <select id="getGroupByCondition" resultMap="AuthGroupMapper" parameterType="com.eedu.auth.beans.AuthGroupBean">
+        SELECT <include refid="group_column_list"/>
+        FROM auth_group
+        WHERE 1=1
+        <if test="groupId != null">
+            and group_id = #{groupId,jdbcType=INTEGER}
+        </if>
+        <if test="groupName != null">
+            and group_name like concat(concat('%',#{groupName,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="groupType != null">
+            and group_type = #{groupType,jdbcType=INTEGER}
+        </if>
+        <if test="groupAddress != null">
+            and group_address like concat(concat('%',#{groupAddress,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="groupIden != null">
+            and group_iden = #{groupIden,jdbcType=INTEGER}
+        </if>
+        <if test="groupParentId != null">
+            and group_parent_id = #{groupParentId,jdbcType=INTEGER}
+        </if>
+        <if test="groupProductId != null">
+            and group_product_id = #{groupProductId,jdbcType=INTEGER}
+        </if>
+        <if test="groupAreaProvinceId != null">
+            and group_area_province_id = #{groupAreaProvinceId,jdbcType=INTEGER}
+        </if>
+        <if test="groupAreaCityId != null">
+            and group_area_city_id = #{groupAreaCityId,jdbcType=INTEGER}
+        </if>
+        <if test="groupAreaDistrictId != null">
+            and group_area_district_id = #{groupAreaDistrictId,jdbcType=INTEGER}
+        </if>
+        <if test="groupArt != null">
+            and group_art = #{groupArt,jdbcType=INTEGER}
+        </if>
+        <if test="groupExternalSchoolId != null">
+            and group_external_school_id = #{groupExternalSchoolId,jdbcType=INTEGER}
+        </if>
+        ORDER BY group_create_date desc
+    </select>
+    <!-- 添加组织信息 -->
+    <insert id="addGroupInfo" parameterType="com.eedu.auth.beans.AuthGroupBean" useGeneratedKeys="true" keyProperty="groupId">
+        insert into auth_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="groupIden != null">
+                group_iden,
+            </if>
+            <if test="groupMaterial != null">
+                group_material,
+            </if>
+            <if test="groupType != null">
+                group_type,
+            </if>
+            <if test="groupAddress != null">
+                group_address,
+            </if>
+            <if test="groupParentId != null">
+                group_parent_id,
+            </if>
+            <if test="groupProductId != null">
+                group_product_id,
+            </if>
+            <if test="groupAreaProvinceId != null">
+                group_area_province_id,
+            </if>
+            <if test="groupAreaProvinceName != null">
+                group_area_province_name,
+            </if>
+            <if test="groupAreaCityId != null">
+                group_area_city_id,
+            </if>
+            <if test="groupAreaCityName != null">
+                group_area_city_name,
+            </if>
+            <if test="groupAreaDistrictId != null">
+                group_area_district_id,
+            </if>
+            <if test="groupAreaDistrictName != null">
+                group_area_district_name,
+            </if>
+            <if test="groupArt != null">
+                group_art,
+            </if>
+            <if test="groupExternalSchoolId != null">
+                group_external_school_id,
+            </if>
+            group_create_date,group_update_date
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupIden != null">
+                #{groupIden,jdbcType=INTEGER},
+            </if>
+            <if test="groupMaterial != null">
+                #{groupMaterial,jdbcType=VARCHAR},
+            </if>
+            <if test="groupType != null">
+                #{groupType,jdbcType=INTEGER},
+            </if>
+            <if test="groupAddress != null">
+                #{groupAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="groupParentId != null">
+                #{groupParentId,jdbcType=INTEGER},
+            </if>
+            <if test="groupProductId != null">
+                #{groupProductId,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaProvinceId != null">
+                #{groupAreaProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaProvinceName != null">
+                #{groupAreaProvinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupAreaCityId != null">
+                #{groupAreaCityId,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaCityName != null">
+                #{groupAreaCityName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupAreaDistrictId != null">
+                #{groupAreaDistrictId,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaDistrictName != null">
+                #{groupAreaDistrictName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupArt != null">
+                #{groupArt,jdbcType=INTEGER},
+            </if>
+            <if test="groupExternalSchoolId != null">
+                #{groupExternalSchoolId,jdbcType=INTEGER},
+            </if>
+            now(),now()
+        </trim>
+    </insert>
+    <!-- 根据Id删除组织信息 -->
+    <delete id="delGroupInfoById" parameterType="java.lang.Integer">
+        delete from auth_group where group_id = #{groupId,jdbcType=INTEGER}
+    </delete>
+    <!-- 修改组织信息 -->
+    <update id="updateGroupInfoById" parameterType="com.eedu.auth.beans.AuthGroupBean">
+        update auth_group
+        <set>
+            <if test="groupName != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupIden != null">
+                group_iden = #{groupIden,jdbcType=INTEGER},
+            </if>
+            <if test="groupMaterial != null">
+                group_material = #{groupMaterial,jdbcType=INTEGER},
+            </if>
+            <if test="groupType != null">
+                group_type = #{groupType,jdbcType=INTEGER},
+            </if>
+            <if test="groupAddress != null">
+                group_address = #{groupAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="groupParentId != null">
+                group_parent_id = #{groupParentId,jdbcType=INTEGER},
+            </if>
+            <if test="groupProductId != null">
+                group_product_id = #{groupProductId,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaProvinceId != null">
+                group_area_province_id = #{groupAreaProvinceId,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaProvinceName != null">
+                group_area_province_name = #{groupAreaProvinceName,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaCityId != null">
+                group_area_city_id = #{groupAreaCityId,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaCityName != null">
+                group_area_city_name = #{groupAreaCityName,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaDistrictId != null">
+                group_area_district_id = #{groupAreaDistrictId,jdbcType=INTEGER},
+            </if>
+            <if test="groupAreaDistrictName != null">
+                group_area_district_name = #{groupAreaDistrictName,jdbcType=INTEGER},
+            </if>
+            <if test="groupArt != null">
+                group_art= #{groupArt,jdbcType=INTEGER},
+            </if>
+            <if test="groupExternalSchoolId != null">
+                group_external_school_id= #{groupExternalSchoolId,jdbcType=INTEGER},
+            </if>
+            group_update_date=now()
+        </set>
+        where group_id=#{groupId,jdbcType=INTEGER}
+    </update>
+    <!-- 根据ID查询组织信息 -->
+    <select id="getGroupInfoById" parameterType="java.lang.Integer" resultMap="AuthGroupMapper">
+        select <include refid="group_column_list"/> from auth_group where group_id=#{groupId,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据用户ID组查询对应的班级信息 -->
+    <select id="getManagerGroupByList" parameterType="java.util.List" resultType="Map">
+        SELECT
+        ag.group_id,
+        ag.group_name,
+        ag.group_art,
+        aum.user_id,
+        aum.user_name
+        FROM
+        auth_user_manager aum
+        LEFT JOIN auth_user_group_bind augb ON aum.user_id = augb.user_id
+        LEFT JOIN auth_group ag ON augb.group_id = ag.group_id
+        WHERE
+        augb.group_type = 3 and augb.user_type = 2
+        AND aum.user_id IN
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item.userId}
+        </foreach>
+    </select>
+
+    <!-- 班级信息查询班级，验重 -->
+    <select id="getClassByName" parameterType="com.eedu.auth.beans.AuthGroupBean" resultMap="AuthGroupMapper">
+        SELECT
+        ag2.*
+        FROM
+        (select group_id  from auth_group  where group_parent_id =  #{groupParentId,jdbcType=INTEGER}
+        AND group_iden = #{groupIden,jdbcType=INTEGER} ) ag1
+        LEFT JOIN auth_group ag2 ON ag2.group_parent_id = ag1.group_id
+        where
+        ag2.group_name =  #{groupName,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据id组查询组织信息 -->
+    <select id="getGroupByIds" resultMap="AuthGroupMapper"
+            parameterType="java.util.List">
+        SELECT <include refid="group_column_list"/>
+        FROM auth_group
+        WHERE 1=1
+        and group_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="item" index="index">
+            #{item}
+        </foreach>
+    </select>
+</mapper>
