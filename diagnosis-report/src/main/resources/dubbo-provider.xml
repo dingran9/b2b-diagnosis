@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:application name="b2b-report-service-provider"
+		owner="zhucw" organization="eeduspace" />
+
+	<dubbo:registry timeout="600000" address="${dubbo.registry.address}" file="${dubbo.registry.file}"/>
+
+
+	<dubbo:protocol name="dubbo"   host="${dubbo.host}" port="${duboo.port}"/>
+	<dubbo:annotation package="com.eeduspace.b2b.report.service"/>
+
+	<dubbo:service interface="com.eeduspace.b2b.report.service.B2BReportOpenService" ref="reportOpenServiceImpl" timeout="600000" version="${duboo.interface.version}"/>
+	<dubbo:service interface="com.eeduspace.b2b.report.service.TeacherReportOpenService" ref="teacherReportOpenServiceImpl" timeout="600000" version="${duboo.interface.version}"/>
+
+	<dubbo:service interface="com.eeduspace.b2b.report.service.GeneralReportOpenService" ref="generalReportOpenServiceImpl" timeout="600000" version="${duboo.interface.version}"/>
+
+	<dubbo:service interface="com.eeduspace.b2b.report.service.PrincipalSingleReportOpenService" ref="principalSingleReportOpenServiceImpl" timeout="600000" version="${duboo.interface.version}"/>
+
+	<dubbo:service interface="com.eeduspace.b2b.report.service.SystemManagerOperationLogOpenService" ref="systemManagerOperationLogOpenService" timeout="600000" version="${duboo.interface.version}"/>
+
+	<dubbo:service interface="com.eeduspace.b2b.report.service.ResearchReportOpenService" ref="researchReportOpenServiceImpl" timeout="600000" version="${duboo.interface.version}"/>
+
+	<dubbo:service interface="com.eeduspace.b2b.report.service.StageTestReportOpenService" ref="stageTestReportOpenServiceImpl" timeout="600000" version="${duboo.interface.version}"/>
+
+	<dubbo:reference id="userManagerService" check="false" timeout="60000"
+					 interface="com.eedu.auth.service.AuthUserManagerService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="authGroupService" check="false" timeout="60000"
+					 interface="com.eedu.auth.service.AuthGroupService" version="${duboo.interface.version}"/>
+	<!--学生诊断服务-->
+	<dubbo:reference id="diagnosisRecordStudentOpenService" interface="com.eedu.diagnosis.exam.api.openService.DiagnosisRecordStudentOpenService" version="${duboo.interface.version}" timeout="600000" />
+
+	<dubbo:reference id="diagnosisStudentAnswerRecordOpenService" interface="com.eedu.diagnosis.exam.api.openService.DiagnosisStudentAnswerRecordOpenService" version="${duboo.interface.version}" timeout="600000" />
+
+	<dubbo:reference id="diagnosisRecordTeacherOpenService" interface="com.eedu.diagnosis.exam.api.openService.DiagnosisRecordTeacherOpenService" version="${duboo.interface.version}" timeout="600000" />
+
+	<dubbo:reference id="diagnosisClassRelationOpenService" interface="com.eedu.diagnosis.exam.api.openService.DiagnosisClassRelationOpenService" version="${duboo.interface.version}" timeout="600000" />
+
+</beans>

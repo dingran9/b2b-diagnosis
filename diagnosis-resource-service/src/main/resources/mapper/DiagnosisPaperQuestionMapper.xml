@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.paper.persist.dao.DiagnosisPaperQuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.paper.persist.po.DiagnosisPaperQuestion" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="paper_code" property="paperCode" jdbcType="VARCHAR" />
+    <result column="big_question_code" property="bigQuestionCode" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code, paper_code, big_question_code, sort
+  </sql>
+  <select id="DiagnosisPaperQuestion_getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_paper_question
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="DiagnosisPaperQuestion_deleteById" parameterType="java.lang.String" >
+    delete from diagnosis_paper_question
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="DiagnosisPaperQuestion_save" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisPaperQuestion" >
+    insert into diagnosis_paper_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="paperCode != null" >
+        paper_code,
+      </if>
+      <if test="bigQuestionCode != null" >
+        big_question_code,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="paperCode != null" >
+        #{paperCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bigQuestionCode != null" >
+        #{bigQuestionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="DiagnosisPaperQuestion_update" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisPaperQuestion" >
+    update diagnosis_paper_question
+    <set >
+      <if test="paperCode != null" >
+        paper_code = #{paperCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bigQuestionCode != null" >
+        big_question_code = #{bigQuestionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+  
+  <sql id="DiagnosisPaperQuestion_where_sql">
+      <if test="code != null" >
+      and  code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="paperCode != null" >
+      and  paper_code = #{paperCode,jdbcType=VARCHAR}
+      </if>
+      <if test="bigQuestionCode != null" >
+      and  big_question_code = #{bigQuestionCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sort != null" >
+     and   sort = #{sort,jdbcType=VARCHAR}
+      </if>
+  </sql>
+
+  <!-- list<code> 查询 -->
+  <select id="DiagnosisPaperQuestion_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_paper_question
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    ORDER BY create_time DESC
+  </select>
+  <!-- 普通分页 -->
+  <select id="DiagnosisPaperQuestion_findByParameter" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_paper_question
+    <where>
+      <include refid="DiagnosisPaperQuestion_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+   
+   <delete id="DiagnosisPaperQuestion_batch_deleteById" parameterType="java.util.List">
+    DELETE FROM diagnosis_paper_question
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+   <select id="DiagnosisPaperQuestion_getAll" resultMap="BaseResultMap">
+    SELECT
+   <include refid="Base_Column_List"/>
+    FROM diagnosis_paper_question 
+  </select>
+</mapper>

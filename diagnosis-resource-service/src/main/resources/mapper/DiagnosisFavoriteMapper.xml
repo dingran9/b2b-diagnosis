@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.paper.persist.mapper.dao.DiagnosisFavoriteMapper" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.paper.persist.po.DiagnosisFavorite" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="platform" property="platform" jdbcType="INTEGER" />
+    <result column="question_code" property="questionCode" jdbcType="VARCHAR" />
+    <result column="question_sort" property="questionSort" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="stage_code" property="stageCode" jdbcType="VARCHAR" />
+    <result column="grade_code" property="gradeCode" jdbcType="VARCHAR" />
+    <result column="subject_code" property="subjectCode" jdbcType="VARCHAR" />
+    <result column="unit_code" property="unitCode" jdbcType="VARCHAR" />
+    <result column="knowledge_code" property="knowledgeCode" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="question_score" property="questionScore" jdbcType="DECIMAL" />
+    <result column="question_stem" property="questionStem" jdbcType="LONGVARCHAR" />
+    <result column="question_option" property="questionOption" jdbcType="LONGVARCHAR" />
+    <result column="question_analyze" property="questionAnalyze" jdbcType="LONGVARCHAR" />
+    <result column="right_answer" property="rightAnswer" jdbcType="VARCHAR" />
+    <result column="diffcultStar" property="diffcultstar" jdbcType="VARCHAR" />
+      <result column="article_code" property="articleCode" jdbcType="VARCHAR" />
+      <result column="audio_analyze_path" property="audioAnalyzePath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+     code, create_time, update_time, platform, question_code, question_sort, type, user_code, 
+    stage_code, grade_code, subject_code, unit_code, knowledge_code, is_del, question_score, 
+    right_answer, diffcultStar, question_stem, question_option, question_analyze,article_code,audio_analyze_path
+  </sql>
+  <select id="DiagnosisFavorite_getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_favorite
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="DiagnosisFavorite_deleteById" parameterType="java.lang.String" >
+    delete from diagnosis_favorite
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="DiagnosisFavorite_save" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisFavorite" >
+     insert into diagnosis_favorite
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+      <if test="questionCode != null" >
+        question_code,
+      </if>
+      <if test="questionSort != null" >
+        question_sort,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="stageCode != null" >
+        stage_code,
+      </if>
+      <if test="gradeCode != null" >
+        grade_code,
+      </if>
+      <if test="subjectCode != null" >
+        subject_code,
+      </if>
+      <if test="unitCode != null" >
+        unit_code,
+      </if>
+      <if test="knowledgeCode != null" >
+        knowledge_code,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="questionScore != null" >
+        question_score,
+      </if>
+      <if test="rightAnswer != null" >
+        right_answer,
+      </if>
+      <if test="diffcultstar != null" >
+        diffcultStar,
+      </if>
+      <if test="questionStem != null" >
+        question_stem,
+      </if>
+      <if test="questionOption != null" >
+        question_option,
+      </if>
+      <if test="questionAnalyze != null" >
+        question_analyze,
+      </if>
+        <if test="articleCode != null  and articleCode != '' " >
+            article_code,
+        </if>
+        <if test="audioAnalyzePath != null  and audioAnalyzePath != '' " >
+            audio_analyze_path,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=INTEGER},
+      </if>
+      <if test="questionCode != null" >
+        #{questionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="questionSort != null" >
+        #{questionSort,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stageCode != null" >
+        #{stageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeCode != null" >
+        #{gradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectCode != null" >
+        #{subjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeCode != null" >
+        #{knowledgeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="questionScore != null" >
+        #{questionScore,jdbcType=DECIMAL},
+      </if>
+      <if test="rightAnswer != null" >
+        #{rightAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="diffcultstar != null" >
+        #{diffcultstar,jdbcType=VARCHAR},
+      </if>
+      <if test="questionStem != null" >
+        #{questionStem,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionOption != null" >
+        #{questionOption,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionAnalyze != null" >
+        #{questionAnalyze,jdbcType=LONGVARCHAR},
+      </if>
+        <if test="articleCode != null   and articleCode != '' " >
+            #{articleCode},
+        </if>
+        <if test="audioAnalyzePath != null   and audioAnalyzePath != '' " >
+            #{audioAnalyzePath},
+        </if>
+    </trim>
+  </insert>
+  <update id="DiagnosisFavorite_update" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisFavorite" >
+   update diagnosis_favorite
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=INTEGER},
+      </if>
+      <if test="questionCode != null" >
+        question_code = #{questionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="questionSort != null" >
+        question_sort = #{questionSort,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stageCode != null" >
+        stage_code = #{stageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeCode != null" >
+        grade_code = #{gradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectCode != null" >
+        subject_code = #{subjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledgeCode != null" >
+        knowledge_code = #{knowledgeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="questionScore != null" >
+        question_score = #{questionScore,jdbcType=DECIMAL},
+      </if>
+      <if test="rightAnswer != null" >
+        right_answer = #{rightAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="diffcultstar != null" >
+        diffcultStar = #{diffcultstar,jdbcType=VARCHAR},
+      </if>
+      <if test="questionStem != null" >
+        question_stem = #{questionStem,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionOption != null" >
+        question_option = #{questionOption,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionAnalyze != null" >
+        question_analyze = #{questionAnalyze,jdbcType=LONGVARCHAR},
+    </if>
+        <if test="articleCode != null" >
+            article_code = #{articleCode},
+        </if>
+        <if test="audioAnalyzePath != null" >
+            audio_analyze_path = #{audioAnalyzePath},
+        </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+
+ <sql id="DiagnosisFavorite_where_sql">
+      <if test="code != null" >
+       and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="platform != null" >
+       and platform = #{platform,jdbcType=INTEGER}
+      </if>
+      <if test="questionCode != null" >
+       and question_code = #{questionCode,jdbcType=VARCHAR}
+      </if>
+      <if test="questionSort != null" >
+      and  question_sort = #{questionSort,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+      and  type = #{type,jdbcType=INTEGER}
+      </if>
+      <if test="userCode != null" >
+      and  user_code = #{userCode,jdbcType=VARCHAR}
+      </if>
+      <if test="stageCode != null" >
+      and  stage_code = #{stageCode,jdbcType=VARCHAR}
+      </if>
+      <if test="gradeCode != null" >
+      and  grade_code = #{gradeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subjectCode != null" >
+      and  subject_code = #{subjectCode,jdbcType=VARCHAR}
+      </if>
+      <if test="unitCode != null" >
+      and unit_code = #{unitCode,jdbcType=VARCHAR}
+      </if>
+      <if test="knowledgeCode != null" >
+      and   knowledge_code = #{knowledgeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="questionScore != null" >
+      and  question_score = #{questionScore,jdbcType=DECIMAL}
+      </if>
+      <if test="questionStem != null" >
+      and  question_stem = #{questionStem,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="questionOption != null" >
+      and  question_option = #{questionOption,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="questionAnalyze != null" >
+      and  question_analyze = #{questionAnalyze,jdbcType=LONGVARCHAR}
+      </if>
+       <if test="rightAnswer != null" >
+      and  right_answer = #{rightAnswer,jdbcType=VARCHAR}
+      </if>
+      <if test="diffcultstar != null" >
+      and  diffcultStar = #{diffcultstar,jdbcType=VARCHAR}
+      </if>
+     <if test="articleCode != null" >
+      and   article_code = #{articleCode}
+     </if>
+    <if test="isDel != null" >
+      and  is_del = #{isDel,jdbcType=INTEGER}
+     </if> 
+    <if test="list != null">
+      and  question_code  in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </sql>
+
+  <!-- list<code> 查询 -->
+  <select id="DiagnosisFavorite_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_favorite
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    ORDER BY create_time DESC
+  </select>
+  <!-- 普通分页 -->
+  <select id="DiagnosisFavorite_findByParameter" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_favorite
+    <where>
+      <include refid="DiagnosisFavorite_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+   
+   <delete id="DiagnosisFavorite_batch_deleteById" parameterType="java.util.List">
+    DELETE FROM diagnosis_favorite
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+   <select id="DiagnosisFavorite_getAll" resultMap="BaseResultMap">
+    SELECT
+   <include refid="Base_Column_List"/>
+    FROM diagnosis_favorite ORDER BY create_time DESC
+  </select>
+
+
+
+
+
+
+
+</mapper>

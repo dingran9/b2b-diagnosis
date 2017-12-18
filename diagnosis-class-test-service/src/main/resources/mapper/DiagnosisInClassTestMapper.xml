@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.inclass.test.persist.dao.DiagnosisInClassTestDao" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisInClassTest" >
+    <id column="in_class_test_code" property="inClassTestCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="in_class_test_name" property="inClassTestName" jdbcType="VARCHAR" />
+    <result column="question_count" property="questionCount" jdbcType="INTEGER" />
+    <result column="teacher_code" property="teacherCode" jdbcType="VARCHAR" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+    <result column="grade_code" property="gradeCode" jdbcType="INTEGER" />
+    <result column="subject_code" property="subjectCode" jdbcType="INTEGER" />
+    <result column="class_code" property="classCode" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="total_time" property="totalTime" jdbcType="VARCHAR" />
+    <result column="question_book_json" property="questionBookJson" jdbcType="LONGVARCHAR" />
+    <result column="question_json" property="questionJson" jdbcType="LONGVARCHAR" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="equipment_type" property="equipmentType" jdbcType="INTEGER" />
+    <result column="is_read" property="isRead" jdbcType="INTEGER" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    in_class_test_code, create_time, update_time, in_class_test_name, question_count, 
+    teacher_code, teacher_name, grade_code, subject_code, class_code, class_name, status, 
+    total_time,question_book_json, question_json,test_time,equipment_type,is_read
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_in_class_test
+    where in_class_test_code = #{inClassTestCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from diagnosis_in_class_test
+    where in_class_test_code = #{inClassTestCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisInClassTest" >
+    insert into diagnosis_in_class_test
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="inClassTestCode != null" >
+        in_class_test_code,
+      </if>
+        create_time,
+        update_time,
+      <if test="inClassTestName != null" >
+        in_class_test_name,
+      </if>
+      <if test="questionCount != null" >
+        question_count,
+      </if>
+      <if test="teacherCode != null" >
+        teacher_code,
+      </if>
+      <if test="teacherName != null" >
+        teacher_name,
+      </if>
+      <if test="gradeCode != null" >
+        grade_code,
+      </if>
+      <if test="subjectCode != null" >
+        subject_code,
+      </if>
+      <if test="classCode != null" >
+        class_code,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="totalTime != null" >
+        total_time,
+      </if>
+      <if test="questionBookJson != null" >
+        question_book_json,
+      </if>
+      <if test="questionJson != null" >
+        question_json,
+      </if>
+      <if test="testTime != null" >
+        test_time,
+      </if>
+      <if test="equipmentType != null" >
+        equipment_type,
+      </if>
+      <if test="isRead != null" >
+        is_read,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="inClassTestCode != null" >
+        #{inClassTestCode,jdbcType=VARCHAR},
+      </if>
+      now(),
+      now(),
+      <if test="inClassTestName != null" >
+        #{inClassTestName,jdbcType=VARCHAR},
+      </if>
+      <if test="questionCount != null" >
+        #{questionCount,jdbcType=INTEGER},
+      </if>
+      <if test="teacherCode != null" >
+        #{teacherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null" >
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeCode != null" >
+        #{gradeCode,jdbcType=INTEGER},
+      </if>
+      <if test="subjectCode != null" >
+        #{subjectCode,jdbcType=INTEGER},
+      </if>
+      <if test="classCode != null" >
+        #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="totalTime != null" >
+        #{totalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="questionBookJson != null" >
+        #{questionBookJson,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionJson != null" >
+        #{questionJson,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="testTime != null" >
+        #{testTime},
+      </if>
+      <if test="equipmentType != null" >
+        #{equipmentType},
+      </if>
+      <if test="isRead != null" >
+        #{isRead},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisInClassTest" >
+    update diagnosis_in_class_test
+    <set >
+      update_time = now(),
+      <if test="inClassTestName != null" >
+        in_class_test_name = #{inClassTestName,jdbcType=VARCHAR},
+      </if>
+      <if test="questionCount != null" >
+        question_count = #{questionCount,jdbcType=INTEGER},
+      </if>
+      <if test="teacherCode != null" >
+        teacher_code = #{teacherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null" >
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeCode != null" >
+        grade_code = #{gradeCode,jdbcType=INTEGER},
+      </if>
+      <if test="subjectCode != null" >
+        subject_code = #{subjectCode,jdbcType=INTEGER},
+      </if>
+      <if test="classCode != null" >
+        class_code = #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="totalTime != null" >
+        total_time = #{totalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="questionBookJson != null" >
+        question_book_json = #{questionBookJson,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="questionJson != null" >
+        question_json = #{questionJson,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="testTime != null" >
+        test_time = #{testTime},
+      </if>
+      <if test="equipmentType != null" >
+        equipment_type = #{equipmentType},
+      </if>
+      <if test="isRead != null" >
+        is_read = #{isRead},
+      </if>
+    </set>
+    where in_class_test_code = #{inClassTestCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByCondtionList" resultMap="BaseResultMap" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisInClassTest">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from diagnosis_in_class_test
+    <where>
+      <include refid="DiagnosisInClassTest_where_sql"/>
+    </where>
+    <if test="timeSort == null and numSort == null " >
+      order by create_time DESC
+    </if>
+    <if test="timeSort != null and timeSort == 1 " >
+      order by create_time ASC
+    </if>
+    <if test="timeSort != null and timeSort == 0 " >
+      order by create_time DESC
+    </if>
+    <if test="numSort != null and numSort == 0 " >
+      order by question_count DESC
+    </if>
+    <if test="numSort != null and numSort == 1 " >
+      order by question_count ASC
+    </if>
+  </select>
+
+
+  <sql id="DiagnosisInClassTest_where_sql">
+    <if test="inClassTestCode != null" >
+      AND in_class_test_code=#{inClassTestCode}
+    </if>
+    <if test="createTime != null" >
+     AND create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateTime != null" >
+      AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="inClassTestName != null" >
+      AND in_class_test_name  LIKE concat(concat('%', #{inClassTestName}),'%')
+    </if>
+    <if test="questionCount != null" >
+      AND  question_count = #{questionCount,jdbcType=INTEGER}
+    </if>
+    <if test="teacherCode != null" >
+      AND  teacher_code = #{teacherCode,jdbcType=VARCHAR}
+    </if>
+    <if test="teacherName != null" >
+      AND teacher_name   LIKE concat(concat('%', #{teacherName}),'%')
+    </if>
+    <if test="gradeCode != null" >
+      AND grade_code = #{gradeCode,jdbcType=INTEGER}
+    </if>
+    <if test="subjectCode != null" >
+      AND  subject_code = #{subjectCode,jdbcType=INTEGER}
+    </if>
+    <if test="classCode != null" >
+      AND class_code = #{classCode,jdbcType=VARCHAR}
+    </if>
+    <if test="className != null" >
+      AND  class_name   LIKE concat(concat('%', #{className}),'%')
+    </if>
+    <if test="status != null" >
+      AND status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="totalTime != null" >
+      AND  total_time = #{totalTime,jdbcType=VARCHAR}
+    </if>
+    <if test="questionBookJson != null" >
+      AND question_book_json = #{questionBookJson,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="questionJson != null" >
+      AND question_json = #{questionJson,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="equipmentType != null" >
+      AND equipment_type = #{equipmentType}
+    </if>
+    <if test="isRead != null" >
+      AND  is_read = #{isRead}
+    </if>
+  </sql>
+
+
+
+
+</mapper>

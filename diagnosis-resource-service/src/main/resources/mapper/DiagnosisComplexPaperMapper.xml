@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.paper.persist.dao.DiagnosisComplexPaperMapper" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.paper.persist.po.DiagnosisComplexPaper" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="diagnosis_paper_name" property="diagnosisPaperName" jdbcType="VARCHAR" />
+    <result column="cover_url" property="coverUrl" jdbcType="VARCHAR" />
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="stage_code" property="stageCode" jdbcType="INTEGER" />
+    <result column="grade_code" property="gradeCode" jdbcType="INTEGER" />
+    <result column="volume_type" property="volumeType" jdbcType="INTEGER" />
+    <result column="difficult_star" property="difficultStar" jdbcType="INTEGER" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+    <result column="paper_type" property="paperType" jdbcType="VARCHAR" />   
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="is_release" property="isRelease" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code, diagnosis_paper_name, cover_url, school_code, school_name, create_time, update_time, 
+    operator, stage_code, grade_code,volume_type, difficult_star, platform, is_del, paper_type,is_release
+  </sql>
+  <select id="DiagnosisComplexPaper_getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_complex_paper
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="DiagnosisComplexPaper_deleteById" parameterType="java.lang.String" >
+    delete from diagnosis_complex_paper
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="DiagnosisComplexPaper_save" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisComplexPaper" >
+    insert into diagnosis_complex_paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="diagnosisPaperName != null" >
+        diagnosis_paper_name,
+      </if>
+      <if test="coverUrl != null" >
+        cover_url,
+      </if>
+      <if test="schoolCode != null" >
+        school_code,
+      </if>
+      <if test="schoolName != null" >
+        school_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="stageCode != null" >
+        stage_code,
+      </if>
+      <if test="gradeCode != null" >
+        grade_code,
+      </if>
+      <if test="volumeType != null" >
+        volume_type,
+      </if>
+      <if test="difficultStar != null" >
+        difficult_star,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+      <if test="paperType != null" >
+        paper_type,
+      </if>      
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="isRelease != null" >
+        is_release,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisPaperName != null" >
+        #{diagnosisPaperName,jdbcType=VARCHAR},
+      </if>
+      <if test="coverUrl != null" >
+        #{coverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="stageCode != null" >
+        #{stageCode,jdbcType=INTEGER},
+      </if>
+      <if test="gradeCode != null" >
+        #{gradeCode,jdbcType=INTEGER},
+      </if>
+      <if test="volumeType != null" >
+        #{volumeType,jdbcType=INTEGER},
+      </if>
+      <if test="difficultStar != null" >
+        #{difficultStar,jdbcType=INTEGER},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="paperType != null" >
+        #{paperType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="isRelease != null" >
+        #{isRelease,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="DiagnosisComplexPaper_update" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisComplexPaper" >
+    update diagnosis_complex_paper
+    <set >
+      <if test="diagnosisPaperName != null" >
+        diagnosis_paper_name = #{diagnosisPaperName,jdbcType=VARCHAR},
+      </if>
+      <if test="coverUrl != null" >
+        cover_url = #{coverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        school_code = #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="stageCode != null" >
+        stage_code = #{stageCode,jdbcType=INTEGER},
+      </if>
+      <if test="gradeCode != null" >
+        grade_code = #{gradeCode,jdbcType=INTEGER},
+      </if>
+      <if test="volumeType != null" >
+        volume_type = #{volumeType,jdbcType=INTEGER},
+      </if>
+      <if test="difficultStar != null" >
+        difficult_star = #{difficultStar,jdbcType=INTEGER},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="isRelease != null" >
+        is_release = #{isRelease,jdbcType=INTEGER},
+      </if>
+      <if test="paperType != null" >
+       paper_type = #{paperType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+  
+  <sql id="DiagnosisComplexPaper_where_sql">
+      <if test="code != null" >
+      and  dcp.code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="diagnosisPaperName != null" >
+      and  dcp.diagnosis_paper_name = #{diagnosisPaperName,jdbcType=VARCHAR}
+      </if>
+      <if test="coverUrl != null" >
+      and  dcp.cover_url = #{coverUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="schoolCode != null" >
+      and  dcp.school_code = #{schoolCode,jdbcType=VARCHAR}
+      </if>
+      <if test="schoolName != null" >
+      and  dcp.school_name = #{schoolName,jdbcType=VARCHAR}
+      </if>
+      <if test="operator != null" >
+      and  dcp.operator = #{operator,jdbcType=VARCHAR}
+      </if>
+      <if test="stageCode != null" >
+      and  dcp.stage_code = #{stageCode,jdbcType=INTEGER}
+      </if>
+      <if test="gradeCode != null" >
+      and  dcp.grade_code = #{gradeCode,jdbcType=INTEGER}
+      </if>
+      <if test="volumeType != null" >
+      and  dcp.volume_type = #{volumeType,jdbcType=INTEGER}
+      </if>
+      <if test="difficultStar != null" >
+      and  dcp.difficult_star = #{difficultStar,jdbcType=INTEGER}
+      </if>
+      <if test="platform != null" >
+      and  dcp.platform = #{platform,jdbcType=VARCHAR}
+      </if>
+      <if test="isDel != null" >
+      and  dcp.is_del = #{isDel,jdbcType=INTEGER}
+      </if>
+      <if test="isRelease != null" >
+      and  is_release = #{isRelease,jdbcType=INTEGER}
+      </if>
+      <if test="paperType != null" >
+      and  dcp.paper_type = #{paperType,jdbcType=VARCHAR}
+      </if>
+  </sql>
+
+  <!-- list<code> 查询 -->
+  <select id="DiagnosisComplexPaper_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_complex_paper
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    ORDER BY create_time DESC
+  </select>
+  <!-- 普通分页 -->
+  <select id="DiagnosisComplexPaper_findByParameter" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_complex_paper dcp
+    <where>
+      <include refid="DiagnosisComplexPaper_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+   
+   <delete id="DiagnosisComplexPaper_batch_deleteById" parameterType="java.util.List">
+    DELETE FROM diagnosis_complex_paper
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+   <select id="DiagnosisComplexPaper_getAll" resultMap="BaseResultMap">
+    SELECT
+   <include refid="Base_Column_List"/>
+    FROM diagnosis_complex_paper ORDER BY create_time DESC
+  </select>
+
+  <select id="diagnosis_complex_paper_relation_paper" resultMap="BaseResultRelationPaperMap">
+    SELECT
+    dcp.*,(SELECT  GROUP_CONCAT(subject_code) from diagnosis_complex_paper_relation where complex_paper_code = dcp.`code`) as subjectCode
+    FROM
+    diagnosis_complex_paper dcp
+    <where>
+      <include refid="DiagnosisComplexPaper_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+      </if>
+  </select>
+
+
+  <select id="get_diagnosis_complex_paper_count"  resultType="java.lang.Long">
+    select count(*)  from
+    ( SELECT dcp.*,dcpr.subject_code
+    FROM diagnosis_complex_paper dcp,diagnosis_complex_paper_relation dcpr
+    where  dcp.`code` = dcpr.complex_paper_code
+    <include refid="DiagnosisComplexPaper_where_sql"/>
+    GROUP BY dcp.`code`)as t
+  </select>
+
+
+  <resultMap id="BaseResultRelationPaperMap" type="com.eedu.diagnosis.paper.persist.po.DiagnosisComplexPaper" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="diagnosis_paper_name" property="diagnosisPaperName" jdbcType="VARCHAR" />
+    <result column="cover_url" property="coverUrl" jdbcType="VARCHAR" />
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="stage_code" property="stageCode" jdbcType="INTEGER" />
+    <result column="grade_code" property="gradeCode" jdbcType="INTEGER" />
+    <result column="volume_type" property="volumeType" jdbcType="INTEGER" />
+    <result column="difficult_star" property="difficultStar" jdbcType="INTEGER" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+    <result column="paper_type" property="paperType" jdbcType="VARCHAR" />
+    <result column="is_release" property="isRelease" jdbcType="INTEGER" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="subjectCode" property="subjectCode" jdbcType="VARCHAR" />
+
+  </resultMap>
+
+
+</mapper>

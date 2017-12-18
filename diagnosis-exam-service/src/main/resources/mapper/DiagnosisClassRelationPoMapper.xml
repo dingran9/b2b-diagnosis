@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.exam.persist.dao.DiagnosisClassRelationPoMapper">
+    <resultMap id="BaseResultMap" type="com.eedu.diagnosis.exam.persist.po.DiagnosisClassRelationPo">
+        <id column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="diagnosis_record_code" property="diagnosisRecordCode" jdbcType="VARCHAR"/>
+        <result column="school_code" property="schoolCode" jdbcType="INTEGER"/>
+        <result column="school_name" property="schoolName" jdbcType="VARCHAR"/>
+        <result column="class_code" property="classCode" jdbcType="INTEGER"/>
+        <result column="class_name" property="className" jdbcType="VARCHAR"/>
+        <result column="subject_code" property="subjectCode" jdbcType="INTEGER"/>
+        <result column="teacher_code" property="teacherCode" jdbcType="INTEGER"/>
+        <result column="teacher_name" property="teacherName" jdbcType="VARCHAR"/>
+        <result column="has_report" property="hasReport" jdbcType="INTEGER"/>
+        <result column="is_read" property="isRead" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="art_type" property="artType" jdbcType="INTEGER"/>
+        <result column="diagnosis_paper_code" property="diagnosisPaperCode" jdbcType="VARCHAR"/>
+        <result column="diagnosis_paper_name" property="diagnosisPaperName" jdbcType="VARCHAR"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    code, diagnosis_record_code, school_code, school_name, class_code,
+    class_name,subject_code,teacher_code,teacher_name,has_report,is_read,art_type, diagnosis_paper_code,
+    diagnosis_paper_name, start_time, end_time
+    </sql>
+    <select id="DiagnosisClassRelationPo_getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_class_relation ORDER BY create_time DESC
+    </select>
+    <select id="DiagnosisClassRelationPo_getById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_class_relation WHERE code = #{code,jdbcType=VARCHAR}
+    </select>
+    <delete id="DiagnosisClassRelationPo_deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from diagnosis_class_relation
+        where code = #{code,jdbcType=VARCHAR}
+    </delete>
+    <insert id="DiagnosisClassRelationPo_insert"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisClassRelationPo">
+        insert into diagnosis_class_relation (code, diagnosis_record_code, school_code,
+          school_name, class_code, class_name,subject_code,teacher_code,teacher_name,
+          create_time,has_report,is_read, art_type, diagnosis_paper_code,
+          diagnosis_paper_name, start_time, end_time
+          )
+        values (#{code,jdbcType=VARCHAR}, #{diagnosisRecordCode,jdbcType=VARCHAR}, #{schoolCode,jdbcType=INTEGER},
+          #{schoolName,jdbcType=VARCHAR}, #{classCode,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR},#{subjectCode,jdbcType=INTEGER},
+          #{teacherCode,jdbcType=INTEGER},#{teacherName,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
+          #{hasReport,jdbcType=INTEGER},#{isRead,jdbcType=INTEGER}, #{artType,jdbcType=INTEGER}, #{diagnosisPaperCode,jdbcType=VARCHAR},
+      #{diagnosisPaperName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="DiagnosisClassRelationPo_batch_insert"
+            parameterType="java.util.List">
+        insert into diagnosis_class_relation (code, diagnosis_record_code, school_code,
+        school_name, class_code,
+        class_name,subject_code,teacher_code,teacher_name,create_time,has_report,is_read,art_type, diagnosis_paper_code,
+        diagnosis_paper_name, start_time, end_time
+        ) values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.code,jdbcType=VARCHAR}, #{item.diagnosisRecordCode,jdbcType=VARCHAR},
+            #{item.schoolCode,jdbcType=INTEGER},
+            #{item.schoolName,jdbcType=VARCHAR}, #{item.classCode,jdbcType=INTEGER},
+            #{item.className,jdbcType=VARCHAR},#{item.subjectCode,jdbcType=INTEGER},#{item.teacherCode,jdbcType=INTEGER},#{item.teacherName,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP},#{item.hasReport,jdbcType=INTEGER},#{item.isRead,jdbcType=INTEGER},
+            #{item.artType,jdbcType=INTEGER}, #{item.diagnosisPaperCode,jdbcType=VARCHAR},
+            #{item.diagnosisPaperName,jdbcType=VARCHAR}, #{item.startTime,jdbcType=TIMESTAMP},
+            #{item.endTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <update id="DiagnosisClassRelationPo_updateByPrimaryKeySelective"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisClassRelationPo">
+        update diagnosis_class_relation
+        <set>
+            <if test="diagnosisRecordCode != null">
+                diagnosis_record_code = #{diagnosisRecordCode,jdbcType=VARCHAR},
+            </if>
+            <if test="schoolCode != null">
+                school_code = #{schoolCode,jdbcType=INTEGER},
+            </if>
+            <if test="schoolName != null">
+                school_name = #{schoolName,jdbcType=VARCHAR},
+            </if>
+            <if test="classCode != null">
+                class_code = #{classCode,jdbcType=INTEGER},
+            </if>
+            <if test="hasReport != null">
+                has_report = #{hasReport,jdbcType=INTEGER},
+            </if>
+            <if test="isRead != null">
+                is_read = #{isRead,jdbcType=INTEGER},
+            </if>
+            <if test="className != null">
+                class_name = #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="subjectCode != null">
+                subject_code = #{subjectCode,jdbcType=INTEGER},
+            </if>
+            <if test="artType != null">
+                art_type = #{artType,jdbcType=INTEGER},
+            </if>
+            <if test="diagnosisPaperCode != null">
+                diagnosis_paper_code = #{diagnosisPaperCode,jdbcType=VARCHAR},
+            </if>
+            <if test="diagnosisPaperName != null">
+                diagnosis_paper_name = #{diagnosisPaperName,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where code = #{code,jdbcType=VARCHAR}
+    </update>
+
+    <sql id="diagnosis_class_relation_where_sql">
+        <if test="code != null">
+            and code = #{code}
+        </if>
+        <if test="diagnosisRecordCode != null">
+            and diagnosis_record_code = #{diagnosisRecordCode}
+        </if>
+        <if test="schoolCode != null">
+            and school_code = #{schoolCode}
+        </if>
+        <if test="classCode != null">
+            and class_code = #{classCode}
+        </if>
+        <if test="hasReport != null">
+            and has_report = #{hasReport}
+        </if>
+        <if test="subjectCode != null">
+            and subject_code = #{subjectCode}
+        </if>
+        <if test="teacherCode != null">
+            and teacher_code = #{teacherCode}
+        </if>
+        <if test="isRead != null">
+            and is_read = #{isRead}
+        </if>
+        <if test="artType != null">
+            AND art_type = #{artType,jdbcType=INTEGER}
+        </if>
+        <if test="diagnosisPaperCode != null">
+            AND diagnosis_paper_code = #{diagnosisPaperCode,jdbcType=VARCHAR}
+        </if>
+        <if test="diagnosisPaperName != null">
+            AND diagnosis_paper_name = #{diagnosisPaperName,jdbcType=VARCHAR}
+        </if>
+        <if test="startTime != null">
+            AND start_time = #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="endTime != null">
+            AND end_time = #{endTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="classCodes != null">
+            and class_code in
+            <foreach collection="classCodes" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="diagnosisRecordCodes != null">
+            and diagnosis_record_code in
+            <foreach collection="diagnosisRecordCodes" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="DiagnosisClassRelationPo_findByParameter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_class_relation
+        <where>
+            <include refid="diagnosis_class_relation_where_sql"/>
+        </where>
+        <if test="orderProperty != null">
+            order by ${orderProperty} ${orderDirection}
+        </if>
+    </select>
+
+    <select id="DiagnosisClassRelationPo_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_class_relation
+        <if test="list.size() > 0">
+            where code in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY create_time DESC
+    </select>
+    <delete id="DiagnosisClassRelationPo_batch_deleteById" parameterType="java.util.List">
+        DELETE FROM diagnosis_class_relation
+        <if test="list.size() > 0">
+            where code in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+
+    <select id="getAreaExamHistoryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        dc.*
+        FROM
+            diagnosis_record_teacher dt,
+            diagnosis_class_relation dc
+        WHERE
+            dc.diagnosis_record_code = dt.`code`
+        AND dc.subject_code = ${subjectCode}
+        AND dt.exam_year = ${examYear}
+        AND dt.group_area_district_id = ${groupAreaDistrictId}
+        AND dt.grade_code = #{gradeCode,jdbcType=INTEGER}
+        AND dt.exam_scope = 4
+        GROUP BY dc.diagnosis_record_code
+    </select>
+
+    <select id="getExamPaperByParameter" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        dc.*
+        FROM
+        diagnosis_record_teacher dt,
+        diagnosis_class_relation dc
+        WHERE
+        dc.diagnosis_record_code = dt.`code`
+        AND dt.code = #{code,jdbcType=VARCHAR}
+        AND dt.exam_scope = 4
+        AND dc.subject_code = #{subjectCode,jdbcType=INTEGER}
+        GROUP BY dc.diagnosis_paper_code
+    </select>
+</mapper>

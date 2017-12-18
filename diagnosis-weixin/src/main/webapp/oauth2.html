@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	   		var appid = "wx866298c2c61d41dc";
+	   		var url="http://diagnosisweichat.e-eduspace.com/weixin/getOpenid";
+			var redirect_uri = 	encodeURIComponent(url);
+			var redirect_uri2 = encodeURIComponent("http://diagnosisweichat.e-eduspace.com/index.html");
+			var URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+redirect_uri+"&response_type=code&scope=snsapi_userinfo&state="+redirect_uri2+"#wechat_redirect";
+			//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx83618eef090009bd&redirect_uri=http%3a%2f%2f25432cc7.ngrok.io%2fdiagnosis-weixin%2fweixin%2fgetOpenid&response_type=code&scope=snsapi_userinfo&state=http%3a%2f%2f25432cc7.ngrok.io%2fdiagnosis-weixin%2findex.html#wechat_redirect
+			window.location.href  = URL;
+})
+</script>
+</head>
+<body>
+hello oauth2.html
+</body>
+</html>

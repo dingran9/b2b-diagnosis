@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.paper.persist.dao.DiagnosisPaperSchoolRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.paper.persist.po.DiagnosisPaperSchoolRelation" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="diagnosis_paper_code" property="diagnosisPaperCode" jdbcType="VARCHAR" />
+    <result column="is_release" property="isRelease" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code, school_code, school_name, diagnosis_paper_code, is_release
+  </sql>
+  <select id="DiagnosisPaperSchoolRelation_getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_paper_school_relation
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="DiagnosisPaperSchoolRelation_deleteById" parameterType="java.lang.String" >
+    delete from diagnosis_paper_school_relation
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="DiagnosisPaperSchoolRelation_save" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisPaperSchoolRelation" >
+    insert into diagnosis_paper_school_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="schoolCode != null" >
+        school_code,
+      </if>
+      <if test="schoolName != null" >
+        school_name,
+      </if>
+      <if test="diagnosisPaperCode != null" >
+        diagnosis_paper_code,
+      </if>
+      <if test="isRelease != null" >
+        is_release,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisPaperCode != null" >
+        #{diagnosisPaperCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isRelease != null" >
+        #{isRelease,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="DiagnosisPaperSchoolRelation_update" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisPaperSchoolRelation" >
+    update diagnosis_paper_school_relation
+    <set >
+      <if test="schoolCode != null" >
+        school_code = #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisPaperCode != null" >
+        diagnosis_paper_code = #{diagnosisPaperCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isRelease != null" >
+        is_release = #{isRelease,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+  
+  <sql id="DiagnosisPaperSchoolRelation_where_sql">
+      <if test="code != null" >
+       and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test="schoolCode != null" >
+      and  school_code = #{schoolCode,jdbcType=VARCHAR}
+      </if>
+      <if test="schoolName != null" >
+      and  school_name = #{schoolName,jdbcType=VARCHAR}
+      </if>
+      <if test="diagnosisPaperCode != null" >
+       and diagnosis_paper_code = #{diagnosisPaperCode,jdbcType=VARCHAR}
+      </if>
+      <if test="isRelease != null" >
+      and  is_release = #{isRelease,jdbcType=VARCHAR}
+      </if>
+  </sql>
+
+  <!-- list<code> 查询 -->
+  <select id="DiagnosisPaperSchoolRelation_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_paper_school_relation
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    ORDER BY create_time DESC
+  </select>
+  <!-- 普通分页 -->
+  <select id="DiagnosisPaperSchoolRelation_findByParameter" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_paper_school_relation
+    <where>
+      <include refid="DiagnosisPaperSchoolRelation_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+
+   <select id="DiagnosisPaperSchoolRelation_getAll" resultMap="BaseResultMap">
+    SELECT
+   <include refid="Base_Column_List"/>
+    FROM diagnosis_paper_school_relation 
+  </select>
+  
+  
+</mapper>

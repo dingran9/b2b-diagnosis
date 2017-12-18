@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.exam.persist.dao.DiagnosisRecordStudentPoMapper" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.exam.persist.po.DiagnosisRecordStudentPo" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="diagnosis_name" property="diagnosisName" jdbcType="VARCHAR" />
+    <result column="resource_type" property="resourceType" jdbcType="INTEGER" />
+    <result column="diagnosis_type" property="diagnosisType" jdbcType="INTEGER" />
+    <result column="exam_type" property="examType" jdbcType="INTEGER" />
+    <result column="art_type" property="artType" jdbcType="INTEGER" />
+    <result column="student_code" property="studentCode" jdbcType="INTEGER" />
+    <result column="diagnosis_teacher_record_code" property="diagnosisTeacherRecordCode" jdbcType="VARCHAR" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="make_paper_time" property="makePaperTime" jdbcType="TIMESTAMP" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="diagnosis_paper_code" property="diagnosisPaperCode" jdbcType="VARCHAR" />
+    <result column="diagnosis_paper_name" property="diagnosisPaperName" jdbcType="VARCHAR" />
+    <result column="stage_code" property="stageCode" jdbcType="INTEGER" />
+    <result column="grade_code" property="gradeCode" jdbcType="INTEGER" />
+    <result column="subject_code" property="subjectCode" jdbcType="INTEGER" />
+    <result column="class_code" property="classCode" jdbcType="INTEGER" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="use_time" property="useTime" jdbcType="VARCHAR" />
+    <result column="school_code" property="schoolCode" jdbcType="INTEGER" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="total_score" property="totalScore" jdbcType="DECIMAL" />
+    <result column="objective_score" property="objectiveScore" jdbcType="DECIMAL" />
+    <result column="subjective_score" property="subjectiveScore" jdbcType="DECIMAL" />
+    <result column="diagnosis_status" property="diagnosisStatus" jdbcType="INTEGER" />
+    <result column="mark_status" property="markStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code,diagnosis_name,resource_type,exam_type,diagnosis_type,art_type, student_code, diagnosis_teacher_record_code, student_name, create_time, update_time, start_time, end_time, diagnosis_paper_code,
+    diagnosis_paper_name,use_time,make_paper_time, stage_code, grade_code, subject_code, class_code,class_name,school_code,school_name, objective_score,subjective_score,total_score, diagnosis_status,mark_status
+  </sql>
+  <select id="DiagnosisRecordStudentPo_getAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_record_student ORDER BY create_time DESC
+  </select>
+  <select id="DiagnosisRecordStudentPo_getById" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_record_student WHERE code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="DiagnosisRecordStudentPo_deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from diagnosis_record_student
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="DiagnosisRecordStudentPo_insert" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisRecordStudentPo" >
+    insert into diagnosis_record_student (code,diagnosis_name,resource_type,diagnosis_type,exam_type,art_type, student_code, diagnosis_teacher_record_code, student_name,
+      create_time, update_time, start_time, end_time, diagnosis_paper_code,
+      diagnosis_paper_name, use_time,stage_code, grade_code,
+      subject_code,class_code,class_name,school_code,school_name, objective_score,subjective_score,total_score, diagnosis_status,mark_status
+      )
+    values (#{code,jdbcType=VARCHAR},#{diagnosisName,jdbcType=VARCHAR},#{resourceType,jdbcType=INTEGER},#{diagnosisType,jdbcType=INTEGER},#{examType,jdbcType=INTEGER},#{artType,jdbcType=INTEGER}, #{studentCode,jdbcType=VARCHAR},#{diagnosisTeacherRecordCode,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR},
+      now(), #{updateTime,jdbcType=TIMESTAMP},#{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{diagnosisPaperCode,jdbcType=VARCHAR},
+      #{diagnosisPaperName,jdbcType=VARCHAR},#{useTime,jdbcType=VARCHAR}, #{stageCode,jdbcType=INTEGER}, #{gradeCode,jdbcType=INTEGER},
+      #{subjectCode,jdbcType=INTEGER},#{classCode,jdbcType=INTEGER},#{className,jdbcType=INTEGER} ,#{schoolCode,jdbcType=INTEGER} ,
+      #{schoolName,jdbcType=VARCHAR},#{objectiveScore,jdbcType=DECIMAL},#{subjectiveScore,jdbcType=DECIMAL}  ,#{totalScore,jdbcType=DECIMAL}, #{diagnosisStatus,jdbcType=INTEGER}, #{markStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="DiagnosisRecordStudentPo_batch_insert" parameterType="java.util.List" >
+    insert into diagnosis_record_student (code,diagnosis_name,resource_type,diagnosis_type,exam_type,art_type, student_code, diagnosis_teacher_record_code, student_name,
+      create_time, update_time, start_time, end_time, diagnosis_paper_code,
+      diagnosis_paper_name, use_time,stage_code, grade_code,
+      subject_code,class_code,class_name,school_code,school_name,objective_score,subjective_score, total_score, diagnosis_status,mark_status
+      )
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.code,jdbcType=VARCHAR},#{item.diagnosisName,jdbcType=VARCHAR},#{item.resourceType,jdbcType=INTEGER},#{item.diagnosisType,jdbcType=INTEGER},#{item.examType,jdbcType=INTEGER},#{item.artType,jdbcType=INTEGER}, #{item.studentCode,jdbcType=VARCHAR},#{item.diagnosisTeacherRecordCode,jdbcType=VARCHAR}, #{item.studentName,jdbcType=VARCHAR},
+      now(), #{item.updateTime,jdbcType=TIMESTAMP},#{item.startTime,jdbcType=TIMESTAMP}, #{item.endTime,jdbcType=TIMESTAMP}, #{item.diagnosisPaperCode,jdbcType=VARCHAR},
+      #{item.diagnosisPaperName,jdbcType=VARCHAR},#{item.useTime,jdbcType=VARCHAR}, #{item.stageCode,jdbcType=INTEGER}, #{item.gradeCode,jdbcType=INTEGER},
+      #{item.subjectCode,jdbcType=INTEGER},#{item.classCode,jdbcType=INTEGER},#{item.className,jdbcType=VARCHAR},#{item.schoolCode,jdbcType=INTEGER} ,
+      #{item.schoolName,jdbcType=VARCHAR},#{item.objectiveScore,jdbcType=DECIMAL},#{item.subjectiveScore,jdbcType=DECIMAL}, #{item.totalScore,jdbcType=DECIMAL}, #{item.diagnosisStatus,jdbcType=INTEGER}, #{item.markStatus,jdbcType=INTEGER}
+      )
+    </foreach>
+
+  </insert>
+
+  <update id="DiagnosisRecordStudentPo_updateByPrimaryKeySelective" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisRecordStudentPo" >
+    update diagnosis_record_student
+    <set >
+      <if test="studentCode != null" >
+        student_code = #{studentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="makePaperTime != null" >
+        make_paper_time = #{makePaperTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diagnosisPaperCode != null" >
+        diagnosis_paper_code = #{diagnosisPaperCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisPaperName != null" >
+        diagnosis_paper_name = #{diagnosisPaperName,jdbcType=VARCHAR},
+      </if>
+      <if test="stageCode != null" >
+        stage_code = #{stageCode,jdbcType=INTEGER},
+      </if>
+      <if test="gradeCode != null" >
+        grade_code = #{gradeCode,jdbcType=INTEGER},
+      </if>
+      <if test="subjectCode != null" >
+        subject_code = #{subjectCode,jdbcType=INTEGER},
+      </if>
+      <if test="classCode != null" >
+        class_code = #{classCode,jdbcType=INTEGER},
+      </if>
+      <if test="useTime != null" >
+        use_time = #{useTime,jdbcType=VARCHAR},
+      </if>
+      <if test="objectiveScore != null" >
+        objective_score = #{objectiveScore,jdbcType=DECIMAL},
+      </if>
+      <if test="subjectiveScore != null" >
+        subjective_score = #{subjectiveScore,jdbcType=DECIMAL},
+      </if>
+      <if test="totalScore != null" >
+        total_score = #{totalScore,jdbcType=DECIMAL},
+      </if>
+      <if test="diagnosisStatus != null" >
+        diagnosis_status = #{diagnosisStatus,jdbcType=INTEGER},
+      </if>
+      <if test="markStatus != null" >
+        mark_status = #{markStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="diagnosis_record_student_where_sql">
+    <if test="code != null">
+      and code = #{code}
+    </if>
+    <if test="resourceType != null">
+      and resource_type = #{resourceType}
+    </if>
+    <if test="studentCode != null">
+      and student_code = #{studentCode}
+    </if>
+    <if test="diagnosisTeacherRecordCode != null">
+      and diagnosis_teacher_record_code = #{diagnosisTeacherRecordCode}
+    </if>
+    <if test="stageCode != null">
+      and stage_code = #{stageCode}
+    </if>
+    <if test="schoolCode != null">
+      and school_code = #{schoolCode}
+    </if>
+    <if test="gradeCode != null">
+      and grade_code = #{gradeCode}
+    </if>
+    <if test="subjectCode != null">
+      and subject_code = #{subjectCode}
+    </if>
+    <if test="diagnosisType != null">
+      and diagnosis_type = #{diagnosisType}
+    </if>
+    <if test="examType != null">
+      and exam_type = #{examType}
+    </if>
+    <if test="classCode != null">
+      and class_code = #{classCode}
+    </if>
+    <if test="diagnosisStatus != null">
+      and diagnosis_status = #{diagnosisStatus}
+    </if>
+    <if test="totalScore != null" >
+      AND total_score = #{totalScore}
+    </if>
+    <if test="markStatus != null">
+      and mark_status = #{markStatus}
+    </if>
+    <if test="endTime != null">
+      and unix_timestamp(end_time)*1000 &lt; #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="subjectCodes != null">
+      and subject_code in
+      <foreach collection="subjectCodes" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </sql>
+
+  <select id="DiagnosisRecordStudentPo_findByParameter" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_record_student
+    <where>
+      <include refid="diagnosis_record_student_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+
+  <select id="DiagnosisRecordStudentPo_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_record_student
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    ORDER BY create_time DESC
+  </select>
+  <delete id="DiagnosisRecordStudentPo_batch_deleteById" parameterType="java.util.List">
+    DELETE FROM diagnosis_record_student
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+
+
+
+  <select id="getClassAverageAndExamCount" resultType="java.util.Map" parameterType="java.util.Map">
+    SELECT
+    AVG (total_score) AS avgScore,COUNT(*) AS hasExamCount,diagnosis_paper_code as diagnosisPaperCode
+    FROM
+    diagnosis_record_student
+    WHERE
+    diagnosis_status = 2
+    AND class_code = #{classCode,jdbcType=INTEGER}
+    AND diagnosis_teacher_record_code = #{diagnosisTeacherRecordCode,jdbcType=VARCHAR}
+    <!--AND grade_code = #{gradeCode,jdbcType=INTEGER}-->
+    AND subject_code = #{subjectCode,jdbcType=INTEGER}
+  </select>
+  <select id="getListGroupByDiagName" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    ds.`code`,ds.diagnosis_name,ds.exam_type,ds.diagnosis_type,
+    ds.diagnosis_teacher_record_code,  ds.diagnosis_paper_code,ds.class_code,
+    ds.diagnosis_paper_name,ds.stage_code, ds.grade_code,  ds.diagnosis_status,
+    dt.start_time,dt.end_time
+    FROM diagnosis_record_student ds,diagnosis_record_teacher dt
+    where ds.diagnosis_teacher_record_code = dt.`code`
+    AND ds.student_code = #{studentCode}
+    AND ds.grade_code = #{gradeCode}
+    AND ds.diagnosis_type = #{diagnosisType}
+    GROUP BY diagnosis_name,diagnosis_teacher_record_code
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+  <select id="getMarkList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_record_student WHERE
+    diagnosis_teacher_record_code = #{diagnosisTeacherRecordCode}
+    AND subject_code = #{subjectCode}
+    AND diagnosis_status &lt;&gt; 0
+    <if test="markStatus != null">
+      AND mark_status = #{markStatus}
+    </if>
+    <if test="classCodes != null">
+      and class_code in
+      <foreach collection="classCodes" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+  <select id="getListByRealseCodes" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_record_student
+    <if test="releaseCodes.size() > 0">
+      where diagnosis_teacher_record_code in
+      <foreach collection="releaseCodes" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+</mapper>

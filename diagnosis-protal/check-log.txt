@@ -1,0 +1,21 @@
+2017-6-28  曾喆
+
+b2b-diagnosis项目-organizationV3分支：
+                          配置文件diagnosis-protal-mvc.properties添加：signature.key=AK2D07C9D313A2C0SK
+                          ：pass.urls不拦截里添加/diagnosis/app/updateApk
+
+ diagnosis_resource添加apk更新表diagnosis_app_update：
+DROP TABLE IF EXISTS `diagnosis_app_update`;
+CREATE TABLE `diagnosis_app_update` (
+  `code` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `app_describe` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT 'app 描述',
+  `app_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT 'app 名称',
+  `app_version` int(11) DEFAULT NULL COMMENT 'app版本',
+  `available` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否可用 1可用 0不可用',
+  `down_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '下载地址',
+  `necessary` int(11) DEFAULT NULL COMMENT '是否强制更新',
+  `type` int(11) DEFAULT NULL COMMENT 'app类型  学生1 教师2 校长3',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='诊断app';

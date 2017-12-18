@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:application name="diagnosis-class-test-service-provider"
+		owner="eeduspace" organization="eeduspace" />
+
+	<dubbo:registry address="${dubbo-registry-address}" timeout="30000"
+					file="${dubbo-registry-file}"  />
+
+	<dubbo:protocol name="dubbo" serialization="dubbo"  host="${dubbo-registry-host}" port="${dubbo-registry-port}"/>
+
+	<dubbo:service ref="diagnosisBaseQuestionServiceImpl" interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisBaseQuestionService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="diagnosisInClassRelationServiceImpl" interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisInClassRelationService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="diagnosisInClassTestServiceImpl" interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisInClassTestService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="diagnosisQuestionBankServiceImpl" interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisQuestionBankService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="diagnosisStudentAnswerSheetServiceImpl" interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisStudentAnswerSheetService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="diagnosisStudentAnswerMachineServiceImpl" interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisStudentAnswerMachineService" protocol="dubbo" version="${duboo.interface.version}" />
+	<dubbo:service ref="diagnosisStudentAnswerRankingServiceImpl" interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisStudentAnswerRankingService" protocol="dubbo" version="${duboo.interface.version}" />
+
+</beans>

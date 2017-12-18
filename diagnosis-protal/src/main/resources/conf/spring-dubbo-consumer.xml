@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://code.alibabatech.com/schema/dubbo
+	   http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 提供方应用信息，用于计算依赖关系-->
+	<dubbo:application name="diagnosis-protal" />
+
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<!-- 公网 211.157.179.215:2181 -->
+	<!-- <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181" /> -->
+	<!-- 私服-->
+	<dubbo:registry protocol="zookeeper" address="${zookeeper_address}" />
+
+	<!-- 声明需要消费的接口-->
+	<dubbo:reference id="diagnosisClassRelationOpenService"
+					 interface="com.eedu.diagnosis.exam.api.openService.DiagnosisClassRelationOpenService"
+					 check="false" timeout="60000" version="${duboo.interface.version}" />
+	<dubbo:reference id="diagnosisRecordStudentOpenService"
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisRecordStudentOpenService"
+		check="false" timeout="60000" version="${duboo.interface.version}"/>
+	<dubbo:reference id="diagnosisStudentAnswerRecordOpenService"
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisStudentAnswerRecordOpenService"
+		check="false" timeout="60000" version="${duboo.interface.version}"/>
+	<dubbo:reference id="diagnosisRecordTeacherOpenService"
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisRecordTeacherOpenService"
+		check="false" timeout="60000" version="${duboo.interface.version}"/>
+	<dubbo:reference id="diagnosisWrongQuestionOpenService"
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisWrongQuestionOpenService"
+		check="false" timeout="60000" version="${duboo.interface.version}"/>
+
+
+	<dubbo:reference id="resourceOpenService"
+					 interface="com.eedu.diagnosis.paper.api.openService.ResourceOpenService"
+					 check="false" timeout="60000" version="${duboo.interface.version}" />
+	<dubbo:reference id="basePaperOpenService"
+					 interface="com.eedu.diagnosis.paper.api.openService.BasePaperOpenService"
+					 check="false" timeout="60000" version="${duboo.interface.version}" />
+
+	<dubbo:reference check="false" timeout="60000"
+			interface="com.eeduspace.b2b.report.service.B2BReportOpenService" id="b2bReportOpenService" version="${duboo.interface.version}"/>
+			
+    <dubbo:reference id="authUserService" check="false" timeout="60000"
+                     interface="com.eedu.auth.service.AuthUserService" version="${duboo.interface.version}"/>
+    <dubbo:reference id="authUserManagerService" check="false" timeout="60000"
+                     interface="com.eedu.auth.service.AuthUserManagerService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="authGroupService" check="false" timeout="60000"
+					 interface="com.eedu.auth.service.AuthGroupService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="authUserWeChatBindService" check="false" timeout="60000"
+					 interface="com.eedu.auth.service.AuthUserWeChatBindService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="markQuestionRecordOpenService" check="false" timeout="60000"
+					 interface="com.eedu.diagnosis.exam.api.openService.MarkQuestionRecordOpenService" version="${duboo.interface.version}"/>
+
+	<!--dubbo课中测-->
+	<dubbo:reference id="diagnosisBaseQuestionService" check="false" timeout="60000"
+					 interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisBaseQuestionService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="diagnosisStudentAnswerSheetService" check="false" timeout="60000"
+					 interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisStudentAnswerSheetService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="diagnosisInClassRelationService" check="false" timeout="60000"
+					 interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisInClassRelationService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="diagnosisInClassTestService" check="false" timeout="60000"
+					 interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisInClassTestService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="diagnosisStudentAnswerMachineService" check="false" timeout="60000"
+					 interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisStudentAnswerMachineService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="diagnosisStudentAnswerRankingService" check="false" timeout="60000"
+					 interface="com.eedu.diagnosis.inclass.test.api.service.DiagnosisStudentAnswerRankingService" version="${duboo.interface.version}"/>
+</beans>

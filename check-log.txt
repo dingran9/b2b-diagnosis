@@ -1,0 +1,519 @@
+V3分支更新内容
+=========================================================================================================
+2017-6-28  曾喆
+
+b2b-diagnosis项目-organizationV3分支：
+     system-manager 项目  配置文件diagnosis-system-manager-mvc.properties添加：signature.key=AK2D07C9D313A2C0SK
+                                                                             ：pass.urls不拦截里添加/diagnosis/app/updateApk
+
+ diagnosis_resource库添加apk更新表diagnosis_app_update：
+DROP TABLE IF EXISTS `diagnosis_app_update`;
+CREATE TABLE `diagnosis_app_update` (
+  `code` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `app_describe` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT 'app 描述',
+  `app_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT 'app 名称',
+  `app_version` int(11) DEFAULT NULL COMMENT 'app版本',
+  `available` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '是否可用 1可用 0不可用',
+  `down_url` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '下载地址',
+  `necessary` int(11) DEFAULT NULL COMMENT '是否强制更新',
+  `type` int(11) DEFAULT NULL COMMENT 'app类型  学生1 教师2 校长3',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='诊断app';
+
+
+=========================================================================================================
+2017-6-29  刘鸿飞
+
+分支  organizationV3
+
+system-manager 项目   diagnosis-system-manager-mvc.properties 配置文件添加
+
+pass.urls=/login/userLogin,/login/userManagerLogin,/login/sendIdenCode,/login/validateIdenCode,/userManager/updateTeacherByPhone
+
+数据库添加表结构
+
+CREATE TABLE `auth_user_group_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_type` tinyint(4) NOT NULL COMMENT '用户类型（学生：1）',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `group_type` int(11) NOT NULL COMMENT '组织类型（1.学校，2.年级，3.班级）',
+  `group_id` int(11) NOT NULL COMMENT '组织ID',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `user_operating` int(11) NOT NULL COMMENT '用户操作类型(0.新增，1.修改，2.删除)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `auth_usermanager_group_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_type` tinyint(4) NOT NULL COMMENT '用户类型（教师：2）',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `group_type` int(11) NOT NULL COMMENT '组织类型（1.学校，2.年级，3.班级）',
+  `group_id` int(11) NOT NULL COMMENT '组织ID',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `user_operating` int(11) NOT NULL COMMENT '用户操作类型(0.新增，1.修改，2.删除)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=324 DEFAULT CHARSET=utf8;
+
+
+=========================================================================================================
+6月29日  董庆彦
+ system-manager 项目 全科考试已读未读状态功能实现 数据同步
+ *先备份diagnosis_class_relation原始数据
+ 单科考试数据同步sql：
+ update `diagnosis_exam`.`diagnosis_class_relation` dc set subject_code = (select subject_code from diagnosis_record_teacher where code = dc.diagnosis_record_code)
+ 全科考试数据同步方法：
+ http://diagnosismanager.e-eduspace.com/teacher/diagnosis/tongbu  POST请求
+
+
+
+
+
+
+=========================================================================================================
+7月7日  曾喆
+diagnosis_resource库diagnosis_favorite表添加字段：
+	alter table diagnosis_favorite add article_code VARCHAR(255) DEFAULT null COMMENT '复合题文章code';
+7月13日  曾喆
+	alter table diagnosis_favorite add audio_analyze_path VARCHAR(255) DEFAULT null COMMENT '语音解析';
+
+
+=========================================================================================================
+7月13日  董庆彦
+diagnosis_wrong_question 增加is_complex,complex_question_code,complex_question_stem三个字段
+    alter table `diagnosis_exam`.`diagnosis_wrong_question` add is_complex TINYINT(1),
+                                                            add complex_question_code VARCHAR(128),
+                                                            add complex_question_stem TEXT
+新增完字段后，将原数据的is_complex全部设置为0(非复合题)。之前线上环境只有单选题所以直接设置为0即可。
+update `diagnosis_exam`.`diagnosis_wrong_question` set is_complex = 0
+
+
+7月28日  董庆彦
+diagnosis_class_relation 增加teacher_code字段  线上环境字段已经添加  只需同步数据
+ alter table `diagnosis_exam`.`diagnosis_class_relation` add teacher_code INT(11)
+同步数据所用sql 见桌面文档《线上环境数据同步-7.28》。
+
+8月17日 董庆彦
+diagnosis_class_relation 增加teacher_name字段  线上环境字段已经添加  只需同步数据
+ alter table `diagnosis_exam`.`diagnosis_class_relation` add teacher_name VARCHAR(255)
+
+===========================以上内容 2017-9-5 已部署完毕=============================
+=========================================================================================================
+
+
+9月19日 曾喆
+ auth_group 增加group_external_school_id字段 外部学校的id
+ alter table `diagnosis_auth`.`auth_group` add group_external_school_id INT(11)
+
+ UPDATE auth_group t1,
+  (
+ 	SELECT
+ 		a.group_id,
+ 		a.group_name,
+ 		s.id AS a0,
+ 		s.`name`,
+ 		s.pid,
+ 		b1.id AS d1,
+ 		b1.areaname AS a1,
+ 		b2.id AS d2,
+ 		b2.areaname AS a2,
+ 		b3.id AS d3,
+ 		b3.areaname AS a3
+ 	FROM
+ 		auth_group a
+ 	JOIN base_school s ON a.group_external_school_id = s.id
+ 	AND a.group_type = 1
+ 	JOIN base_area b1 ON s.pid = b1.id
+ 	AND b1.`level` = 3
+ 	JOIN base_area b2 ON b1.parentid = b2.id
+ 	AND b2.`level` = 2
+ 	JOIN base_area b3 ON b2.parentid = b3.id
+ 	AND b3.`level` = 1
+ 	ORDER BY
+ 		a.group_id
+ ) t2
+ SET t1.group_area_district_name = t2.a1,
+  t1.group_area_district_id = t2.d1,
+  t1.group_area_city_name = t2.a2,
+  t1.group_area_city_id = t2.d2,
+  t1.group_area_province_name = t2.a3,
+  t1.group_area_province_id = t2.d3
+ WHERE
+ 	t1.group_type = 1 AND t1.group_external_school_id = t2.a0
+
+ 	id 为374，407，425，461学校名称修改
+
+=======================================================================================================================
+2017-09-25 董庆彦
+alter table `diagnosis_exam`.`diagnosis_record_student` add objective_score decimal(6,2),
+                                                        add subjective_score decimal(6,2),
+                                                        add mark_status int(1),
+                                                        add make_paper_time datetime;
+
+正式环境需要将diagnosis_record_student表中total_score的值更新到object_score字段上
+同步diagnosis_record_student表中的make_paper_time sql如下：
+update `diagnosis_exam`.`diagnosis_record_student` ds,`b2b_report`.`edu_report` er set ds.make_paper_time = er.make_paper_time
+where ds.`code` = er.make_paper_record_code;
+同步diagnosis_record_student表中的mark_status sql如下：
+update `diagnosis_exam`.`diagnosis_record_student` SET mark_status = ( CASE  diagnosis_status WHEN 2 THEN 1 ELSE 0 END)
+同步diagnosis_record_student表中的objective_score sql如下：
+update `diagnosis_exam`.`diagnosis_record_student` set objective_score = total_score;
+
+
+
+
+2017-09-28 董庆彦
+alter table `diagnosis_exam`.`diagnosis_wrong_question` add question_type VARCHAR(16);
+同步数据 由于线上环境之前全部为单选题 所以 update diagnosis_wrong_question set question_type = '1';
+
+
+
+==================================局长、教研员报告===============================================
+alter table `diagnosis_exam`.`diagnosis_record_teacher` add unit_code VARCHAR(255),
+                                                        add unit_name VARCHAR(255),
+                                                        add group_area_district_id INT(11),
+                                                        add group_area_district_name VARCHAR(255),
+                                                        add exam_scope INT(11);
+
+同步数据  exam_scope的值  当前数据diagnosis_type为0的设置为1 diagnosis_type为1的设置为2
+
+update `diagnosis_exam`.`diagnosis_record_teacher` set exam_scope = (CASE diagnosis_type WHEN 0 THEN 1 ELSE 2 END);
+
+
+alter table `diagnosis_exam`.`diagnosis_class_relation` add art_type INT(1),
+                                                        add diagnosis_paper_code VARCHAR(255),
+                                                        add diagnosis_paper_name VARCHAR(255),
+                                                        add start_time datetime,
+                                                        add end_time datetime;
+同步数据 测试实例中有方法synchronizeData()
+=======================================================================================================================
+
+2017-10-17 刘鸿飞
+
+教研员单元测视图
+
+create or replace view release_view as
+SELECT
+	drt.code,
+	drt.diagnosis_name,
+	drt.start_time,
+	drt.end_time,
+	drt.school_code,
+	drt.school_name,
+	drt.stage_code,
+	drt.grade_code,
+	drt.subject_code,
+	drt.teacher_code,
+	drt.teacher_name,
+  drt.art_type,
+  drt.diagnosis_paper_code,
+  drt.diagnosis_type,
+  drt.is_snapshot,
+  drt.unit_code,
+  drt.unit_name,
+drt.group_area_district_id,
+drt.group_area_district_name,
+drt.create_time,
+  ere.code as ecode,
+	ere.exam_type,
+	ere.release_code,
+	ere.release_name,
+	ere.semester,
+	ere.total_score,
+  dp.difficult_star,
+dp.sort
+FROM
+	diagnosis_exam.diagnosis_record_teacher drt,
+	edu_release_exam ere,
+  diagnosis_resource.diagnosis_paper dp
+WHERE
+	drt.code = ere.release_code and drt.diagnosis_paper_code = dp.code and drt.exam_type = 0
+
+=======================================================================================================================
+
+2017-10-18 朱超伟 app更新表 增加appType 字段  值为 IOS 或Android
+
+alter table `diagnosis_resource`.`diagnosis_app_update` add app_type VARCHAR(32);
+同步数据 由于线上环境之前全部为单选题 所以 update diagnosis_wrong_question set question_type = '1';
+
+2017-10-18 朱超伟
+更新数据类型
+ALTER TABLE `diagnosis_resource`.`diagnosis_app_update`  MODIFY COLUMN app_version VARCHAR(50);
+
+DELETE FROM `diagnosis_app_update`;
+INSERT INTO `diagnosis_app_update` VALUES ('1', '教师端IOS', '教师端IOS', '1.0.0', '1', null, '0', '2', '2017-10-18 10:28:08', '2017-10-18 10:28:11', 'IOS');
+INSERT INTO `diagnosis_app_update` VALUES ('2', '校长端IOS', '校长端IOS', '1.0.0', '1', null, '0', '3', '2017-10-18 15:32:42', '2017-10-18 15:32:44', 'IOS');
+INSERT INTO `diagnosis_app_update` VALUES ('3', '学生端IOS', '学生端IOS', '1.0.0', '1', null, '0', '1', '2017-10-18 15:33:09', '2017-10-18 15:33:12', 'IOS');
+INSERT INTO `diagnosis_app_update` VALUES ('BDD040AB5235414989423541FE193799', '教师端', '教师端', '5', '1', 'http://a.app.qq.com/o/simple.jsp?pkgname=com.yjkj.myapplication&fromcase=40003', '0', '2', '2017-06-28 11:08:49', '2017-06-28 11:08:49', 'Android');
+INSERT INTO `diagnosis_app_update` VALUES ('C0603ADA677D43488C4AEBDA9CE2088D', '校长端', '校长端', '4', '1', 'http://a.app.qq.com/o/simple.jsp?pkgname=com.yjkj.master&fromcase=40003', '0', '3', '2017-06-27 13:53:04', '2017-06-28 11:07:36', 'Android');
+INSERT INTO `diagnosis_app_update` VALUES ('E0B7BE156E544D37A9D092A120041534', '学生端', '学生端', '6', '1', 'http://a.app.qq.com/o/simple.jsp?pkgname=com.yjkj.diagnosis&fromcase=40003', '0', '1', '2017-06-28 10:37:45', '2017-06-28 10:37:45', 'Android');
+
+
+
+diagnosis_exam库 新建判卷记录表 朱超伟
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for diagnosis_mark_question_record
+-- ----------------------------
+DROP TABLE IF EXISTS `diagnosis_mark_question_record`;
+CREATE TABLE `diagnosis_mark_question_record` (
+  `code` varchar(64) NOT NULL,
+  `diagnosis_record_code` varchar(64) DEFAULT NULL COMMENT '诊断记录code',
+  `answer_record_code` varchar(64) DEFAULT NULL COMMENT '答题记录code',
+  `mark_result` int(11) DEFAULT NULL COMMENT '判题结果 0 错 1对',
+  `score` double DEFAULT NULL COMMENT '得分',
+  `base_production` text COMMENT '基础产生式',
+  `production_knowledge` text COMMENT '产生式与知识点',
+  `surface_score` double DEFAULT NULL COMMENT '卷面分',
+  `teacher_name` varchar(64) DEFAULT NULL COMMENT '教师名称',
+  `teacher_code` varchar(64) DEFAULT NULL COMMENT '教师code',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='判题记录表';
+
+
+
+2017-10-18 刘鸿飞
+
+auth 数据库添加表auth_user_authority_manager （教研员、局长用户表）
+
+CREATE TABLE `auth_user_authority_manager` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(20) DEFAULT NULL COMMENT '用户名',
+  `user_account` varchar(18) DEFAULT NULL COMMENT '用户账号',
+  `user_password` varchar(50) DEFAULT NULL COMMENT '登录密码',
+  `user_type` tinyint(4) DEFAULT NULL COMMENT '用户类型(2，教师，3、校长 4、校级管理员，5、系统普通用户 , 6、系统管理员，7、教研员，8、局长)',
+  `user_stage` varchar(255) DEFAULT NULL,
+  `user_subject` tinyint(4) DEFAULT NULL COMMENT '学科',
+  `user_sex` tinyint(4) DEFAULT NULL COMMENT '性别',
+  `user_phone` varchar(11) DEFAULT NULL COMMENT '手机号',
+  `user_group_area_province_id` int(11) DEFAULT NULL COMMENT '省份ID',
+  `user_group_area_province_name` varchar(20) DEFAULT NULL COMMENT '省份名称',
+  `user_group_area_city_id` int(11) DEFAULT NULL COMMENT '城市ID',
+  `user_group_area_city_name` varchar(20) DEFAULT NULL COMMENT '城市名称',
+  `user_group_area_district_id` int(11) DEFAULT NULL COMMENT '区县ID',
+  `user_group_area_district_name` varchar(11) DEFAULT NULL COMMENT '区县名称',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `status` varchar(10) DEFAULT NULL COMMENT '用户状态（0：可用  1:不可用）',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
+2017-10-19 董庆彦
+
+diagnosis_exam库  新建单元进度表
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for diagnosis_unit_schedule
+-- ----------------------------
+DROP TABLE IF EXISTS `diagnosis_unit_schedule`;
+CREATE TABLE `diagnosis_unit_schedule` (
+  `code` varchar(64) NOT NULL,
+  `start_date` date DEFAULT NULL COMMENT '规定时间的开始日期',
+  `end_date` date DEFAULT NULL COMMENT '规定时间的结束日期',
+  `semester` varchar(255) DEFAULT NULL COMMENT '学年学期',
+  `grade_code` int(2) DEFAULT NULL COMMENT '学年code',
+  `subject_code` int(2) DEFAULT NULL COMMENT '学科code',
+  `book_version` varchar(255) DEFAULT NULL COMMENT '教材版本',
+  `district_id` int(11) DEFAULT NULL COMMENT '区县id',
+  `unit_code` varchar(255) DEFAULT NULL COMMENT '单元code',
+  `unit_name` varchar(255) DEFAULT NULL,
+  `sort` int(11) DEFAULT NULL COMMENT '单元排序',
+  `operator_code` int(11) DEFAULT NULL COMMENT '创建者code',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+=========================================以上内容已于2017-10-20号更新到线上环境==============================================================================
+
+2017-10-24  刘鸿飞
+
+diagnosis_base_paper表添加字段
+
+alter table `diagnosis_resource`.`diagnosis_base_paper` add area_district_id int(11);
+
+alter table `diagnosis_resource`.`diagnosis_base_paper` add area_district_name varchar(11);
+
+diagnosis_big_question表添加字段
+
+alter table `diagnosis_resource`.`diagnosis_big_question` add sort int(11);
+
+/********************************************2017-11-01 课中测*******************************************************************/
+
+注意：
+1.课中测disconf修改：教师端 diagnosis-system-manager-mvc.properties 添加：
+
+  修改：  pass.urls=/ueditor/config,/answer/machine/collectExercisesAnswer,/answer/machine/collect,/answer/machine/start,/answer/machine/verification
+  添加：线上地址：
+ KNOWLEDGETREE_URL=http://resourcesupport.e-eduspace.com/rest/getKnowledgeTree
+ QUESTIONS_URL=http://resourcesupport.e-eduspace.com/rest/getQuestions
+ ueditor.config={"imageActionName":"uploadimage","imageFieldName":"upfile","imageMaxSize":20480000,"imageAllowFiles":[".png",".jpg",".jpeg",".gif",".bmp"],"imageCompressEnable":true,"imageCompressBorder":1600,"imageInsertAlign":"none","imageUrlPrefix":"","imagePathFormat":"/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}","scrawlActionName":"uploadscrawl","scrawlFieldName":"upfile","scrawlPathFormat":"/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}","scrawlMaxSize":20480000,"scrawlUrlPrefix":"","scrawlInsertAlign":"none","snapscreenActionName":"uploadimage","snapscreenPathFormat":"/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}","snapscreenUrlPrefix":"","snapscreenInsertAlign":"none","catcherLocalDomain":["127.0.0.1","localhost","img.baidu.com"],"catcherActionName":"catchimage","catcherFieldName":"source","catcherPathFormat":"/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}","catcherUrlPrefix":"","catcherMaxSize":20480000,"catcherAllowFiles":[".png",".jpg",".jpeg",".gif",".bmp"],"videoActionName":"uploadvideo","videoFieldName":"upfile","videoPathFormat":"/ueditor/jsp/upload/video/{yyyy}{mm}{dd}/{time}{rand:6}","videoUrlPrefix":"","videoMaxSize":1024000000,"videoAllowFiles":[".flv",".swf",".mkv",".avi",".rm",".rmvb",".mpeg",".mpg",".ogg",".ogv",".mov",".wmv",".mp4",".webm",".mp3",".wav",".mid"],"fileActionName":"uploadfile","fileFieldName":"upfile","filePathFormat":"/ueditor/jsp/upload/file/{yyyy}{mm}{dd}/{time}{rand:6}","fileUrlPrefix":"","fileMaxSize":512000000,"fileAllowFiles":[".png",".jpg",".jpeg",".gif",".bmp",".flv",".swf",".mkv",".avi",".rm",".rmvb",".mpeg",".mpg",".ogg",".ogv",".mov",".wmv",".mp4",".webm",".mp3",".wav",".mid",".rar",".zip",".tar",".gz",".7z",".bz2",".cab",".iso",".doc",".docx",".xls",".xlsx",".ppt",".pptx",".pdf",".txt",".md",".xml"],"imageManagerActionName":"listimage","imageManagerListPath":"/ueditor/jsp/upload/image/","imageManagerListSize":20,"imageManagerUrlPrefix":"","imageManagerInsertAlign":"none","imageManagerAllowFiles":[".png",".jpg",".jpeg",".gif",".bmp"],"fileManagerActionName":"listfile","fileManagerListPath":"/ueditor/jsp/upload/file/","fileManagerUrlPrefix":"","fileManagerListSize":20,"fileManagerAllowFiles":[".png",".jpg",".jpeg",".gif",".bmp",".flv",".swf",".mkv",".avi",".rm",".rmvb",".mpeg",".mpg",".ogg",".ogv",".mov",".wmv",".mp4",".webm",".mp3",".wav",".mid",".rar",".zip",".tar",".gz",".7z",".bz2",".cab",".iso",".doc",".docx",".xls",".xlsx",".ppt",".pptx",".pdf",".txt",".md",".xml"]}
+ ueditor.access-key=5Nt5ZRgLSrIj8ywvVjqCZvep3dg-Zu9H0321EDiH
+ ueditor.secret-key=2RekRSQxy72knJjTd4vZZsuqyndLkUijmci7pdUG
+ ueditor.zone=zone0
+ ueditor.bucket=b2b-diagnosis
+ ueditor.base-url=http://oyqgghuif.bkt.clouddn.com
+ ueditor.upload-dir-prefix=biz/img/
+
+2.linux修改：课中测mina需要对外开放端口号为 ：3456
+
+3.数据库修改：
+1.步骤1 ：  新建数据库名称：diagnosis_class_test
+
+2.步骤2 ： 导入表结构：
+DROP TABLE IF EXISTS `diagnosis_base_question`;
+CREATE TABLE `diagnosis_base_question` (
+  `base_code` varchar(64) NOT NULL COMMENT '基础试题code',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `base_name` text COMMENT '基础试题名称',
+  `resource_code` varchar(255) DEFAULT NULL COMMENT '易教资源code',
+  `source` varchar(255) DEFAULT NULL COMMENT '来源-1自建,2易教',
+  `cover_url` varchar(255) DEFAULT NULL COMMENT '基础试题封面',
+  `right_answer` varchar(255) DEFAULT NULL COMMENT '正确答案',
+  `question_type` int(8) DEFAULT NULL COMMENT '题型 0单选 1多选',
+  `knowledges` text COMMENT '知识点',
+  `subject_code` int(2) DEFAULT NULL COMMENT '学科',
+  `question_stem` text COMMENT '题干',
+  `question_score` decimal(5,2) DEFAULT NULL COMMENT '试题分数',
+  `question_option` text COMMENT '试题选项',
+  `question_analyze` text COMMENT '试题解析',
+  `question_book_code` varchar(255) DEFAULT NULL,
+  `question_book_name` varchar(255) DEFAULT NULL,
+  `difficult_star` int(255) DEFAULT NULL,
+  PRIMARY KEY (`base_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='基础试题';
+
+-- ----------------------------
+-- Table structure for diagnosis_in_class_relation
+-- ----------------------------
+DROP TABLE IF EXISTS `diagnosis_in_class_relation`;
+CREATE TABLE `diagnosis_in_class_relation` (
+  `in_class_relation_code` varchar(64) NOT NULL COMMENT '课中测基础试题关联code',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL,
+  `in_class_test_code` varchar(64) DEFAULT NULL COMMENT '课中测code',
+  `base_code` varchar(64) DEFAULT NULL COMMENT '基础试题code',
+  `sout` varchar(20) DEFAULT NULL COMMENT '序号',
+  `is_end` int(1) DEFAULT NULL COMMENT '0未结束 1已结束',
+  `base_name` text COMMENT '基础试题名称',
+  `resource_code` varchar(255) DEFAULT NULL COMMENT '易教资源code',
+  `source` varchar(255) DEFAULT NULL COMMENT '来源-1自建,2易教',
+  `cover_url` varchar(255) DEFAULT NULL COMMENT '基础试题封面',
+  `right_answer` varchar(255) DEFAULT NULL COMMENT '正确答案',
+  `question_type` int(8) DEFAULT NULL COMMENT '题型 0单选 1多选',
+  `knowledges` text COMMENT '知识点',
+  `subject_code` int(2) DEFAULT NULL COMMENT '学科',
+  `question_stem` text COMMENT '题干',
+  `question_score` decimal(5,2) DEFAULT NULL COMMENT '试题分数',
+  `question_option` text COMMENT '试题选项',
+  `question_analyze` text COMMENT '试题解析',
+  `question_book_code` varchar(255) DEFAULT NULL,
+  `question_book_name` varchar(255) DEFAULT NULL,
+  `difficult_star` int(255) DEFAULT NULL,
+  `complex_question_code` varchar(64) DEFAULT NULL COMMENT '复合题小题对应总题CODE',
+  PRIMARY KEY (`in_class_relation_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课中测-基础试题关系表';
+
+-- ----------------------------
+-- Table structure for diagnosis_in_class_test
+-- ----------------------------
+DROP TABLE IF EXISTS `diagnosis_in_class_test`;
+CREATE TABLE `diagnosis_in_class_test` (
+  `in_class_test_code` varchar(64) NOT NULL COMMENT '课中测code',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `in_class_test_name` varchar(255) DEFAULT NULL COMMENT '课中测测试名称',
+  `question_count` int(8) DEFAULT NULL COMMENT '含题数量',
+  `question_book_json` text COMMENT '题库json',
+  `question_json` text COMMENT '题库试题json',
+  `teacher_code` varchar(64) DEFAULT NULL COMMENT '教师code',
+  `teacher_name` varchar(64) DEFAULT NULL COMMENT '教师名称',
+  `grade_code` int(4) DEFAULT NULL COMMENT '学年code',
+  `subject_code` int(4) DEFAULT NULL COMMENT '学科code',
+  `class_code` varchar(255) DEFAULT NULL COMMENT '班级code',
+  `class_name` varchar(255) DEFAULT NULL COMMENT '班级名称',
+  `status` int(1) DEFAULT NULL COMMENT '状态  0未发布,1已发布,2已结束',
+  `total_time` varchar(255) DEFAULT NULL COMMENT '总用时',
+  `test_time` datetime DEFAULT NULL COMMENT '测试开始时间',
+  `equipment_type` int(11) DEFAULT NULL,
+  `is_read` int(2) DEFAULT NULL COMMENT '是否阅读  0未1已',
+  PRIMARY KEY (`in_class_test_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课中测';
+
+-- ----------------------------
+-- Table structure for diagnosis_question_bank
+-- ----------------------------
+DROP TABLE IF EXISTS `diagnosis_question_bank`;
+CREATE TABLE `diagnosis_question_bank` (
+  `question_book_code` varchar(64) NOT NULL COMMENT '题库code',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `question_book_name` varchar(255) DEFAULT NULL COMMENT '题库名称',
+  `cover_url` varchar(255) DEFAULT NULL COMMENT '封面',
+  `description` varchar(2000) DEFAULT NULL COMMENT '描述',
+  `question_count` int(8) DEFAULT NULL COMMENT '含题数量',
+  `teacher_code` varchar(64) DEFAULT NULL COMMENT '教师code',
+  `teacher_name` varchar(64) DEFAULT NULL COMMENT '教师名称',
+  PRIMARY KEY (`question_book_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='题库';
+
+-- ----------------------------
+-- Table structure for diagnosis_student_answer_machine
+-- ----------------------------
+DROP TABLE IF EXISTS `diagnosis_student_answer_machine`;
+CREATE TABLE `diagnosis_student_answer_machine` (
+  `student_answer_machine_code` varchar(64) NOT NULL COMMENT '学生答题记录code',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `machine_code` varchar(255) DEFAULT NULL COMMENT '课中测code',
+  `student_name` varchar(255) DEFAULT NULL COMMENT '学生名称',
+  `student_code` varchar(64) DEFAULT NULL COMMENT '学生code',
+  PRIMARY KEY (`student_answer_machine_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课中测学生绑定答题器';
+
+-- ----------------------------
+-- Table structure for diagnosis_student_answer_ranking
+-- ----------------------------
+DROP TABLE IF EXISTS `diagnosis_student_answer_ranking`;
+CREATE TABLE `diagnosis_student_answer_ranking` (
+  `student_answer_ranking_code` varchar(64) NOT NULL COMMENT '学生答题记录code',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `in_class_test_code` varchar(64) DEFAULT NULL COMMENT '课中测code',
+  `student_name` varchar(255) DEFAULT NULL COMMENT '学生名称',
+  `student_code` varchar(64) DEFAULT NULL COMMENT '学生code',
+  `rank` int(20) DEFAULT NULL,
+  PRIMARY KEY (`student_answer_ranking_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课中测学生答题排行榜';
+
+-- ----------------------------
+-- Table structure for diagnosis_student_answer_sheet
+-- ----------------------------
+DROP TABLE IF EXISTS `diagnosis_student_answer_sheet`;
+CREATE TABLE `diagnosis_student_answer_sheet` (
+  `student_answer_sheet_code` varchar(64) NOT NULL COMMENT '学生答题记录code',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `in_class_test_code` varchar(64) DEFAULT NULL COMMENT '课中测code',
+  `base_code` varchar(64) DEFAULT NULL COMMENT '基础试题code',
+  `student_answer` text COMMENT '学生答案',
+  `right_answer` text COMMENT '正确答案',
+  `is_right` int(8) DEFAULT NULL COMMENT '是否正确 0错1对',
+  `student_name` varchar(255) DEFAULT NULL COMMENT '学生名称',
+  `student_code` varchar(64) DEFAULT NULL COMMENT '学生code',
+  `knowledges` text COMMENT '知识点',
+  `sout` varchar(20) DEFAULT NULL,
+  `question_type` int(8) DEFAULT NULL COMMENT '试题类型',
+  `godpen_answer` varchar(64) DEFAULT NULL COMMENT '神笔回传答题卡描点记录唯一ID',
+  PRIMARY KEY (`student_answer_sheet_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课中测学生答题记录';
+
+

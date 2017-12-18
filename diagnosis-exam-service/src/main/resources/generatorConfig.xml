@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <classPathEntry
+            location="E:/JavaTool/apache-maven-3.3.1/apache-maven-3.3.1/repository/mysql/mysql-connector-java/5.1.32/mysql-connector-java-5.1.32.jar"/>
+
+    <context id="context1" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://211.157.179.213:3006/diagnosis_exam?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root" password="keepmark!@#"/>
+        <javaModelGenerator targetPackage="com.eedu.diagnosis.exam.persist.po"
+                            targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="com.eedu.diagnosis.exam.persist.mapper"
+                         targetProject="src/main/java"/>
+        <javaClientGenerator targetPackage="com.eedu.diagnosis.exam.persist.dao"
+                             targetProject="src/main/java" type="XMLMAPPER"/>
+
+        <table tableName="diagnosis_unit_schedule" domainObjectName="DiagnosisUnitSchedulePo"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+       <!-- <table tableName="diagnosis_record_student" domainObjectName="DiagnosisRecordStudentPo"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+        <table tableName="diagnosis_record_teacher" domainObjectName="DiagnosisRecordTeacherPo"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+        <table tableName="diagnosis_studnet_answer_record" domainObjectName="DiagnosisStudentAnswerRecordPo"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+        <table tableName="diagnosis_wrong_question" domainObjectName="DiagnosisWrongQuestion"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>-->
+    </context>
+</generatorConfiguration>

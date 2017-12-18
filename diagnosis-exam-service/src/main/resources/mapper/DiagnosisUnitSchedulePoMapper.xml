@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.exam.persist.dao.DiagnosisUnitSchedulePoMapper">
+    <resultMap id="BaseResultMap" type="com.eedu.diagnosis.exam.persist.po.DiagnosisUnitSchedulePo">
+        <id column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="start_date" property="startDate" jdbcType="DATE"/>
+        <result column="end_date" property="endDate" jdbcType="DATE"/>
+        <result column="semester" property="semester" jdbcType="VARCHAR"/>
+        <result column="grade_code" property="gradeCode" jdbcType="INTEGER"/>
+        <result column="subject_code" property="subjectCode" jdbcType="INTEGER"/>
+        <result column="book_version" property="bookVersion" jdbcType="VARCHAR"/>
+        <result column="district_id" property="districtId" jdbcType="INTEGER"/>
+        <result column="unit_code" property="unitCode" jdbcType="VARCHAR"/>
+        <result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="operator_code" property="operatorCode" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    code, start_date, end_date, semester, grade_code,subject_code, book_version, district_id, unit_code, 
+    unit_name, sort, operator_code, create_time, update_time
+  </sql>
+    <select id="DiagnosisUnitSchedulePo_selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from diagnosis_unit_schedule
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <delete id="DiagnosisUnitSchedulePo_deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from diagnosis_unit_schedule
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+    <insert id="DiagnosisUnitSchedulePo_insert"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisUnitSchedulePo">
+    insert into diagnosis_unit_schedule (code, start_date, end_date, 
+      semester, grade_code,subject_code, book_version, 
+      district_id, unit_code, unit_name, 
+      sort, operator_code, create_time)
+    values (#{code,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{semester,jdbcType=VARCHAR}, #{gradeCode,jdbcType=INTEGER},#{subjectCode,jdbcType=INTEGER}, #{bookVersion,jdbcType=VARCHAR},
+      #{districtId,jdbcType=INTEGER}, #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{operatorCode,jdbcType=INTEGER}, now()
+      )
+  </insert>
+    <insert id="DiagnosisUnitSchedulePo_batch_insert" parameterType="java.util.List">
+        insert into diagnosis_unit_schedule (code, start_date, end_date,
+        semester, grade_code,subject_code, book_version,
+        district_id, unit_code, unit_name,
+        sort, operator_code, create_time)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.code,jdbcType=VARCHAR}, #{item.startDate,jdbcType=DATE}, #{item.endDate,jdbcType=DATE},
+            #{item.semester,jdbcType=VARCHAR}, #{item.gradeCode,jdbcType=INTEGER},#{item.subjectCode,jdbcType=INTEGER},
+            #{item.bookVersion,jdbcType=VARCHAR},
+            #{item.districtId,jdbcType=INTEGER}, #{item.unitCode,jdbcType=VARCHAR}, #{item.unitName,jdbcType=VARCHAR},
+            #{item.sort,jdbcType=INTEGER}, #{item.operatorCode,jdbcType=INTEGER}, now()
+            )
+        </foreach>
+    </insert>
+    <insert id="DiagnosisUnitSchedulePo_insertSelective"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisUnitSchedulePo">
+        insert into diagnosis_unit_schedule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                code,
+            </if>
+            <if test="startDate != null">
+                start_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="semester != null">
+                semester,
+            </if>
+            <if test="gradeCode != null">
+                grade_code,
+            </if>
+            <if test="subjectCode != null">
+                subject_code,
+            </if>
+            <if test="bookVersion != null">
+                book_version,
+            </if>
+            <if test="districtId != null">
+                district_id,
+            </if>
+            <if test="unitCode != null">
+                unit_code,
+            </if>
+            <if test="unitName != null">
+                unit_name,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="operatorCode != null">
+                operator_code,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=DATE},
+            </if>
+            <if test="semester != null">
+                #{semester,jdbcType=VARCHAR},
+            </if>
+            <if test="gradeCode != null">
+                #{gradeCode,jdbcType=INTEGER},
+            </if>
+            <if test="subjectCode != null">
+                #{subjectCode,jdbcType=INTEGER},
+            </if>
+            <if test="bookVersion != null">
+                #{bookVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="districtId != null">
+                #{districtId,jdbcType=INTEGER},
+            </if>
+            <if test="unitCode != null">
+                #{unitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="unitName != null">
+                #{unitName,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="operatorCode != null">
+                #{operatorCode,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="DiagnosisUnitSchedulePo_updateByPrimaryKeySelective"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisUnitSchedulePo">
+        update diagnosis_unit_schedule
+        <set>
+            <if test="startDate != null">
+                start_date = #{startDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=DATE},
+            </if>
+            <if test="semester != null">
+                semester = #{semester,jdbcType=VARCHAR},
+            </if>
+            <if test="gradeCode != null">
+                grade_code = #{gradeCode,jdbcType=INTEGER},
+            </if>
+            <if test="subjectCode != null">
+                subject_code = #{subjectCode,jdbcType=INTEGER},
+            </if>
+            <if test="bookVersion != null">
+                book_version = #{bookVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="districtId != null">
+                district_id = #{districtId,jdbcType=INTEGER},
+            </if>
+            <if test="unitCode != null">
+                unit_code = #{unitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="unitName != null">
+                unit_name = #{unitName,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="operatorCode != null">
+                operator_code = #{operatorCode,jdbcType=INTEGER},
+            </if>
+        </set>
+        where code = #{code,jdbcType=VARCHAR}
+    </update>
+    <update id="DiagnosisUnitSchedulePo_updateByPrimaryKey"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisUnitSchedulePo">
+    update diagnosis_unit_schedule
+    set start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      semester = #{semester,jdbcType=VARCHAR},
+      grade_code = #{gradeCode,jdbcType=INTEGER},
+      subject_code = #{subjectCode,jdbcType=INTEGER},
+      book_version = #{bookVersion,jdbcType=VARCHAR},
+      district_id = #{districtId,jdbcType=INTEGER},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+
+<sql id="DiagnosisUnitSchedulePo_where_sql">
+    <if test="startDate != null">
+        AND start_date = #{startDate,jdbcType=DATE}
+    </if>
+    <if test="endDate != null">
+        AND end_date = #{endDate,jdbcType=DATE}
+    </if>
+    <if test="semester != null">
+        AND semester = #{semester,jdbcType=VARCHAR}
+    </if>
+    <if test="gradeCode != null">
+        AND grade_code = #{gradeCode,jdbcType=INTEGER}
+    </if>
+    <if test="subjectCode != null">
+        AND subject_code = #{subjectCode,jdbcType=INTEGER}
+    </if>
+    <if test="bookVersion != null">
+        AND book_version = #{bookVersion,jdbcType=VARCHAR}
+    </if>
+    <if test="districtId != null">
+        AND district_id = #{districtId,jdbcType=INTEGER}
+    </if>
+    <if test="unitCode != null">
+        AND unit_code = #{unitCode,jdbcType=VARCHAR}
+    </if>
+    <if test="unitName != null">
+        AND unit_name = #{unitName,jdbcType=VARCHAR}
+    </if>
+    <if test="sort != null">
+        AND sort = #{sort,jdbcType=INTEGER}
+    </if>
+    <if test="operatorCode != null">
+        AND operator_code = #{operatorCode,jdbcType=INTEGER}
+    </if>
+</sql>
+    <select id="DiagnosisUnitSchedulePo_findByParameter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_unit_schedule
+        <where>
+            <include refid="DiagnosisUnitSchedulePo_where_sql"/>
+        </where>
+        <if test="orderProperty != null">
+            order by ${orderProperty} ${orderDirection}
+        </if>
+    </select>
+
+
+</mapper>

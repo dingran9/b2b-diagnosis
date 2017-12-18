@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.inclass.test.persist.dao.DiagnosisStudentAnswerSheetDao" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisStudentAnswerSheet" >
+    <id column="student_answer_sheet_code" property="studentAnswerSheetCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="in_class_test_code" property="inClassTestCode" jdbcType="VARCHAR" />
+    <result column="base_code" property="baseCode" jdbcType="VARCHAR" />
+    <result column="is_right" property="isRight" jdbcType="INTEGER" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="student_code" property="studentCode" jdbcType="VARCHAR" />
+    <result column="knowledges" property="knowledges" jdbcType="LONGVARCHAR" />
+    <result column="student_answer" property="studentAnswer" jdbcType="LONGVARCHAR" />
+    <result column="right_answer" property="rightAnswer" jdbcType="LONGVARCHAR" />
+    <result column="sout" property="sout" jdbcType="VARCHAR" />
+
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    student_answer_sheet_code, create_time, update_time, in_class_test_code, base_code, 
+    is_right, student_code, knowledges,student_answer, right_answer,sout,student_name
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_student_answer_sheet
+    where student_answer_sheet_code = #{studentAnswerSheetCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from diagnosis_student_answer_sheet
+    where student_answer_sheet_code = #{studentAnswerSheetCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisStudentAnswerSheet" >
+    insert into diagnosis_student_answer_sheet
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentAnswerSheetCode != null" >
+        student_answer_sheet_code,
+      </if>
+      create_time,
+      update_time,
+      <if test="inClassTestCode != null" >
+        in_class_test_code,
+      </if>
+      <if test="baseCode != null" >
+        base_code,
+      </if>
+      <if test="isRight != null" >
+        is_right,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+      <if test="studentCode != null" >
+        student_code,
+      </if>
+      <if test="knowledges != null" >
+        knowledges,
+      </if>
+      <if test="studentAnswer != null" >
+        student_answer,
+      </if>
+      <if test="rightAnswer != null" >
+        right_answer,
+      </if>
+      <if test="sout != null" >
+        sout,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentAnswerSheetCode != null" >
+        #{studentAnswerSheetCode,jdbcType=VARCHAR},
+      </if>
+      now(),
+      now(),
+      <if test="inClassTestCode != null" >
+        #{inClassTestCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseCode != null" >
+        #{baseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isRight != null" >
+        #{isRight,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentCode != null" >
+        #{studentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledges != null" >
+        #{knowledges,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="studentAnswer != null" >
+        #{studentAnswer,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rightAnswer != null" >
+        #{rightAnswer,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sout != null" >
+        #{sout},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisStudentAnswerSheet" >
+    update diagnosis_student_answer_sheet
+    <set >
+      update_time = now(),
+      <if test="inClassTestCode != null" >
+        in_class_test_code = #{inClassTestCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseCode != null" >
+        base_code = #{baseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isRight != null" >
+        is_right = #{isRight,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentCode != null" >
+        student_code = #{studentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="knowledges != null" >
+        knowledges = #{knowledges,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="studentAnswer != null" >
+        student_answer = #{studentAnswer,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rightAnswer != null" >
+        right_answer = #{rightAnswer,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sout != null" >
+        sout = #{sout,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where student_answer_sheet_code = #{studentAnswerSheetCode,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <select id="selectByCondtionList" resultMap="BaseResultMap" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisStudentAnswerSheet">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from diagnosis_student_answer_sheet
+    <where>
+      <include refid="DiagnosisStudentAnswerSheet_where_sql"/>
+    </where>
+    order by sout ASC
+  </select>
+
+
+  <sql id="DiagnosisStudentAnswerSheet_where_sql">
+    <if test="studentAnswerSheetCode != null" >
+      AND student_answer_sheet_code = #{studentAnswerSheetCode}
+    </if>
+    <if test="createTime != null" >
+      AND create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateTime != null" >
+      AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="inClassTestCode != null" >
+      AND  in_class_test_code = #{inClassTestCode,jdbcType=VARCHAR}
+    </if>
+    <if test="baseCode != null" >
+      AND  base_code = #{baseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="isRight != null" >
+      AND  is_right = #{isRight,jdbcType=INTEGER}
+    </if>
+    <if test="studentName != null" >
+      AND student_name  LIKE concat(concat('%', #{studentName}),'%')
+    </if>
+    <if test="studentCode != null" >
+      AND  student_code = #{studentCode,jdbcType=VARCHAR}
+    </if>
+    <if test="knowledges != null" >
+      AND  knowledges = #{knowledges,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="studentAnswer != null" >
+      AND  student_answer = #{studentAnswer,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="rightAnswer != null" >
+      AND  right_answer = #{rightAnswer,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="sout != null" >
+      AND  sout = #{sout}
+    </if>
+  </sql>
+
+
+  <insert id="batchSaveDiagnosisStudentAnswerSheet" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+    insert into diagnosis_student_answer_sheet (student_answer_sheet_code, create_time,
+    update_time, in_class_test_code, base_code,
+    is_right, student_name, student_code, knowledges,
+    sout, student_answer, right_answer
+    )
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.studentAnswerSheetCode,jdbcType=VARCHAR}, now(),
+      now(), #{item.inClassTestCode,jdbcType=VARCHAR}, #{item.baseCode,jdbcType=VARCHAR},
+      #{item.isRight,jdbcType=INTEGER}, #{item.studentName,jdbcType=VARCHAR}, #{item.studentCode,jdbcType=VARCHAR}, #{item.knowledges,jdbcType=LONGVARCHAR},
+      #{item.sout,jdbcType=VARCHAR}, #{item.studentAnswer,jdbcType=LONGVARCHAR}, #{item.rightAnswer,jdbcType=LONGVARCHAR}
+      )
+    </foreach>
+
+  </insert>
+
+
+
+
+</mapper>

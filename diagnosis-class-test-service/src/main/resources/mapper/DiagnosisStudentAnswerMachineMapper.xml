@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.inclass.test.persist.dao.DiagnosisStudentAnswerMachineDao" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisStudentAnswerMachine" >
+    <id column="student_answer_machine_code" property="studentAnswerMachineCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="machine_code" property="machineCode" jdbcType="VARCHAR" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="student_code" property="studentCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    student_answer_machine_code, create_time, update_time, machine_code, student_name, 
+    student_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_student_answer_machine
+    where student_answer_machine_code = #{studentAnswerMachineCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from diagnosis_student_answer_machine
+    where student_answer_machine_code = #{studentAnswerMachineCode,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisStudentAnswerMachine" >
+    insert into diagnosis_student_answer_machine
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentAnswerMachineCode != null" >
+        student_answer_machine_code,
+      </if>
+      create_time,
+      update_time,
+      <if test="machineCode != null" >
+        machine_code,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+      <if test="studentCode != null" >
+        student_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentAnswerMachineCode != null" >
+        #{studentAnswerMachineCode,jdbcType=VARCHAR},
+      </if>
+      now(),
+      now(),
+      <if test="machineCode != null" >
+        #{machineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentCode != null" >
+        #{studentCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisStudentAnswerMachine" >
+    update diagnosis_student_answer_machine
+    <set >
+      update_time = now(),
+      <if test="machineCode != null" >
+        machine_code = #{machineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentCode != null" >
+        student_code = #{studentCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where student_answer_machine_code = #{studentAnswerMachineCode,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <select id="selectByCondtionList" resultMap="BaseResultMap" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisStudentAnswerMachine">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from diagnosis_student_answer_machine
+    <where>
+      <include refid="DiagnosisStudentAnswerMachine_where_sql"/>
+    </where>
+  </select>
+
+
+  <sql id="DiagnosisStudentAnswerMachine_where_sql">
+    <if test="studentAnswerMachineCode != null" >
+      AND student_answer_machine_code = #{studentAnswerMachineCode}
+    </if>
+    <if test="machineCode != null" >
+      AND machine_code = #{machineCode,jdbcType=VARCHAR}
+    </if>
+    <if test="studentName != null" >
+      AND student_name  LIKE concat(concat('%', #{studentName}),'%')
+    </if>
+    <if test="studentCode != null" >
+      AND  student_code = #{studentCode,jdbcType=VARCHAR}
+    </if>
+  </sql>
+
+
+  <insert id="batchSaveDiagnosisStudentAnswerMachine" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+    insert into diagnosis_student_answer_machine (student_answer_machine_code, create_time,
+    update_time, machine_code, student_name,
+    student_code)
+  values
+  <foreach collection="list" index="index" item="item" separator=",">
+    (#{studentAnswerMachineCode,jdbcType=VARCHAR},  now(),
+    now(), #{machineCode,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR},
+    #{studentCode,jdbcType=VARCHAR})
+  </foreach>
+  </insert>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry
+		location="F:/mysql-connector-java-5.1.6.jar" />
+
+	<context id="context1" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://211.157.179.220:3306/diagnosis_resource?useUnicode=true&amp;characterEncoding=UTF-8"
+			userId="root" password="root" />
+		<javaModelGenerator targetPackage="com.eedu.diagnosis.paper.persist.mapper.po"
+			targetProject="diagnosis-resource-service/src/main/java" />
+		<sqlMapGenerator targetPackage="com.eedu.diagnosis.paper.persist.mapper"
+			targetProject="diagnosis-resource-service/src/main/java" />
+		<javaClientGenerator targetPackage="com.eedu.diagnosis.paper.persist.mapper.dao"
+			targetProject="diagnosis-resource-service/src/main/java" type="XMLMAPPER" />
+			
+			
+			
+		 <!-- <table tableName="diagnosis_complex_paper" domainObjectName="DiagnosisComplexPaper"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+		 <table tableName="diagnosis_complex_paper_relation" domainObjectName="DiagnosisComplexPaperRelation"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+		 <table tableName="diagnosis_paper" domainObjectName="DiagnosisPaper"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+		 <table tableName="diagnosis_question_relation" domainObjectName="DiagnosisQuestionRelation"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+		 <table tableName="diagnosis_favorite" domainObjectName="DiagnosisFavorite"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+		 <table tableName="diagnosis_paper_question" domainObjectName="DiagnosisPaperQuestion"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+		 <table tableName="diagnosis_base_paper" domainObjectName="DiagnosisBasePaper"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+		 <table tableName="diagnosis_big_question" domainObjectName="DiagnosisBigQuestion"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+		 <table tableName="diagnosis_small_question" domainObjectName="DiagnosisSmallQuestion"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table>  -->
+	
+		 <table tableName="diagnosis_feedback" domainObjectName="DiagnosisFeedback"
+			enableCountByExample="false" enableSelectByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false">
+		 </table> 
+	</context>
+</generatorConfiguration>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:application name="diagnosis-exam-service-provider"
+		owner="eeduspace" organization="eeduspace" />
+
+	<dubbo:registry address="${dubbo-registry-address}" timeout="30000"
+					file="${dubbo-registry-file}" />
+
+	<dubbo:protocol name="dubbo" serialization="dubbo"  host="${dubbo-registry-host}" port="${dubbo-registry-port}"/>
+
+
+
+	<!-- 发布服务 -->
+	<dubbo:annotation package="com.eedu.diagnosis.exam.api.openService"/>
+	<dubbo:service
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisClassRelationOpenService"
+		ref="diagnosisClassRelationOpenServiceImpl" protocol="dubbo"  version="${duboo.interface.version}"/>
+	<dubbo:service
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisRecordStudentOpenService"
+		ref="diagnosisRecordStudentOpenServiceImpl" protocol="dubbo" version="${duboo.interface.version}"/>
+
+	<dubbo:service
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisRecordTeacherOpenService"
+		ref="diagnosisRecordTeacherOpenServiceImpl" protocol="dubbo"  version="${duboo.interface.version}"/>
+
+	<dubbo:service
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisStudentAnswerRecordOpenService"
+		ref="diagnosisStudentAnswerRecordOpenServiceImpl" protocol="dubbo" version="${duboo.interface.version}"/>
+
+	<dubbo:service
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisWrongQuestionOpenService"
+		ref="diagnosisWrongQuestionOpenServiceImpl" protocol="dubbo" version="${duboo.interface.version}"/>
+
+	<dubbo:service
+		interface="com.eedu.diagnosis.exam.api.openService.MarkQuestionRecordOpenService"
+		ref="markQuestionRecordOpenServiceImpl" protocol="dubbo" version="${duboo.interface.version}"/>
+	<dubbo:service
+		interface="com.eedu.diagnosis.exam.api.openService.DiagnosisUnitScheduleOpenService"
+		ref="diagnosisUnitScheduleOpenServiceImpl" protocol="dubbo" version="${duboo.interface.version}"/>
+
+	<!--接收服务-->
+	<dubbo:reference id="b2BReportOpenService"
+					 interface="com.eeduspace.b2b.report.service.B2BReportOpenService"
+					 timeout="6000000" check="false" version="${duboo.interface.version}"/>
+	<dubbo:reference id="groupService" check="false" timeout="60000"
+					 interface="com.eedu.auth.service.AuthGroupService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="userManagerService" check="false" timeout="60000"
+					 interface="com.eedu.auth.service.AuthUserManagerService" version="${duboo.interface.version}"/>
+	<dubbo:reference id="basePaperOpenService" check="false" timeout="60000"
+					 interface="com.eedu.diagnosis.paper.api.openService.BasePaperOpenService" version="${duboo.interface.version}"/>
+
+</beans>

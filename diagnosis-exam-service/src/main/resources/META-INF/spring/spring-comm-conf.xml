@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task-4.0.xsd
+       ">
+    <!--<context:property-placeholder location="classpath*:conf/diagnosis_exam.properties"/>-->
+    <context:annotation-config />
+    <context:component-scan base-package="com.eedu.diagnosis.exam,com.eedu.diagnosis.common.service.redisService"/>
+    <task:annotation-driven/>
+
+    <import resource="classpath:conf/disconf.xml" />
+    <import resource="classpath:conf/spring-db.xml"/>
+    <import resource="classpath:conf/spring-redis.xml"/>
+    <import resource="classpath:conf/dubbo-provider.xml"/>
+   <!-- <import resource="classpath:conf/spring-mq.xml"/>-->
+
+    <!-- spring  RestTemplate -->
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <constructor-arg name="defaultCharset" value="utf-8"></constructor-arg>
+                </bean>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+</beans>

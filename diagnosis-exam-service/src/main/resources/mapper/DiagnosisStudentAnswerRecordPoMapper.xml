@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.exam.persist.dao.DiagnosisStudentAnswerRecordPoMapper">
+    <resultMap id="BaseResultMap" type="com.eedu.diagnosis.exam.persist.po.DiagnosisStudentAnswerRecordPo">
+        <id column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="diagnosis_record_code" property="diagnosisRecordCode" jdbcType="VARCHAR"/>
+        <result column="student_code" property="studentCode" jdbcType="INTEGER"/>
+        <result column="question_code" property="questionCode" jdbcType="VARCHAR"/>
+        <result column="is_right" property="isRight" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="question_sn" property="questionSn" jdbcType="VARCHAR"/>
+        <result column="module_name" property="moduleName" jdbcType="VARCHAR"/>
+        <result column="module_code" property="moduleCode" jdbcType="VARCHAR"/>
+        <result column="logic_type" property="logicType" jdbcType="VARCHAR"/>
+        <result column="item_content" property="itemContent" jdbcType="VARCHAR"/>
+        <result column="question_score" property="questionScore" jdbcType="DECIMAL"/>
+        <result column="is_complex_question" property="isComplexQuestion" jdbcType="INTEGER"/>
+        <result column="complex_question_code" property="complexQuestionCode" jdbcType="VARCHAR"/>
+        <result column="is_img" property="isImg" jdbcType="INTEGER"/>
+        <result column="right_answer" property="rightAnswer" jdbcType="LONGVARCHAR"/>
+        <result column="student_answer" property="studentAnswer" jdbcType="LONGVARCHAR"/>
+        <result column="base_production_json" property="baseProductionJson" jdbcType="LONGVARCHAR"/>
+        <result column="knowledge_json" property="knowledgeJson" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    code, diagnosis_record_code, student_code, question_code, is_right, create_time, 
+    update_time, question_sn, module_name, module_code, logic_type, item_content, question_score, 
+    is_complex_question, complex_question_code, is_img,right_answer, student_answer, base_production_json, knowledge_json
+  </sql>
+    <select id="DiagnosisStudentAnswerRecordPo_getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_studnet_answer_record ORDER BY create_time DESC
+    </select>
+    <select id="DiagnosisStudentAnswerRecordPo_getById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_studnet_answer_record WHERE code = #{code,jdbcType=VARCHAR}
+    </select>
+    <delete id="DiagnosisStudentAnswerRecordPo_deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from diagnosis_studnet_answer_record
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByDiagnosisStudentAnswerRecordPo" parameterType="java.lang.String">
+        delete from diagnosis_studnet_answer_record where diagnosis_record_code = #{diagnosisRecordCode,jdbcType=VARCHAR}
+    </delete>
+    <insert id="DiagnosisStudentAnswerRecordPo_insert" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisStudentAnswerRecordPo">
+    insert into diagnosis_studnet_answer_record (code, diagnosis_record_code, student_code, 
+      question_code, is_right, create_time, 
+      update_time, question_sn, module_name, 
+      module_code, logic_type, item_content, 
+      question_score, is_complex_question, complex_question_code, 
+      is_img, right_answer, student_answer, 
+      base_production_json, knowledge_json
+      )
+    values (#{code,jdbcType=VARCHAR}, #{diagnosisRecordCode,jdbcType=VARCHAR}, #{studentCode,jdbcType=VARCHAR}, 
+      #{questionCode,jdbcType=VARCHAR}, #{isRight,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{questionSn,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, 
+      #{moduleCode,jdbcType=VARCHAR}, #{logicType,jdbcType=VARCHAR}, #{itemContent,jdbcType=VARCHAR}, 
+      #{questionScore,jdbcType=DECIMAL}, #{isComplexQuestion,jdbcType=INTEGER}, #{complexQuestionCode,jdbcType=VARCHAR}, 
+      #{isImg,jdbcType=INTEGER}, #{rightAnswer,jdbcType=LONGVARCHAR}, #{studentAnswer,jdbcType=LONGVARCHAR}, 
+      #{baseProductionJson,jdbcType=LONGVARCHAR}, #{knowledgeJson,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+    <insert id="DiagnosisStudentAnswerRecordPo_batch_insert" parameterType="java.util.List">
+    insert into diagnosis_studnet_answer_record (code, diagnosis_record_code, student_code,
+      question_code, is_right, create_time,
+      update_time, question_sn, module_name,
+      module_code, logic_type, item_content,
+      question_score, is_complex_question, complex_question_code,
+      is_img, right_answer, student_answer,
+      base_production_json, knowledge_json
+      )
+    values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.code,jdbcType=VARCHAR}, #{item.diagnosisRecordCode,jdbcType=VARCHAR}, #{item.studentCode,jdbcType=VARCHAR},
+            #{item.questionCode,jdbcType=VARCHAR}, #{item.isRight,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}, #{item.questionSn,jdbcType=VARCHAR}, #{item.moduleName,jdbcType=VARCHAR},
+            #{item.moduleCode,jdbcType=VARCHAR}, #{item.logicType,jdbcType=VARCHAR}, #{item.itemContent,jdbcType=VARCHAR},
+            #{item.questionScore,jdbcType=DECIMAL}, #{item.isComplexQuestion,jdbcType=INTEGER}, #{item.complexQuestionCode,jdbcType=VARCHAR},
+            #{item.isImg,jdbcType=INTEGER}, #{item.rightAnswer,jdbcType=LONGVARCHAR}, #{item.studentAnswer,jdbcType=LONGVARCHAR},
+            #{item.baseProductionJson,jdbcType=LONGVARCHAR}, #{item.knowledgeJson,jdbcType=LONGVARCHAR}
+            )
+        </foreach>
+  </insert>
+    <insert id="insertSelective" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisStudentAnswerRecordPo">
+        insert into diagnosis_studnet_answer_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                code,
+            </if>
+            <if test="diagnosisRecordCode != null">
+                diagnosis_record_code,
+            </if>
+            <if test="studentCode != null">
+                student_code,
+            </if>
+            <if test="questionCode != null">
+                question_code,
+            </if>
+            <if test="isRight != null">
+                is_right,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="questionSn != null">
+                question_sn,
+            </if>
+            <if test="moduleName != null">
+                module_name,
+            </if>
+            <if test="moduleCode != null">
+                module_code,
+            </if>
+            <if test="logicType != null">
+                logic_type,
+            </if>
+            <if test="itemContent != null">
+                item_content,
+            </if>
+            <if test="questionScore != null">
+                question_score,
+            </if>
+            <if test="isComplexQuestion != null">
+                is_complex_question,
+            </if>
+            <if test="complexQuestionCode != null">
+                complex_question_code,
+            </if>
+            <if test="isImg != null">
+                is_img,
+            </if>
+            <if test="rightAnswer != null">
+                right_answer,
+            </if>
+            <if test="studentAnswer != null">
+                student_answer,
+            </if>
+            <if test="baseProductionJson != null">
+                base_production_json,
+            </if>
+            <if test="knowledgeJson != null">
+                knowledge_json,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="diagnosisRecordCode != null">
+                #{diagnosisRecordCode,jdbcType=VARCHAR},
+            </if>
+            <if test="studentCode != null">
+                #{studentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="questionCode != null">
+                #{questionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isRight != null">
+                #{isRight,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="questionSn != null">
+                #{questionSn,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleName != null">
+                #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleCode != null">
+                #{moduleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="logicType != null">
+                #{logicType,jdbcType=VARCHAR},
+            </if>
+            <if test="itemContent != null">
+                #{itemContent,jdbcType=VARCHAR},
+            </if>
+            <if test="questionScore != null">
+                #{questionScore,jdbcType=DECIMAL},
+            </if>
+            <if test="isComplexQuestion != null">
+                #{isComplexQuestion,jdbcType=INTEGER},
+            </if>
+            <if test="complexQuestionCode != null">
+                #{complexQuestionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isImg != null">
+                #{isImg,jdbcType=INTEGER},
+            </if>
+            <if test="rightAnswer != null">
+                #{rightAnswer,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="studentAnswer != null">
+                #{studentAnswer,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="baseProductionJson != null">
+                #{baseProductionJson,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="knowledgeJson != null">
+                #{knowledgeJson,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="DiagnosisStudentAnswerRecordPo_updateByPrimaryKeySelective"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisStudentAnswerRecordPo">
+        update diagnosis_studnet_answer_record
+        <set>
+            <if test="diagnosisRecordCode != null">
+                diagnosis_record_code = #{diagnosisRecordCode,jdbcType=VARCHAR},
+            </if>
+            <if test="studentCode != null">
+                student_code = #{studentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="questionCode != null">
+                question_code = #{questionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isRight != null">
+                is_right = #{isRight,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="questionSn != null">
+                question_sn = #{questionSn,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleName != null">
+                module_name = #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleCode != null">
+                module_code = #{moduleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="logicType != null">
+                logic_type = #{logicType,jdbcType=VARCHAR},
+            </if>
+            <if test="itemContent != null">
+                item_content = #{itemContent,jdbcType=VARCHAR},
+            </if>
+            <if test="questionScore != null">
+                question_score = #{questionScore,jdbcType=DECIMAL},
+            </if>
+            <if test="isComplexQuestion != null">
+                is_complex_question = #{isComplexQuestion,jdbcType=INTEGER},
+            </if>
+            <if test="complexQuestionCode != null">
+                complex_question_code = #{complexQuestionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isImg != null">
+                is_img = #{isImg,jdbcType=INTEGER},
+            </if>
+            <if test="rightAnswer != null">
+                right_answer = #{rightAnswer,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="studentAnswer != null">
+                student_answer = #{studentAnswer,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="baseProductionJson != null">
+                base_production_json = #{baseProductionJson,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="knowledgeJson != null">
+                knowledge_json = #{knowledgeJson,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where code = #{code,jdbcType=VARCHAR}
+    </update>
+
+
+    <sql id="AnswerRecord_where_sql">
+        <if test="code != null">
+            and code = #{code}
+        </if>
+        <if test="studentCode != null">
+            and student_code = #{studentCode}
+        </if>
+
+        <if test="studentAnswer != null">
+            student_answer = #{studentAnswer},
+        </if>
+        <if test="rightAnswer != null">
+            right_answer = #{rightAnswer},
+        </if>
+
+        <if test="diagnosisRecordCode != null">
+            and diagnosis_record_code = #{diagnosisRecordCode}
+        </if>
+    </sql>
+
+    <select id="DiagnosisStudentAnswerRecordPo_findByParameter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_studnet_answer_record
+        <where>
+            <include refid="AnswerRecord_where_sql"/>
+        </where>
+        <if test="orderProperty != null">
+            order by ${orderProperty} ${orderDirection}
+        </if>
+    </select>
+
+    <select id="getListByAnswerRecordCodes" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_studnet_answer_record
+        <if test="answerRecordCodes.size() > 0">
+            where diagnosis_record_code in
+            <foreach collection="answerRecordCodes" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="DiagnosisStudentAnswerRecordPo_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_studnet_answer_record
+        <if test="list.size() > 0">
+            where code in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY create_time DESC
+    </select>
+    <delete id="DiagnosisStudentAnswerRecordPo_batch_deleteById" parameterType="java.util.List">
+        DELETE FROM diagnosis_studnet_answer_record
+        <if test="list.size() > 0">
+            where code in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+</mapper>

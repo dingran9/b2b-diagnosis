@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.paper.persist.dao.DiagnosisBigQuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.paper.persist.po.DiagnosisBigQuestion" >
+    <id column="question_code" property="questionCode" jdbcType="VARCHAR" />
+    <result column="item_content" property="itemContent" jdbcType="VARCHAR" />
+    <result column="item_type" property="itemType" jdbcType="INTEGER" />
+    <result column="logic_type" property="logicType" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    question_code, item_content, item_type, logic_type, score
+  </sql>
+  <select id="DiagnosisBigQuestion_getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_big_question
+    where question_code = #{questionCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="DiagnosisBigQuestion_deleteById" parameterType="java.lang.String" >
+    delete from diagnosis_big_question
+    where question_code = #{questionCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="DiagnosisBigQuestion_save" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisBigQuestion" >
+    insert into diagnosis_big_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="questionCode != null" >
+        question_code,
+      </if>
+      <if test="itemContent != null" >
+        item_content,
+      </if>
+      <if test="itemType != null" >
+        item_type,
+      </if>
+      <if test="logicType != null" >
+        logic_type,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="questionCode != null" >
+        #{questionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemContent != null" >
+        #{itemContent,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        #{itemType,jdbcType=INTEGER},
+      </if>
+      <if test="logicType != null" >
+        #{logicType,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="DiagnosisBigQuestion_update" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisBigQuestion" >
+    update diagnosis_big_question
+    <set >
+      <if test="itemContent != null" >
+        item_content = #{itemContent,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        item_type = #{itemType,jdbcType=INTEGER},
+      </if>
+      <if test="logicType != null" >
+        logic_type = #{logicType,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+    </set>
+    where question_code = #{questionCode,jdbcType=VARCHAR}
+  </update>
+  
+  <sql id="DiagnosisBigQuestion_where_sql">
+     <if test="questionCode != null" >
+       and questionCode = #{questionCode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemContent != null" >
+       and item_content = #{itemContent,jdbcType=VARCHAR}
+      </if>
+      <if test="itemType != null" >
+       and item_type = #{itemType,jdbcType=INTEGER}
+      </if>
+      <if test="logicType != null" >
+       and logic_type = #{logicType,jdbcType=VARCHAR}
+      </if>
+      <if test="score != null" >
+       and score = #{score,jdbcType=INTEGER}
+      </if>
+  
+  </sql>
+
+  <!-- list<code> 查询 -->
+  <select id="DiagnosisBigQuestion_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_big_question
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    ORDER BY create_time DESC
+  </select>
+  <!-- 普通分页 -->
+  <select id="DiagnosisBigQuestion_findByParameter" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_big_question
+    <where>
+      <include refid="DiagnosisBigQuestion_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+   
+   <delete id="DiagnosisBigQuestion_batch_deleteById" parameterType="java.util.List">
+    DELETE FROM diagnosis_big_question
+    <if test="list.size() > 0">
+      where code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+   <select id="DiagnosisBigQuestion_getAll" resultMap="BaseResultMap">
+    SELECT
+   <include refid="Base_Column_List"/>
+    FROM diagnosis_big_question 
+  </select>
+  
+  
+  
+  
+  
+</mapper>

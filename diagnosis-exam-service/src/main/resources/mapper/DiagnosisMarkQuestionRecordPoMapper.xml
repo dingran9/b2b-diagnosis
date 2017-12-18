@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.exam.persist.dao.DiagnosisMarkQuestionRecordPoMapper" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.exam.persist.po.DiagnosisMarkQuestionRecordPo" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="diagnosis_record_code" property="diagnosisRecordCode" jdbcType="VARCHAR" />
+    <result column="answer_record_code" property="answerRecordCode" jdbcType="VARCHAR" />
+    <result column="mark_result" property="markResult" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="base_production" property="baseProduction" jdbcType="VARCHAR" />
+    <result column="production_knowledge" property="productionKnowledge" jdbcType="VARCHAR" />
+    <result column="surface_score" property="surfaceScore" jdbcType="DOUBLE" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+    <result column="teacher_code" property="teacherCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code, diagnosis_record_code, answer_record_code, mark_result, score, base_production, 
+    production_knowledge, surface_score, teacher_name, teacher_code, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_mark_question_record
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from diagnosis_mark_question_record
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="DiagnosisMarkQuestionRecordPo_insert" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisMarkQuestionRecordPo" >
+    insert into diagnosis_mark_question_record (code, diagnosis_record_code, answer_record_code, 
+      mark_result, score, base_production, 
+      production_knowledge, surface_score, teacher_name, 
+      teacher_code, create_time, update_time
+      )
+    values (#{code,jdbcType=VARCHAR}, #{diagnosisRecordCode,jdbcType=VARCHAR}, #{answerRecordCode,jdbcType=VARCHAR}, 
+      #{markResult,jdbcType=INTEGER}, #{score,jdbcType=DOUBLE}, #{baseProduction,jdbcType=VARCHAR}, 
+      #{productionKnowledge,jdbcType=VARCHAR}, #{surfaceScore,jdbcType=DOUBLE}, #{teacherName,jdbcType=VARCHAR}, 
+      #{teacherCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <insert id="DiagnosisMarkQuestionRecordPo_batch_insert"
+          parameterType="java.util.List">
+    insert into diagnosis_mark_question_record (code, diagnosis_record_code, answer_record_code,
+    mark_result, score, base_production,
+    production_knowledge, surface_score, teacher_name,
+    teacher_code, create_time, update_time
+    )  values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.code,jdbcType=VARCHAR}, #{item.diagnosisRecordCode,jdbcType=VARCHAR}, #{item.answerRecordCode,jdbcType=VARCHAR},
+      #{item.markResult,jdbcType=INTEGER}, #{item.score,jdbcType=DOUBLE}, #{item.baseProduction,jdbcType=VARCHAR},
+      #{item.productionKnowledge,jdbcType=VARCHAR}, #{item.surfaceScore,jdbcType=DOUBLE}, #{item.teacherName,jdbcType=VARCHAR},
+      #{item.teacherCode,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisMarkQuestionRecordPo" >
+    insert into diagnosis_mark_question_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="diagnosisRecordCode != null" >
+        diagnosis_record_code,
+      </if>
+      <if test="answerRecordCode != null" >
+        answer_record_code,
+      </if>
+      <if test="markResult != null" >
+        mark_result,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="baseProduction != null" >
+        base_production,
+      </if>
+      <if test="productionKnowledge != null" >
+        production_knowledge,
+      </if>
+      <if test="surfaceScore != null" >
+        surface_score,
+      </if>
+      <if test="teacherName != null" >
+        teacher_name,
+      </if>
+      <if test="teacherCode != null" >
+        teacher_code,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="diagnosisRecordCode != null" >
+        #{diagnosisRecordCode,jdbcType=VARCHAR},
+      </if>
+      <if test="answerRecordCode != null" >
+        #{answerRecordCode,jdbcType=VARCHAR},
+      </if>
+      <if test="markResult != null" >
+        #{markResult,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="baseProduction != null" >
+        #{baseProduction,jdbcType=VARCHAR},
+      </if>
+      <if test="productionKnowledge != null" >
+        #{productionKnowledge,jdbcType=VARCHAR},
+      </if>
+      <if test="surfaceScore != null" >
+        #{surfaceScore,jdbcType=DOUBLE},
+      </if>
+      <if test="teacherName != null" >
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherCode != null" >
+        #{teacherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisMarkQuestionRecordPo" >
+    update diagnosis_mark_question_record
+    <set >
+      <if test="diagnosisRecordCode != null" >
+        diagnosis_record_code = #{diagnosisRecordCode,jdbcType=VARCHAR},
+      </if>
+      <if test="answerRecordCode != null" >
+        answer_record_code = #{answerRecordCode,jdbcType=VARCHAR},
+      </if>
+      <if test="markResult != null" >
+        mark_result = #{markResult,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="baseProduction != null" >
+        base_production = #{baseProduction,jdbcType=VARCHAR},
+      </if>
+      <if test="productionKnowledge != null" >
+        production_knowledge = #{productionKnowledge,jdbcType=VARCHAR},
+      </if>
+      <if test="surfaceScore != null" >
+        surface_score = #{surfaceScore,jdbcType=DOUBLE},
+      </if>
+      <if test="teacherName != null" >
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherCode != null" >
+        teacher_code = #{teacherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisMarkQuestionRecordPo" >
+    update diagnosis_mark_question_record
+    set diagnosis_record_code = #{diagnosisRecordCode,jdbcType=VARCHAR},
+      answer_record_code = #{answerRecordCode,jdbcType=VARCHAR},
+      mark_result = #{markResult,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      base_production = #{baseProduction,jdbcType=VARCHAR},
+      production_knowledge = #{productionKnowledge,jdbcType=VARCHAR},
+      surface_score = #{surfaceScore,jdbcType=DOUBLE},
+      teacher_name = #{teacherName,jdbcType=VARCHAR},
+      teacher_code = #{teacherCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <sql id="DiagnosisMarkQuestionRecordPo_where_sql">
+    <if test="code != null">
+      and code = #{code}
+    </if>
+    <if test="diagnosisRecordCode != null" >
+      and diagnosis_record_code = #{diagnosisRecordCode,jdbcType=VARCHAR}
+    </if>
+    <if test="answerRecordCode != null" >
+      and answer_record_code = #{answerRecordCode,jdbcType=VARCHAR}
+    </if>
+    <if test="markResult != null" >
+      and mark_result = #{markResult,jdbcType=INTEGER}
+    </if>
+    <if test="score != null" >
+      and score = #{score,jdbcType=DOUBLE}
+    </if>
+    <if test="baseProduction != null" >
+      and base_production = #{baseProduction,jdbcType=VARCHAR}
+    </if>
+    <if test="productionKnowledge != null" >
+      and production_knowledge = #{productionKnowledge,jdbcType=VARCHAR}
+    </if>
+    <if test="surfaceScore != null" >
+      and surface_score = #{surfaceScore,jdbcType=DOUBLE}
+    </if>
+    <if test="teacherName != null" >
+      and teacher_name = #{teacherName,jdbcType=VARCHAR}
+    </if>
+    <if test="teacherCode != null" >
+      and  teacher_code = #{teacherCode,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateTime != null" >
+      and  update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+
+
+
+  </sql>
+
+  <select id="DiagnosisMarkQuestionRecordPo_findByParameter" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_mark_question_record
+    <where>
+      <include refid="DiagnosisMarkQuestionRecordPo_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+    </if>
+  </select>
+
+
+
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.inclass.test.persist.dao.DiagnosisQuestionBankDao" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisQuestionBank" >
+    <id column="question_book_code" property="questionBookCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="question_book_name" property="questionBookName" jdbcType="VARCHAR" />
+    <result column="cover_url" property="coverUrl" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="question_count" property="questionCount" jdbcType="INTEGER" />
+    <result column="teacher_code" property="teacherCode" jdbcType="VARCHAR" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    question_book_code, create_time, update_time, question_book_name, cover_url, description,
+    question_count, teacher_code, teacher_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_question_bank
+    where question_book_code = #{questionBookCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from diagnosis_question_bank
+    where question_book_code = #{questionBookCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisQuestionBank" >
+    insert into diagnosis_question_bank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="questionBookCode != null" >
+        question_book_code,
+      </if>
+      create_time,
+      update_time,
+      <if test="questionBookName != null" >
+        question_book_name,
+      </if>
+      <if test="coverUrl != null" >
+        cover_url,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="questionCount != null" >
+        question_count,
+      </if>
+      <if test="teacherCode != null" >
+        teacher_code,
+      </if>
+      <if test="teacherName != null" >
+        teacher_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="questionBookCode != null" >
+        #{questionBookCode,jdbcType=VARCHAR},
+      </if>
+      now(),
+      now(),
+      <if test="questionBookName != null" >
+        #{questionBookName,jdbcType=VARCHAR},
+      </if>
+      <if test="coverUrl != null" >
+        #{coverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="questionCount != null" >
+        #{questionCount,jdbcType=INTEGER},
+      </if>
+      <if test="teacherCode != null" >
+        #{teacherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null" >
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisQuestionBank" >
+    update diagnosis_question_bank
+    <set >
+      update_time = now(),
+      <if test="questionBookName != null" >
+        question_book_name = #{questionBookName,jdbcType=VARCHAR},
+      </if>
+      <if test="coverUrl != null" >
+        cover_url = #{coverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="questionCount != null" >
+        question_count = #{questionCount,jdbcType=INTEGER},
+      </if>
+      <if test="teacherCode != null" >
+        teacher_code = #{teacherCode,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null" >
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where question_book_code = #{questionBookCode,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="selectByCondtionList" resultMap="BaseResultMap" parameterType="com.eedu.diagnosis.inclass.test.persist.po.DiagnosisQuestionBank">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from diagnosis_question_bank
+    <where>
+      <include refid="DiagnosisQuestionBank_where_sql"/>
+    </where>
+    order by create_time desc
+  </select>
+
+
+  <sql id="DiagnosisQuestionBank_where_sql">
+    <if test="questionBookCode != null" >
+      AND question_book_code = #{questionBookCode}
+    </if>
+    <if test="createTime != null" >
+      AND create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateTime != null" >
+      AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="questionBookName != null" >
+      AND question_book_name LIKE concat(concat('%', #{questionBookName}),'%')
+    </if>
+    <if test="coverUrl != null" >
+      AND  cover_url = #{coverUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="description != null" >
+      AND  description = #{description,jdbcType=VARCHAR}
+    </if>
+    <if test="questionCount != null" >
+      AND  question_count = #{questionCount,jdbcType=INTEGER}
+    </if>
+    <if test="teacherCode != null" >
+      AND  teacher_code = #{teacherCode,jdbcType=VARCHAR}
+    </if>
+    <if test="teacherName != null" >
+      AND  teacher_name LIKE concat(concat('%', #{teacherName}),'%')
+    </if>
+  </sql>
+
+
+
+
+</mapper>

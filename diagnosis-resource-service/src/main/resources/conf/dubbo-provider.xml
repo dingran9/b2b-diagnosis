@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:application name="diagnosis-resource-service-provider"
+		owner="eeduspace" organization="eeduspace" />
+
+	<dubbo:registry address="${dubbo-registry-address}" timeout="30000"
+					file="${dubbo-registry-file}"  />
+
+		<dubbo:protocol name="dubbo" serialization="dubbo"  host="${dubbo-registry-host}" port="${dubbo-registry-port}"/>
+
+<!-- port="${dubbo-registry-port}" -->
+
+	<!-- 试题 -->
+	<bean id="basePaperOpenService"
+		class="com.eedu.diagnosis.paper.service.openServiceImlp.BaseOpenPaperServiceImpl" />
+	<dubbo:service
+		interface="com.eedu.diagnosis.paper.api.openService.BasePaperOpenService"
+		ref="basePaperOpenService" protocol="dubbo" version="${duboo.interface.version}"/>
+	<!-- 资源 -->
+	<bean id="resourceOpenService"
+		class="com.eedu.diagnosis.paper.service.openServiceImlp.ResourceOpenServiceImpl" />
+	<dubbo:service
+		interface="com.eedu.diagnosis.paper.api.openService.ResourceOpenService"
+		ref="resourceOpenService" protocol="dubbo" version="${duboo.interface.version}"/>
+
+</beans>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--消息队列配置-->
+    <bean id="mqProducerClientTemplate" class="com.eedu.diagnosis.common.service.mqService.MqProducerClientTemplate"
+          init-method="init"
+          destroy-method="destroy"
+          scope="singleton">
+        <property name="producerGroup" value="${producerGroup}"/>
+        <property name="namesrvAddr" value="${namesrvAddr}"/>
+    </bean>
+    <bean id="mqConsumerClientTemplate" class="com.eedu.diagnosis.exam.mqconsumer.MqConsumerClientTemplate"
+          init-method="init"
+          destroy-method="destroy"
+          scope="singleton">
+        <property name="consumerGroup" value="${consumerGroup}"/>
+        <property name="namesrvAddr" value="${namesrvAddr}"/>
+    </bean>
+
+</beans>

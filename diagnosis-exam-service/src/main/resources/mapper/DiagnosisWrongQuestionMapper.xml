@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.exam.persist.dao.DiagnosisWrongQuestionMapper">
+    <resultMap id="BaseResultMap" type="com.eedu.diagnosis.exam.persist.po.DiagnosisWrongQuestion">
+        <id column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="student_code" property="studentCode" jdbcType="INTEGER"/>
+        <result column="question_code" property="questionCode" jdbcType="VARCHAR"/>
+        <result column="is_complex" property="isComplex" jdbcType="INTEGER"/>
+        <result column="question_type" property="questionType" jdbcType="VARCHAR"/>
+        <result column="question_sort" property="questionSort" jdbcType="VARCHAR"/>
+        <result column="platform" property="platform" jdbcType="VARCHAR"/>
+        <result column="diagnosis_record_code" property="diagnosisRecordCode" jdbcType="VARCHAR"/>
+        <result column="subject_code" property="subjectCode" jdbcType="INTEGER"/>
+        <result column="student_answer" property="studentAnswer" jdbcType="VARCHAR"/>
+        <result column="right_answer" property="rightAnswer" jdbcType="VARCHAR"/>
+        <result column="question_score" property="questionScore" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="question_stem" property="questionStem" jdbcType="LONGVARCHAR"/>
+        <result column="question_option" property="questionOption" jdbcType="LONGVARCHAR"/>
+        <result column="question_analyze" property="questionAnalyze" jdbcType="LONGVARCHAR"/>
+        <result column="base_production" property="baseProduction" jdbcType="LONGVARCHAR"/>
+        <result column="audio_analyze_path" property="audioAnalyzePath" jdbcType="VARCHAR"/>
+        <result column="complex_question_code" property="complexQuestionCode" jdbcType="VARCHAR"/>
+        <result column="complex_question_stem" property="complexQuestionStem" jdbcType="LONGVARCHAR"/>
+        <result column="last_time" property="lastTime" jdbcType="TIMESTAMP"/>
+        <result column="times" property="times" javaType="java.lang.Long"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    code, student_code, question_code,is_complex,question_type, question_sort, platform, diagnosis_record_code,
+    subject_code, student_answer,right_answer, question_score, create_time, update_time,question_stem, question_option,
+    question_analyze,audio_analyze_path, base_production,complex_question_code,complex_question_stem
+  </sql>
+    <select id="DiagnosisWrongQuestion_getAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_wrong_question ORDER BY create_time DESC
+    </select>
+    <select id="DiagnosisWrongQuestion_getById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_wrong_question WHERE code = #{code,jdbcType=VARCHAR}
+    </select>
+    <delete id="DiagnosisWrongQuestion_deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from diagnosis_wrong_question
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByDiaWrongQuestion" parameterType="java.lang.String">
+        delete from diagnosis_wrong_question where diagnosis_record_code = #{diagnosisRecordCode,jdbcType=VARCHAR}
+    </delete>
+    <insert id="DiagnosisWrongQuestion_insert"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisWrongQuestion">
+    insert into diagnosis_wrong_question (code, student_code, question_code,is_complex,question_type,
+      question_sort, platform, diagnosis_record_code, 
+      subject_code, student_answer,right_answer, question_score,
+      create_time, update_time, question_stem, 
+      question_option, question_analyze, audio_analyze_path,
+      base_production,complex_question_code,complex_question_stem)
+    values (#{code,jdbcType=VARCHAR}, #{studentCode,jdbcType=VARCHAR}, #{questionCode,jdbcType=VARCHAR}, #{isComplex,jdbcType=INTEGER},#{questionType,jdbcType=VARCHAR},
+      #{questionSort,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR}, #{diagnosisRecordCode,jdbcType=VARCHAR}, 
+      #{subjectCode,jdbcType=INTEGER}, #{studentAnswer,jdbcType=VARCHAR},#{rightAnswer,jdbcType=VARCHAR}, #{questionScore,jdbcType=DECIMAL},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{questionStem,jdbcType=LONGVARCHAR}, 
+      #{questionOption,jdbcType=LONGVARCHAR}, #{questionAnalyze,jdbcType=LONGVARCHAR}, #{audioAnalyzePath,jdbcType=VARCHAR},
+      #{baseProduction,jdbcType=LONGVARCHAR},#{complexQuestionCode,jdbcType=VARCHAR},#{complexQuestionStem,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="DiagnosisWrongQuestion_batch_insert" parameterType="java.util.List">
+        insert into diagnosis_wrong_question (code, student_code, question_code,is_complex,question_type,
+        question_sort, platform, diagnosis_record_code,
+        subject_code, student_answer,right_answer, question_score,
+        create_time, update_time, question_stem,
+        question_option, question_analyze,audio_analyze_path,
+        base_production,complex_question_code,complex_question_stem)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.code,jdbcType=VARCHAR}, #{item.studentCode,jdbcType=VARCHAR}, #{item.questionCode,jdbcType=VARCHAR},#{item.isComplex,jdbcType=INTEGER},#{item.questionType,jdbcType=VARCHAR},
+            #{item.questionSort,jdbcType=VARCHAR}, #{item.platform,jdbcType=VARCHAR},
+            #{item.diagnosisRecordCode,jdbcType=VARCHAR},
+            #{item.subjectCode,jdbcType=INTEGER},
+            #{item.studentAnswer,jdbcType=VARCHAR},#{item.rightAnswer,jdbcType=VARCHAR},
+            #{item.questionScore,jdbcType=DECIMAL},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.questionStem,jdbcType=LONGVARCHAR},
+            #{item.questionOption,jdbcType=LONGVARCHAR}, #{item.questionAnalyze,jdbcType=LONGVARCHAR},#{item.audioAnalyzePath,jdbcType=VARCHAR},
+            #{item.baseProduction,jdbcType=LONGVARCHAR},#{item.complexQuestionCode,jdbcType=VARCHAR},#{item.complexQuestionStem,jdbcType=LONGVARCHAR})
+        </foreach>
+
+    </insert>
+    <insert id="insertSelective" parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisWrongQuestion">
+        insert into diagnosis_wrong_question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                code,
+            </if>
+            <if test="studentCode != null">
+                student_code,
+            </if>
+            <if test="questionCode != null">
+                question_code,
+            </if>
+            <if test="questionSort != null">
+                question_sort,
+            </if>
+            <if test="platform != null">
+                platform,
+            </if>
+            <if test="diagnosisRecordCode != null">
+                diagnosis_record_code,
+            </if>
+            <if test="subjectCode != null">
+                subject_code,
+            </if>
+            <if test="studentAnswer != null">
+                student_answer,
+            </if>
+            <if test="questionScore != null">
+                question_score,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="questionStem != null">
+                question_stem,
+            </if>
+            <if test="questionOption != null">
+                question_option,
+            </if>
+            <if test="questionAnalyze != null">
+                question_analyze,
+            </if>
+            <if test="baseProduction != null">
+                base_production,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="studentCode != null">
+                #{studentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="questionCode != null">
+                #{questionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="questionSort != null">
+                #{questionSort,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="diagnosisRecordCode != null">
+                #{diagnosisRecordCode,jdbcType=VARCHAR},
+            </if>
+            <if test="subjectCode != null">
+                #{subjectCode,jdbcType=INTEGER},
+            </if>
+            <if test="studentAnswer != null">
+                #{studentAnswer,jdbcType=VARCHAR},
+            </if>
+            <if test="questionScore != null">
+                #{questionScore,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="questionStem != null">
+                #{questionStem,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="questionOption != null">
+                #{questionOption,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="questionAnalyze != null">
+                #{questionAnalyze,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="baseProduction != null">
+                #{baseProduction,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="DiagnosisWrongQuestion_updateByPrimaryKeySelective"
+            parameterType="com.eedu.diagnosis.exam.persist.po.DiagnosisWrongQuestion">
+        update diagnosis_wrong_question
+        <set>
+            <if test="studentCode != null">
+                student_code = #{studentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="questionCode != null">
+                question_code = #{questionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="questionSort != null">
+                question_sort = #{questionSort,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null">
+                platform = #{platform,jdbcType=VARCHAR},
+            </if>
+            <if test="diagnosisRecordCode != null">
+                diagnosis_record_code = #{diagnosisRecordCode,jdbcType=VARCHAR},
+            </if>
+            <if test="subjectCode != null">
+                subject_code = #{subjectCode,jdbcType=INTEGER},
+            </if>
+            <if test="studentAnswer != null">
+                student_answer = #{studentAnswer,jdbcType=VARCHAR},
+            </if>
+            <if test="rightAnswer != null">
+                right_answer = #{rightAnswer,jdbcType=VARCHAR},
+            </if>
+            <if test="questionScore != null">
+                question_score = #{questionScore,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="questionStem != null">
+                question_stem = #{questionStem,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="questionOption != null">
+                question_option = #{questionOption,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="questionAnalyze != null">
+                question_analyze = #{questionAnalyze,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="baseProduction != null">
+                base_production = #{baseProduction,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where code = #{code,jdbcType=VARCHAR}
+    </update>
+
+    <sql id="diagnosis_wrong_question_where_sql">
+        <if test="code != null">
+            and code = #{code}
+        </if>
+        <if test="questionCode != null">
+            and question_code = #{questionCode}
+        </if>
+        <if test="platform != null">
+            and platform = #{platform}
+        </if>
+        <if test="diagnosisRecordCode != null">
+            and diagnosis_record_code = #{diagnosisRecordCode}
+        </if>
+        <if test="subjectCode != null">
+            and subject_code = #{subjectCode}
+        </if>
+    </sql>
+
+    <select id="DiagnosisWrongQuestion_findByParameter" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_wrong_question
+        <where>
+            <include refid="diagnosis_wrong_question_where_sql"/>
+        </where>
+        <if test="orderProperty != null">
+            order by ${orderProperty} ${orderDirection}
+        </if>
+    </select>
+
+    <select id="DiagnosisWrongQuestion_batch_listByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM diagnosis_wrong_question
+        <if test="list.size() > 0">
+            where code in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <delete id="DiagnosisWrongQuestion_batch_deleteById" parameterType="java.util.List">
+        DELETE FROM diagnosis_wrong_question
+        <if test="list.size() > 0">
+            where question_code in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY create_time DESC
+    </delete>
+
+
+    <select id="getWrongQuestions" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+		code,question_code,is_complex,question_type,subject_code,student_answer,right_answer,question_stem,question_option,
+		question_analyze,audio_analyze_path,complex_question_code,complex_question_stem,
+		COUNT(*) AS times,
+		MAX(create_time) AS last_time
+	FROM
+		diagnosis_wrong_question
+	WHERE
+		student_code = #{studentCode,jdbcType=VARCHAR}
+	AND subject_code = #{subjectCode,jdbcType=INTEGER}
+	GROUP BY
+		question_code,complex_question_code
+    ORDER BY
+        last_time DESC
+  </select>
+</mapper>

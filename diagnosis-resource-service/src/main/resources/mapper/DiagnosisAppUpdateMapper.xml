@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eedu.diagnosis.paper.persist.dao.DiagnosisAppUpdateMapper" >
+  <resultMap id="BaseResultMap" type="com.eedu.diagnosis.paper.persist.po.DiagnosisAppUpdate" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="app_describe" property="appDescribe" jdbcType="VARCHAR" />
+    <result column="app_name" property="appName" jdbcType="VARCHAR" />
+    <result column="app_version" property="appVersion" jdbcType="VARCHAR" />
+    <result column="available" property="available" jdbcType="VARCHAR" />
+    <result column="down_url" property="downUrl" jdbcType="VARCHAR" />
+    <result column="necessary" property="necessary" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="app_type" property="appType" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code, app_describe, app_name, app_version, available, down_url, necessary, type, 
+    create_time, update_time , app_type
+  </sql>
+  <select id="DiagnosisAppUpdate_getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from diagnosis_app_update
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="DiagnosisAppUpdate_deleteById" parameterType="java.lang.String" >
+    delete from diagnosis_app_update
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="DiagnosisAppUpdate_save" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisAppUpdate" >
+    insert into diagnosis_app_update
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="appDescribe != null" >
+        app_describe,
+      </if>
+      <if test="appName != null" >
+        app_name,
+      </if>
+      <if test="appVersion != null" >
+        app_version,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+      <if test="downUrl != null" >
+        down_url,
+      </if>
+      <if test="necessary != null" >
+        necessary,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="appType != null" >
+        app_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="appDescribe != null" >
+        #{appDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersion != null" >
+        #{appVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=VARCHAR},
+      </if>
+      <if test="downUrl != null" >
+        #{downUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="necessary != null" >
+        #{necessary,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appType != null" >
+        #{appType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="DiagnosisAppUpdate_update" parameterType="com.eedu.diagnosis.paper.persist.po.DiagnosisAppUpdate" >
+    update diagnosis_app_update
+    <set >
+      <if test="appDescribe != null" >
+        app_describe = #{appDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        app_name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersion != null" >
+        app_version = #{appVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=VARCHAR},
+      </if>
+      <if test="downUrl != null" >
+        down_url = #{downUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="necessary != null" >
+        necessary = #{necessary,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appType != null" >
+        app_type = #{appType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 普通分页 -->
+  <select id="DiagnosisAppUpdate_findByParameter" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM diagnosis_app_update
+    <where>
+      <include refid="DiagnosisAppUpdate_where_sql"/>
+    </where>
+    <if test="orderProperty != null">
+      order by ${orderProperty} ${orderDirection}
+   </if>
+  </select>
+   <sql id="DiagnosisAppUpdate_where_sql">
+      <if test="code != null" >
+       and code = #{code}
+      </if>
+      <if test="appDescribe != null" >
+       and  app_describe = #{appDescribe}
+      </if>
+      <if test="appName != null" >
+       and app_name = #{appName}
+      </if>
+      <if test="appVersion != null" >
+       and app_version = #{appVersion}
+      </if>
+      <if test="available != null" >
+       and available = #{available}
+      </if>
+      <if test="downUrl != null" >
+       and down_url = #{downUrl}
+      </if>
+      <if test="necessary != null" >
+       and necessary = #{necessary}
+      </if>
+      <if test="type != null" >
+      and  type = #{type}
+      </if>
+     <if test="appType != null" >
+       and  app_type = #{appType}
+     </if>
+  </sql>
+  
+</mapper>
